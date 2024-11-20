@@ -15,7 +15,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  MaskedTextController numberController = MaskedTextController(mask: '(00) 00000-0000');
+  MaskedTextController numberController =
+      MaskedTextController(mask: '(00) 00000-0000');
   MaskedTextController cepController = MaskedTextController(mask: '00000-000');
   TextEditingController addressController = TextEditingController();
   TextEditingController numberHouseController = TextEditingController();
@@ -115,11 +116,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     width: size.width * 0.3,
                   ),
                   const Gap(10),
-                  TextInputDs(
-                    label: 'Complemento',
-                    controller: complementController,
-                    textInputType: TextInputType.number,
-                    width: size.width * 0.59,
+                  Flexible(
+                    child: TextInputDs(
+                      label: 'Complemento',
+                      controller: complementController,
+                      textInputType: TextInputType.number,
+                      width: size.width * 0.59,
+                    ),
                   ),
                 ],
               ),

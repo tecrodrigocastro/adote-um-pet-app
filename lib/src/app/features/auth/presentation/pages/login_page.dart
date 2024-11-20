@@ -1,6 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,6 +18,19 @@ class _LoginPageState extends State<LoginPage> {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
+      appBar: AppBar(
+        backgroundColor: AppColors.whiteColor,
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: AppColors.primaryColor,
+            size: 30,
+          ),
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
