@@ -21,6 +21,7 @@ class PrimaryButtonDs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(vertical: 10),
@@ -29,7 +30,7 @@ class PrimaryButtonDs extends StatelessWidget {
         foregroundColor: foregroundColor,
       ),
       onPressed: onPressed,
-      child: Text(title),
+      child: Text(title, style: theme.textTheme.labelMedium),
     );
   }
 }

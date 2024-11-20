@@ -8,8 +8,8 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
       body: Center(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -35,34 +35,16 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               const Gap(40),
-              const Text(
+              Text(
                 'Olá Mariana,',
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: theme.textTheme.displaySmall,
               ),
-              const Text(
-                'Seja bem-vinda!,',
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+              Text(
+                'Seja bem-vinda!',
+                style: theme.textTheme.displaySmall,
               ),
               Gap(size.height * 0.3),
               PrimaryButtonDs(title: 'Começar', onPressed: () {}),
-
-              /*
-              const Text(
-                'Selecionar Foto',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: AppColors.blackColor,
-                ),
-              ),
-              */
             ],
           ),
         ),

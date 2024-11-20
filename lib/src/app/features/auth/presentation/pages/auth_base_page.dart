@@ -10,6 +10,7 @@ class AuthBasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final theme = Theme.of(context);
     return Scaffold(
         backgroundColor: AppColors.whiteColor,
         body: SizedBox(
@@ -36,7 +37,10 @@ class AuthBasePage extends StatelessWidget {
                 backgroundColor: AppColors.secondaryColor,
               ),
               const Gap(20),
-              const Text('Powered by Flutterando')
+              Text(
+                'Powered by Flutterando',
+                style: theme.textTheme.bodySmall,
+              )
             ],
           ),
         ));

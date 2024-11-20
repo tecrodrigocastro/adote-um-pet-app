@@ -38,6 +38,7 @@ class _TextInputDsState extends State<TextInputDs> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
       height: widget.height,
       width: widget.width,
@@ -59,6 +60,7 @@ class _TextInputDsState extends State<TextInputDs> {
                     icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off))
                 : null,
             hintText: widget.label,
+            hintStyle: theme.textTheme.bodyLarge,
             filled: widget.isFilled,
             fillColor: AppColors.whiteColor,
             border: OutlineInputBorder(

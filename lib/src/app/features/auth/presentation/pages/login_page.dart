@@ -16,18 +16,15 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
         leading: IconButton(
           onPressed: () {
             context.pop();
           },
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: AppColors.primaryColor,
-            size: 30,
           ),
         ),
       ),
@@ -54,15 +51,16 @@ class _LoginPageState extends State<LoginPage> {
               PrimaryButtonDs(title: 'Login', onPressed: () {}),
               const Gap(18),
               RichText(
-                text: const TextSpan(
+                text: TextSpan(
                   text: 'Esqueceu a Senha?',
-                  style: TextStyle(color: AppColors.blackColor),
+                  style: theme.textTheme.bodySmall,
                   children: [
                     TextSpan(
                       text: ' Recupere aqui!',
-                      style: TextStyle(
+                      style: theme.textTheme.bodySmall!
+                          .copyWith(
                         color: AppColors.blueColor,
-                        decoration: TextDecoration.underline,
+                        decoration: TextDecoration.underline
                       ),
                     )
                   ],

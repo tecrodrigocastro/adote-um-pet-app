@@ -27,18 +27,15 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
         leading: IconButton(
           onPressed: () {
             context.pop();
           },
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: AppColors.primaryColor,
-            size: 30,
           ),
         ),
       ),
@@ -50,13 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Cadastro',
-                style: TextStyle(
-                  color: AppColors.primaryColor,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: theme.textTheme.displaySmall,
               ),
               const Gap(29),
               TextInputDs(
