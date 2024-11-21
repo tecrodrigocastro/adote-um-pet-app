@@ -2,6 +2,8 @@ import 'package:adote_um_pet/src/app/features/auth/presentation/pages/auth_base_
 import 'package:adote_um_pet/src/app/features/auth/presentation/pages/login_page.dart';
 import 'package:adote_um_pet/src/app/features/auth/presentation/pages/register_page.dart';
 import 'package:adote_um_pet/src/app/features/auth/presentation/pages/welcome_page.dart';
+import 'package:adote_um_pet/src/app/features/donate/presentation/pages/donate_info_page.dart';
+import 'package:adote_um_pet/src/core/features/choose/presentation/choose_page.dart';
 import 'package:adote_um_pet/src/core/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -27,8 +29,10 @@ final router = GoRouter(
         GoRoute(
           path: 'welcome',
           builder: (context, state) => const WelcomePage(),
-        )
+        ),
       ],
     ),
+    GoRoute(path: '/choose', builder: (context, state) => const ChoosePage()),
+    GoRoute(path: '/donate-info', builder: (context, state) => const DonateInfoPage()),
   ],
 );
