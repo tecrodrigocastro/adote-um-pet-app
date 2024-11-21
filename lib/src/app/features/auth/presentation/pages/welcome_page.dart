@@ -1,3 +1,4 @@
+import 'package:adote_um_pet/src/routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -44,7 +45,12 @@ class WelcomePage extends StatelessWidget {
                 style: theme.textTheme.displaySmall,
               ),
               Gap(size.height * 0.3),
-              PrimaryButtonDs(title: 'Começar', onPressed: () {}),
+              PrimaryButtonDs(
+                title: 'Começar',
+                onPressed: () {
+                  router.go('/choose');
+                },
+              ),
             ],
           ),
         ),
