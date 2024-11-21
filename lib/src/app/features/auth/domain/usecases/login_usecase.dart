@@ -1,26 +1,25 @@
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/user_entity.dart';
+import 'package:adote_um_pet/src/app/features/auth/domain/entities/auth_entity.dart';
 import 'package:adote_um_pet/src/app/features/auth/domain/repositories/auth_repository_interface.dart';
 import 'package:adote_um_pet/src/core/client_http/app_response.dart';
 import 'package:adote_um_pet/src/core/typedefs/types.dart';
 import 'package:adote_um_pet/src/core/usecase/usecase_interface.dart';
 
-class SignUpUsecase implements UseCase<AppResponse<UserEntity>, SignUpParams> {
+class LoginUsecase implements UseCase<AppResponse<AuthEntity>, LoginParams> {
   final IAuthRepository _authRepository;
 
-  SignUpUsecase({
+  LoginUsecase({
     required IAuthRepository authRepository,
   }) : _authRepository = authRepository;
 
   @override
-  Future<Output<AppResponse<UserEntity>>> call(SignUpParams params) async {
-    return await _authRepository.signUp(user: params.user);
+  Future<Output<AppResponse<AuthEntity>>> call(LoginParams params) async {
+    return _authRepository.login(params.email, params.password);
   }
 }
 
-class SignUpParams {
-  final UserEntity user;
+class LoginParams {
+  final String email;
+  final String password;
 
-  SignUpParams({
-    required this.user,
-  });
+  LoginParams({required this.email, required this.password});
 }
