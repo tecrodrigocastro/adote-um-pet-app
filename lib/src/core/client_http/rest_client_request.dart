@@ -12,7 +12,9 @@ class RestClientRequest implements RestClientHttpMessage {
     required this.path,
     this.data,
     this.queryParameters,
-    this.headers,
+    this.headers = const {
+      'Accept': 'application/json',
+    },
     this.method = 'GET',
     this.baseUrl = '',
   });
