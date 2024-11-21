@@ -24,26 +24,25 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final theme = Theme.of(context);
     final authBloc = GetIt.I.get<AuthBloc>();
     final sessionController = GetIt.I.get<SessionController>();
+
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
-        backgroundColor: AppColors.whiteColor,
         leading: IconButton(
           onPressed: () {
             context.pop();
           },
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: AppColors.primaryColor,
-            size: 30,
           ),
         ),
       ),
       body: Center(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
+
           child: Form(
             key: formKey,
             child: Column(
@@ -118,18 +117,19 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const Gap(18),
                 RichText(
-                  text: const TextSpan(
-                    text: 'Esqueceu a Senha?',
-                    style: TextStyle(color: AppColors.blackColor),
-                    children: [
-                      TextSpan(
-                        text: ' Recupere aqui!',
-                        style: TextStyle(
-                          color: AppColors.blueColor,
-                          decoration: TextDecoration.underline,
-                        ),
-                      )
-                    ],
+                text: TextSpan(
+                  text: 'Esqueceu a Senha?',
+                  style: theme.textTheme.bodySmall,
+                  children: [
+                    TextSpan(
+                      text: ' Recupere aqui!',
+                      style: theme.textTheme.bodySmall!
+                          .copyWith(
+                        color: AppColors.blueColor,
+                        decoration: TextDecoration.underline
+                      ),
+                    )
+                  ],
                   ),
                 )
               ],
