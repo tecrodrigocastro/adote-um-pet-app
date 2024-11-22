@@ -3,6 +3,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
+part 'widgets/choose_pet_type_row.dart';
+
 class DonateInfoPage extends StatefulWidget {
   const DonateInfoPage({super.key});
 
@@ -12,73 +14,24 @@ class DonateInfoPage extends StatefulWidget {
 
 class _DonateInfoPageState extends State<DonateInfoPage> {
   TextEditingController nomePetController = TextEditingController();
+  bool isButtonSelected = false;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.sizeOf(context);
+
     return Scaffold(
       appBar: AppBar(),
-
-      /// TODO : Componentizar o Drawer
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              child: Center(
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  leading: const SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: CircleAvatar(
-                      backgroundImage: AppImages.catChoose,
-                    ),
-                  ),
-                  title: Text(
-                    'Mariana Oliveira',
-                    style: theme.textTheme.titleMedium,
-                  ),
-                  subtitle: Text(
-                    'São Paulo - SP',
-                    style: theme.textTheme.labelLarge,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Image(image: AppIcons.myAccountDrawer, height: 24),
-              title: Text('Minha conta', style: theme.textTheme.titleMedium),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Image(image: AppIcons.adoptDrawer, height: 24),
-              title: Text('Adotar um pet', style: theme.textTheme.titleMedium),
-              onTap: () {
-                router.go('/donate-info');
-              },
-            ),
-            ListTile(
-              leading: const Image(image: AppIcons.donateDrawer, height: 24),
-              title: Text('Doe seu pet', style: theme.textTheme.titleMedium),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Image(image: AppIcons.petinhaDrawer, height: 24),
-              title: Text('Petinha online', style: theme.textTheme.titleMedium),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: const Image(image: AppIcons.messagesDrawer, height: 24),
-              title: Text('Mensagens', style: theme.textTheme.titleMedium),
-              onTap: () {},
-            ),
-            Gap(size.height * 0.3),
-            ListTile(
-              title: Text('Sair', style: theme.textTheme.titleMedium),
-              onTap: () {},
-            ),
-          ],
-        ),
+      drawer: CustomDrawerDS(
+        userName: 'Mariana Oliveira',
+        userLocation: 'Sao Paulo - SP',
+        userImage: AppImages.catChoose,
+        onAdoptTap: () => router.go('/donate-info'),
+        onAccountTap: () {},
+        onDonateTap: () {},
+        onPetinhaTap: () {},
+        onMessagesTap: () {},
+        onLogoutTap: () {},
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -111,17 +64,7 @@ class _DonateInfoPageState extends State<DonateInfoPage> {
               controller: nomePetController,
             ),
             const Gap(12),
-            Text(
-              'Qual o nome do seu pet?',
-              style: theme.textTheme.titleSmall,
-            ),
-            const Gap(8),
-            SelectableButtonDs(
-              width: 74,
-              height: 30,
-              onPressed: () {},
-              title: 'Cachorro',
-            ),
+            _ChoosePetTypeRow(),
           ],
         ),
       ),
