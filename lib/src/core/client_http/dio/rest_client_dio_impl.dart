@@ -1,9 +1,11 @@
-import 'package:adote_um_pet/src/core/client_http/client_http.dart';
-import 'package:adote_um_pet/src/core/client_http/dio/client_interceptor_dio_impl.dart';
-import 'package:adote_um_pet/src/core/client_http/dio/dio_adapter.dart';
-import 'package:adote_um_pet/src/core/client_http/rest_client_multipart.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import '../../logger/app_logger.dart';
+import '../client_http.dart';
+import '../rest_client_multipart.dart';
+import 'client_interceptor_dio_impl.dart';
+import 'dio_adapter.dart';
 
 class DioFactory {
   static final String baseUrl = dotenv.env['BASE_URL'] ?? '';
@@ -22,15 +24,21 @@ class DioFactory {
 
 class RestClientDioImpl implements IRestClient {
   final Dio _dio;
+  final AppLogger _logger;
 
   final Map<IClientInterceptor, Interceptor> _interceptors = {};
 
-  RestClientDioImpl({required Dio dio}) : _dio = dio;
+  RestClientDioImpl({
+    required Dio dio,
+    required AppLogger logger,
+  })  : _dio = dio,
+        _logger = logger;
 
   @override
   void addInterceptors(IClientInterceptor interceptor) {
-    _interceptors[interceptor] =
-        ClientInterceptorDioImpl(interceptor: interceptor);
+    _interceptors[interceptor] = ClientInterceptorDioImpl(
+      interceptor: interceptor,
+    );
     _dio.interceptors.add(_interceptors[interceptor]!);
   }
 
@@ -41,12 +49,14 @@ class RestClientDioImpl implements IRestClient {
 
   @override
   Future<RestClientResponse> upload(RestClientMultipart multipart) async {
-    final formData = FormData.fromMap({
-      multipart.fileKey: MultipartFile.fromBytes(
-        multipart.fileBytes ?? [],
-        filename: multipart.fileName,
-      ),
-    });
+    final formData = FormData.fromMap(
+      {
+        multipart.fileKey: MultipartFile.fromBytes(
+          multipart.fileBytes ?? [],
+          filename: multipart.fileName,
+        ),
+      },
+    );
 
     final baseOptions = BaseOptions(
       connectTimeout: const Duration(milliseconds: 15000),
@@ -74,7 +84,8 @@ class RestClientDioImpl implements IRestClient {
         ),
       );
       return DioAdapter.toClientResponse(response);
-    } on DioException catch (e) {
+    } on DioException catch (e, s) {
+      _logger.error('Error on delete request', e, s);
       throw DioAdapter.toClientException(e);
     }
   }
@@ -90,7 +101,8 @@ class RestClientDioImpl implements IRestClient {
         ),
       );
       return DioAdapter.toClientResponse(response);
-    } on DioException catch (e) {
+    } on DioException catch (e, s) {
+      _logger.error('Error on get request', e, s);
       throw DioAdapter.toClientException(e);
     }
   }
@@ -107,7 +119,8 @@ class RestClientDioImpl implements IRestClient {
         ),
       );
       return DioAdapter.toClientResponse(response);
-    } on DioException catch (e) {
+    } on DioException catch (e, s) {
+      _logger.error('Error on patch request', e, s);
       throw DioAdapter.toClientException(e);
     }
   }
@@ -124,8 +137,8 @@ class RestClientDioImpl implements IRestClient {
         ),
       );
       return DioAdapter.toClientResponse(response);
-    } on DioException catch (e) {
-      print(e.message);
+    } on DioException catch (e, s) {
+      _logger.error('Error on post request', e, s);
       throw DioAdapter.toClientException(e);
     }
   }
@@ -142,7 +155,8 @@ class RestClientDioImpl implements IRestClient {
         ),
       );
       return DioAdapter.toClientResponse(response);
-    } on DioException catch (e) {
+    } on DioException catch (e, s) {
+      _logger.error('Error on put request', e, s);
       throw DioAdapter.toClientException(e);
     }
   }

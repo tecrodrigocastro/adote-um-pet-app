@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/src/routes.dart';
+import '../../../../../routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -34,7 +34,10 @@ class _DonateInfoPageState extends State<DonateInfoPage> {
                       backgroundImage: AppImages.catChoose,
                     ),
                   ),
-                  title: Text('Mariana Oliveira', style: theme.textTheme.titleMedium),
+                  title: Text(
+                    'Mariana Oliveira',
+                    style: theme.textTheme.titleMedium,
+                  ),
                   subtitle: Text(
                     'São Paulo - SP',
                     style: theme.textTheme.labelLarge,
@@ -87,16 +90,37 @@ class _DonateInfoPageState extends State<DonateInfoPage> {
                 text: 'Bem vinda, ',
                 style: theme.textTheme.headlineSmall,
                 children: [
-                  TextSpan(text: 'Mariana!', style: theme.textTheme.headlineMedium),
+                  TextSpan(
+                    text: 'Mariana!',
+                    style: theme.textTheme.headlineMedium,
+                  ),
                 ],
               ),
             ),
-            Text('Ache um lar para o seu amigo peludo.', style: theme.textTheme.labelSmall),
+            Text(
+              'Ache um lar para o seu amigo peludo.',
+              style: theme.textTheme.labelSmall,
+            ),
             const Gap(20),
-            Text('Qual o nome do seu pet?', style: theme.textTheme.titleSmall),
+            Text(
+              'Qual o nome do seu pet?',
+              style: theme.textTheme.titleSmall,
+            ),
             const Gap(10),
             TextInputGrayDs(
               controller: nomePetController,
+            ),
+            const Gap(12),
+            Text(
+              'Qual o nome do seu pet?',
+              style: theme.textTheme.titleSmall,
+            ),
+            const Gap(8),
+            SelectableButtonDs(
+              width: 74,
+              height: 30,
+              onPressed: () {},
+              title: 'Cachorro',
             ),
           ],
         ),

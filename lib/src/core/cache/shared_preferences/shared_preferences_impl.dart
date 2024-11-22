@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:adote_um_pet/src/core/cache/cache.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../cache.dart';
 
 class SharedPreferencesImpl implements ICache {
   @override

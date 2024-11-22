@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/src/core/cache/cache_params.dart';
+import 'cache_params.dart';
 
 abstract class ICache {
   Future<bool> setData({required CacheParams params});

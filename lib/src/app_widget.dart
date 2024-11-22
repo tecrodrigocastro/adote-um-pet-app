@@ -1,9 +1,10 @@
-import 'package:adote_um_pet/src/app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:adote_um_pet/src/core/DI/dependency_injector.dart';
-import 'package:adote_um_pet/src/routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'core/DI/dependency_injector.dart';
+import 'routes.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});

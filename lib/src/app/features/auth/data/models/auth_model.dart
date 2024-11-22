@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:adote_um_pet/src/app/features/auth/data/models/user_model.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/auth_entity.dart';
+import '../../domain/entities/auth_entity.dart';
+import 'user_model.dart';
 
 class AuthModel extends AuthEntity {
-  AuthModel({required super.user, required super.accessToken});
+  AuthModel({
+    required super.user,
+    required super.accessToken,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -28,6 +31,7 @@ class AuthModel extends AuthEntity {
 
   String toJson() => json.encode(toMap());
 
-  factory AuthModel.fromJson(String source) =>
-      AuthModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AuthModel.fromJson(String source) => AuthModel.fromMap(
+        json.decode(source) as Map<String, dynamic>,
+      );
 }

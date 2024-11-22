@@ -1,7 +1,7 @@
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/auth_entity.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/user_entity.dart';
-import 'package:adote_um_pet/src/core/client_http/app_response.dart';
-import 'package:adote_um_pet/src/core/typedefs/types.dart';
+import '../../../../../core/client_http/app_response.dart';
+import '../../../../../core/typedefs/types.dart';
+import '../entities/auth_entity.dart';
+import '../entities/user_entity.dart';
 
 /// Criar uma interface para o repositório de autenticação
 /// para que possamos implementar diferentes repositórios

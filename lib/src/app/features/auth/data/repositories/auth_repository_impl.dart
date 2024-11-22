@@ -1,17 +1,18 @@
 import 'dart:developer';
 
-import 'package:adote_um_pet/src/app/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:adote_um_pet/src/app/features/auth/data/models/auth_model.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/auth_entity.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/user_entity.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/repositories/auth_repository_interface.dart';
-import 'package:adote_um_pet/src/core/client_http/app_response.dart';
-import 'package:adote_um_pet/src/core/client_http/client_http.dart';
-import 'package:adote_um_pet/src/core/errors/errors.dart';
-import 'package:adote_um_pet/src/core/errors/unauthorized_exception.dart';
-import 'package:adote_um_pet/src/core/typedefs/types.dart';
-import 'package:adote_um_pet/src/core/utils/end_points.dart';
 import 'package:fpdart/fpdart.dart';
+
+import '../../../../../core/client_http/app_response.dart';
+import '../../../../../core/client_http/client_http.dart';
+import '../../../../../core/errors/errors.dart';
+import '../../../../../core/errors/unauthorized_exception.dart';
+import '../../../../../core/typedefs/types.dart';
+import '../../../../../core/utils/end_points.dart';
+import '../../domain/entities/auth_entity.dart';
+import '../../domain/entities/user_entity.dart';
+import '../../domain/repositories/auth_repository_interface.dart';
+import '../datasources/auth_remote_datasource.dart';
+import '../models/auth_model.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
   final AuthRemoteDatasource _authRemoteDatasource;
@@ -22,7 +23,9 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<Output<AppResponse<AuthEntity>>> login(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
       final response = await _authRemoteDatasource.post(
         RestClientRequest(

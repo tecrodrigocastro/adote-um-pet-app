@@ -1,10 +1,11 @@
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/auth_entity.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/user_entity.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/usecases/login_usecase.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:adote_um_pet/src/core/client_http/app_response.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../../../core/client_http/app_response.dart';
+import '../../domain/entities/auth_entity.dart';
+import '../../domain/entities/user_entity.dart';
+import '../../domain/usecases/login_usecase.dart';
+import '../../domain/usecases/sign_up_usecase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

@@ -1,5 +1,6 @@
-import 'package:adote_um_pet/src/core/client_http/client_http.dart';
 import 'package:dio/dio.dart';
+
+import '../client_http.dart';
 
 class DioAdapter {
   static RestClientException toClientException(DioException dioException) {

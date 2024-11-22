@@ -1,14 +1,16 @@
 import 'dart:developer';
 
-import 'package:adote_um_pet/src/app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:adote_um_pet/src/app/features/auth/presentation/controller/session_controller.dart';
-import 'package:adote_um_pet/src/core/utils/show_snack_bar.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../../core/utils/show_snack_bar.dart';
+import '../bloc/auth_bloc.dart';
+import '../controller/session_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,12 +20,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
+    // final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
     final authBloc = GetIt.I.get<AuthBloc>();
     final sessionController = GetIt.I.get<SessionController>();
@@ -42,7 +44,6 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-
           child: Form(
             key: formKey,
             child: Column(
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Gap(50),
                 TextInputDs(
                   label: 'e-mail',
-                  controller: emailController,
+                  controller: _emailController,
                   validator: (p0) {
                     if (p0.isEmpty) {
                       return 'Campo Obrigatório';
@@ -67,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Gap(20),
                 TextInputDs(
                   label: 'senha',
-                  controller: passwordController,
+                  controller: _passwordController,
                   isPassword: true,
                   validator: (p0) => p0.isEmpty ? 'Campo Obrigatório' : null,
                 ),
@@ -106,8 +107,8 @@ class _LoginPageState extends State<LoginPage> {
                         if (formKey.currentState!.validate()) {
                           authBloc.add(
                             LoginAuthEvent(
-                              email: emailController.text,
-                              password: passwordController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
                             ),
                           );
                         }
@@ -117,19 +118,20 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const Gap(18),
                 RichText(
-                text: TextSpan(
-                  text: 'Esqueceu a Senha?',
-                  style: theme.textTheme.bodySmall,
-                  children: [
-                    TextSpan(
-                      text: ' Recupere aqui!',
-                      style: theme.textTheme.bodySmall!
-                          .copyWith(
-                        color: AppColors.blueColor,
-                        decoration: TextDecoration.underline
+                  text: TextSpan(
+                    text: 'Esqueceu a Senha? ',
+                    style: theme.textTheme.bodySmall,
+                    children: [
+                      TextSpan(
+                        text: 'Recupere aqui!',
+                        style: theme.textTheme.bodySmall!.copyWith(
+                          color: AppColors.blueColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        // TODO: Reset Password redirect
+                        recognizer: TapGestureRecognizer()..onTap = () {},
                       ),
-                    )
-                  ],
+                    ],
                   ),
                 )
               ],

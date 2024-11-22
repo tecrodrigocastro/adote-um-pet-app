@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/src/core/errors/errors.dart';
+import 'errors.dart';
 
 class NotFoundException extends BaseException {
   NotFoundException({

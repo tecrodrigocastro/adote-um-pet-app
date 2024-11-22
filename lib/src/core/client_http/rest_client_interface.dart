@@ -1,5 +1,5 @@
-import 'package:adote_um_pet/src/core/client_http/client_http.dart';
-import 'package:adote_um_pet/src/core/client_http/rest_client_multipart.dart';
+import 'client_http.dart';
+import 'rest_client_multipart.dart';
 
 abstract interface class IRestClient {
   Future<RestClientResponse> post(RestClientRequest request);

@@ -1,4 +1,5 @@
-import 'package:adote_um_pet/src/core/errors/base_exception.dart';
 import 'package:fpdart/fpdart.dart';
+
+import '../errors/base_exception.dart';
 
 typedef Output<T> = Either<BaseException, T>;

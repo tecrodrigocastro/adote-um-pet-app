@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/src/core/errors/base_exception.dart';
+import 'base_exception.dart';
 
 class UnauthorizedException extends BaseException {
   UnauthorizedException({

@@ -1,5 +1,5 @@
-import 'package:adote_um_pet/src/core/cache/cache_params.dart';
-import 'package:adote_um_pet/src/core/cache/shared_preferences/shared_preferences_impl.dart';
+import '../../../../../core/cache/cache_params.dart';
+import '../../../../../core/cache/shared_preferences/shared_preferences_impl.dart';
 
 class SessionController {
   final SharedPreferencesImpl _sharedPreferences;
