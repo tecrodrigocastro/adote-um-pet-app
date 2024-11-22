@@ -1,4 +1,4 @@
-import 'package:adote_um_pet/src/core/client_http/client_http.dart';
+import 'client_http.dart';
 
 class RestClientResponse implements RestClientHttpMessage {
   dynamic data;

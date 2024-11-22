@@ -1,6 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+
+import '../../design_system.dart';
 
 class TextInputGrayDs extends StatelessWidget {
   final String label;
@@ -30,7 +30,9 @@ class TextInputGrayDs extends StatelessWidget {
           fillColor: AppColors.inputGrayColor,
           hintText: label,
           border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
             borderSide: BorderSide.none,
           ),
         ),

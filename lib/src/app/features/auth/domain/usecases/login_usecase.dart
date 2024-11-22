@@ -1,8 +1,8 @@
-import 'package:adote_um_pet/src/app/features/auth/domain/entities/auth_entity.dart';
-import 'package:adote_um_pet/src/app/features/auth/domain/repositories/auth_repository_interface.dart';
-import 'package:adote_um_pet/src/core/client_http/app_response.dart';
-import 'package:adote_um_pet/src/core/typedefs/types.dart';
-import 'package:adote_um_pet/src/core/usecase/usecase_interface.dart';
+import '../../../../../core/client_http/app_response.dart';
+import '../../../../../core/typedefs/types.dart';
+import '../../../../../core/usecase/usecase_interface.dart';
+import '../entities/auth_entity.dart';
+import '../repositories/auth_repository_interface.dart';
 
 class LoginUsecase implements UseCase<AppResponse<AuthEntity>, LoginParams> {
   final IAuthRepository _authRepository;

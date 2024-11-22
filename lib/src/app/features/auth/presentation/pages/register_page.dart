@@ -1,9 +1,10 @@
-import 'package:adote_um_pet/src/routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../../routes.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,16 +14,16 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   MaskedTextController numberController =
       MaskedTextController(mask: '(00) 00000-0000');
   MaskedTextController cepController = MaskedTextController(mask: '00000-000');
-  TextEditingController addressController = TextEditingController();
-  TextEditingController numberHouseController = TextEditingController();
-  TextEditingController complementController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _numberHouseController = TextEditingController();
+  final _complementController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +55,13 @@ class _RegisterPageState extends State<RegisterPage> {
               const Gap(29),
               TextInputDs(
                 label: 'nome',
-                controller: nameController,
+                controller: _nameController,
                 width: size.width,
               ),
               const Gap(25),
               TextInputDs(
                 label: 'e-mail',
-                controller: emailController,
+                controller: _emailController,
                 textInputType: TextInputType.emailAddress,
                 width: size.width,
               ),
@@ -68,14 +69,14 @@ class _RegisterPageState extends State<RegisterPage> {
               TextInputDs(
                 width: size.width,
                 label: 'senha',
-                controller: passwordController,
+                controller: _passwordController,
                 isPassword: true,
               ),
               const Gap(25),
               TextInputDs(
                 width: size.width,
                 label: 'confirmar senha',
-                controller: confirmPasswordController,
+                controller: _confirmPasswordController,
                 isPassword: true,
               ),
               const Gap(25),
@@ -95,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const Gap(25),
               TextInputDs(
                 label: 'Endereço',
-                controller: addressController,
+                controller: _addressController,
                 textInputType: TextInputType.number,
                 width: size.width,
               ),
@@ -104,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   TextInputDs(
                     label: 'Número',
-                    controller: numberHouseController,
+                    controller: _numberHouseController,
                     textInputType: TextInputType.number,
                     width: size.width * 0.3,
                   ),
@@ -112,7 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Flexible(
                     child: TextInputDs(
                       label: 'Complemento',
-                      controller: complementController,
+                      controller: _complementController,
                       textInputType: TextInputType.number,
                       width: size.width * 0.59,
                     ),

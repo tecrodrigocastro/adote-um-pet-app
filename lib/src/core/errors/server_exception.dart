@@ -1,10 +1,9 @@
-import 'package:adote_um_pet/src/core/errors/errors.dart';
+import 'errors.dart';
 
 class ServerException extends BaseException {
   @override
   final String message;
   final String error;
-  @override
   final String? stackTrace;
 
   ServerException({

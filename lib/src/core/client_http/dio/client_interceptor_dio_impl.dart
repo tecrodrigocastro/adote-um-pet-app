@@ -1,8 +1,9 @@
 import 'dart:developer';
 
-import 'package:adote_um_pet/src/core/client_http/client_http.dart';
-import 'package:adote_um_pet/src/core/client_http/dio/dio_adapter.dart';
 import 'package:dio/dio.dart';
+
+import '../client_http.dart';
+import 'dio_adapter.dart';
 
 class ClientInterceptorDioImpl implements Interceptor {
   final IClientInterceptor interceptor;

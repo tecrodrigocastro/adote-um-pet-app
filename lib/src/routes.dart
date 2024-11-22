@@ -1,11 +1,12 @@
-import 'package:adote_um_pet/src/app/features/auth/presentation/pages/auth_base_page.dart';
-import 'package:adote_um_pet/src/app/features/auth/presentation/pages/login_page.dart';
-import 'package:adote_um_pet/src/app/features/auth/presentation/pages/register_page.dart';
-import 'package:adote_um_pet/src/app/features/auth/presentation/pages/welcome_page.dart';
-import 'package:adote_um_pet/src/app/features/donate/presentation/pages/donate_info_page.dart';
-import 'package:adote_um_pet/src/core/features/choose/presentation/choose_page.dart';
-import 'package:adote_um_pet/src/core/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:go_router/go_router.dart';
+
+import 'app/features/auth/presentation/pages/auth_base_page.dart';
+import 'app/features/auth/presentation/pages/login_page.dart';
+import 'app/features/auth/presentation/pages/register_page.dart';
+import 'app/features/auth/presentation/pages/welcome_page.dart';
+import 'app/features/donate/presentation/pages/donate_info_page.dart';
+import 'core/features/choose/presentation/choose_page.dart';
+import 'core/features/onboarding/presentation/pages/onboarding_page.dart';
 
 final router = GoRouter(
   initialLocation: '/auth',

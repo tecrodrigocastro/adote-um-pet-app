@@ -5,3 +5,4 @@ export './src/icons/icons.dart';
 export './src/image/image.dart';
 export './src/inputs/inputs.dart';
 export './src/theme/theme.dart';
+export './src/drawer/drawer_ds.dart';

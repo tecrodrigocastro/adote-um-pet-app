@@ -1,5 +1,5 @@
-import 'package:adote_um_pet/src/core/client_http/client_http.dart';
-import 'package:adote_um_pet/src/core/errors/errors.dart';
+import '../errors/errors.dart';
+import 'client_http.dart';
 
 class RestClientException extends BaseException
     implements RestClientHttpMessage {

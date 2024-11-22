@@ -1,6 +1,7 @@
-import 'package:adote_um_pet/src/routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../routes.dart';
 
 class ChoosePage extends StatelessWidget {
   const ChoosePage({super.key});

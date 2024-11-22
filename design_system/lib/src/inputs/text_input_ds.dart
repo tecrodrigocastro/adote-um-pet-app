@@ -1,5 +1,6 @@
-import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+
+import '../../design_system.dart';
 
 class TextInputDs extends StatefulWidget {
   final String label;
@@ -57,7 +58,10 @@ class _TextInputDsState extends State<TextInputDs> {
                         _isObscure = !_isObscure;
                       });
                     },
-                    icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off))
+                    icon: Icon(
+                      _isObscure ? Icons.visibility : Icons.visibility_off,
+                    ),
+                  )
                 : null,
             hintText: widget.label,
             hintStyle: theme.textTheme.bodyLarge,
