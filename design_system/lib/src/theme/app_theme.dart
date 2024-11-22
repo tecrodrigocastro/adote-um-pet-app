@@ -1,6 +1,7 @@
-import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../design_system.dart';
 
 class AppTheme {
   static final theme = ThemeData(
