@@ -1,7 +1,8 @@
-import '../../../../../routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
+import '../../../../../routes.dart';
 
 part 'widgets/choose_pet_type_row.dart';
 

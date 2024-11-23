@@ -67,8 +67,8 @@ class _ChoosePetTypeRowState extends State<_ChoosePetTypeRow> {
               SelectableButtonDs(
                 width: 100,
                 height: 30,
-                isSelected: buttonStates['coelho']!,
-                onPressed: () => toggleSelection('coleho'),
+                isSelected: buttonStates['coelhos']!,
+                onPressed: () => toggleSelection('coelhos'),
                 title: 'Coelhos',
                 image: AppImages.coelhoChooseButton,
               ),
