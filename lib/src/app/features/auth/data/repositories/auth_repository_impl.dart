@@ -13,6 +13,7 @@ import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/auth_repository_interface.dart';
 import '../datasources/auth_remote_datasource.dart';
 import '../models/auth_model.dart';
+import '../models/user_model.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
   final AuthRemoteDatasource _authRemoteDatasource;
@@ -73,8 +74,55 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Output<AppResponse<UserEntity>>> signUp({required UserEntity user}) {
-    // TODO: implement signUp
-    throw UnimplementedError();
+  Future<Output<AppResponse<UserEntity>>> signUp({
+    required String name,
+    required String email,
+    required String password,
+    required String phone,
+    required String zipCode,
+    required String address,
+    required int numberHouse,
+    required String complement,
+  }) async {
+    try {
+      final response = await _authRemoteDatasource.post(
+        RestClientRequest(
+          path: EndPoints.register,
+          data: {
+            'name': name,
+            'email': email,
+            'password': password,
+            'phone': phone,
+            'zip_code': zipCode,
+            'address': address,
+            'number_house': numberHouse,
+            'complement': complement,
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        final appResponse = AppResponse<UserEntity>.fromJson(
+          response.data,
+          (dynamic json) => UserModel.fromMap(json as Map<String, dynamic>),
+        );
+
+        return right(appResponse);
+      }
+
+      return left(
+        ServerException(
+          message: 'Error',
+          error: response.data['message'],
+        ),
+      );
+    } catch (e) {
+      return left(
+        ServerException(
+          message: 'Error',
+          error: e.toString(),
+        ),
+      );
+    }
   }
 }
