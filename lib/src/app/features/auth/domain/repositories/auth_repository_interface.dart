@@ -9,5 +9,14 @@ import '../entities/user_entity.dart';
 /// MockAuthRepository.
 abstract interface class IAuthRepository {
   Future<Output<AppResponse<AuthEntity>>> login(String email, String password);
-  Future<Output<AppResponse<UserEntity>>> signUp({required UserEntity user});
+  Future<Output<AppResponse<UserEntity>>> signUp({
+    required String name,
+    required String email,
+    required String password,
+    required String phone,
+    required String zipCode,
+    required String address,
+    required int numberHouse,
+    required String complement,
+  });
 }

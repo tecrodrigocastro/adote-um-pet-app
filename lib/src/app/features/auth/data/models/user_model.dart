@@ -13,7 +13,7 @@ class UserModel extends UserEntity {
     required super.address,
     required super.numberHouse,
     required super.complement,
-    required super.photoUrl,
+    super.photoUrl,
     super.password,
   });
 
@@ -44,7 +44,7 @@ class UserModel extends UserEntity {
         address: map['address'] as String,
         numberHouse: map['number_house'] as int,
         complement: map['complement'] as String,
-        photoUrl: map['photo_url'] as String,
+        photoUrl: map['photoUrl'] != null ? map['photoUrl'] as String : null,
       );
     } catch (e, s) {
       log('Error parsing UserModel: $e - stack: $s');
