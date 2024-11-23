@@ -8,7 +8,7 @@ class UserEntity {
   final String address;
   final int numberHouse;
   final String complement;
-  final String photoUrl;
+  final String? photoUrl;
 
   UserEntity({
     required this.id,
@@ -20,6 +20,6 @@ class UserEntity {
     required this.address,
     required this.numberHouse,
     required this.complement,
-    required this.photoUrl,
+    this.photoUrl,
   });
 }
