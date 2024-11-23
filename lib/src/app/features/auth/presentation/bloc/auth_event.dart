@@ -8,14 +8,29 @@ abstract class AuthEvent extends Equatable {
 }
 
 class SignUpAuthEvent extends AuthEvent {
-  final UserEntity user;
+  final String name;
+  final String email;
+  final String password;
+  final String phone;
+  final String zipCode;
+  final String address;
+  final int numberHouse;
+  final String complement;
 
   const SignUpAuthEvent({
-    required this.user,
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.phone,
+    required this.zipCode,
+    required this.address,
+    required this.numberHouse,
+    required this.complement,
   });
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props =>
+      [name, email, password, phone, zipCode, address, numberHouse, complement];
 }
 
 class LoginAuthEvent extends AuthEvent {

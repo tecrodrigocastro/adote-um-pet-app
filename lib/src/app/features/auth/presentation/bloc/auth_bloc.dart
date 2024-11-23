@@ -22,7 +22,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpAuthEvent>((event, emit) async {
       emit(SignUpAuthLoading());
 
-      final result = await _signUpUsecase.call(SignUpParams(user: event.user));
+      final result = await _signUpUsecase.call(SignUpParams(
+        name: event.name,
+        email: event.email,
+        password: event.password,
+        phone: event.phone,
+        zipCode: event.zipCode,
+        address: event.address,
+        numberHouse: event.numberHouse,
+        complement: event.complement,
+      ));
 
       result.fold(
         (error) => emit(SignUpAuthFailure(message: error.toString())),
