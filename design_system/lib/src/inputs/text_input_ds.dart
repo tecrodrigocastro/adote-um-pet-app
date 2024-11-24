@@ -5,13 +5,14 @@ import '../../design_system.dart';
 class TextInputDs extends StatefulWidget {
   final String label;
   final TextEditingController? controller;
-  final Function(String)? validator;
+  final String? Function(String?)? validator;
   final double height;
   final double width;
   final bool isFilled;
   final bool isPassword;
   final TextInputType textInputType;
   final ValueChanged<String>? onChanged;
+  final AutovalidateMode? autovalidateMode;
 
   const TextInputDs({
     super.key,
@@ -23,6 +24,7 @@ class TextInputDs extends StatefulWidget {
     this.isFilled = true,
     this.isPassword = false,
     this.onChanged,
+    this.autovalidateMode,
     this.textInputType = TextInputType.text,
   });
 
@@ -49,9 +51,11 @@ class _TextInputDsState extends State<TextInputDs> {
         borderRadius: BorderRadius.circular(5),
         elevation: 3,
         child: TextFormField(
+          autovalidateMode: widget.autovalidateMode,
           keyboardType: widget.textInputType,
           obscureText: _isObscure,
           controller: widget.controller,
+          validator: widget.validator,
           onChanged: widget.onChanged,
           decoration: InputDecoration(
             suffixIcon: widget.isPassword

@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                   label: 'e-mail',
                   onChanged: _loginParams.setEmail,
                   validator: _validator.byField(_loginParams, 'email'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(20),
                 TextInputDs(
@@ -67,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                   isPassword: true,
                   onChanged: _loginParams.setPassword,
                   validator: _validator.byField(_loginParams, 'password'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 BlocConsumer<AuthBloc, AuthState>(

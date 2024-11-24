@@ -4,13 +4,13 @@ import '../dtos/login_params.dart';
 
 class LoginParamsValidator extends LucidValidator<LoginParams> {
   LoginParamsValidator() {
-    ruleFor((user) => user.email, key: 'email')
+    ruleFor((user) => user.email, key: 'email', label: 'e-mail')
         .notEmpty()
         .validEmail();
 
-    ruleFor((user) => user.password, key: 'password') //
+    ruleFor((user) => user.password, key: 'password', label: 'senha') //
         .notEmpty()
-        .minLength(8, message: 'Must be at least 8 characters long')
+        .minLength(8)
         .mustHaveLowercase()
         .mustHaveUppercase()
         .mustHaveNumber()
