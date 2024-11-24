@@ -9,6 +9,8 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/utils/show_snack_bar.dart';
+import '../../domain/dtos/login_params.dart';
+import '../../domain/validators/login_params_validator.dart';
 import '../bloc/auth_bloc.dart';
 import '../controller/session_controller.dart';
 
@@ -20,9 +22,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _loginParams = LoginParams.empty();
+  final _validator = LoginParamsValidator();
+
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     // final size = MediaQuery.sizeOf(context);
@@ -54,23 +58,15 @@ class _LoginPageState extends State<LoginPage> {
                 const Gap(50),
                 TextInputDs(
                   label: 'e-mail',
-                  controller: _emailController,
-                  validator: (p0) {
-                    if (p0.isEmpty) {
-                      return 'Campo Obrigatório';
-                    }
-                    if (!p0.contains('@')) {
-                      return 'E-mail inválido';
-                    }
-                    return null;
-                  },
+                  onChanged: _loginParams.setEmail,
+                  validator: _validator.byField(_loginParams, 'email'),
                 ),
                 const Gap(20),
                 TextInputDs(
                   label: 'senha',
-                  controller: _passwordController,
                   isPassword: true,
-                  validator: (p0) => p0.isEmpty ? 'Campo Obrigatório' : null,
+                  onChanged: _loginParams.setPassword,
+                  validator: _validator.byField(_loginParams, 'password'),
                 ),
                 const Gap(25),
                 BlocConsumer<AuthBloc, AuthState>(
@@ -106,10 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           authBloc.add(
-                            LoginAuthEvent(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ),
+                            LoginAuthEvent(loginParams: _loginParams),
                           );
                         }
                       },
