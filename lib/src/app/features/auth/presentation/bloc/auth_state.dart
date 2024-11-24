@@ -38,21 +38,19 @@ class LoginAuthLoading extends AuthState {}
 class LoginAuthSuccess extends AuthState {
   final AppResponse<AuthEntity> data;
 
-  const LoginAuthSuccess({
-    required this.data,
-  });
+  const LoginAuthSuccess(this.data);
 
   @override
   List<Object> get props => [data];
 }
 
 class LoginAuthFailure extends AuthState {
-  final String message;
+  final BaseException exception;
 
-  const LoginAuthFailure({
-    required this.message,
-  });
+  const LoginAuthFailure(this.exception);
+
+  String get message => exception.message;
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [exception];
 }

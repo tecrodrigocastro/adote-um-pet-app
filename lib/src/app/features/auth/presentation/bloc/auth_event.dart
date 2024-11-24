@@ -34,14 +34,12 @@ class SignUpAuthEvent extends AuthEvent {
 }
 
 class LoginAuthEvent extends AuthEvent {
-  final String email;
-  final String password;
+  final LoginParams loginParams;
 
   const LoginAuthEvent({
-    required this.email,
-    required this.password,
+    required this.loginParams,
   });
 
   @override
-  List<Object> get props => [email, password];
+  List<Object> get props => [loginParams];
 }

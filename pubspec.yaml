@@ -16,7 +16,6 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   go_router: ^14.4.1
-  fpdart: ^1.1.1
   gap: ^3.0.1
   flutter_masked_text2: ^0.9.1
   dio: ^5.7.0
@@ -25,6 +24,8 @@ dependencies:
   get_it: ^8.0.2
   bloc: ^8.1.4
   logger: ^2.5.0
+  lucid_validation: ^1.1.0
+  result_dart: ^1.1.1
 
 dev_dependencies:
   flutter_test:
