@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:fpdart/fpdart.dart';
+import 'package:result_dart/result_dart.dart';
 
 import '../../../../../core/client_http/app_response.dart';
 import '../../../../../core/client_http/client_http.dart';
@@ -46,25 +46,25 @@ class AuthRepositoryImpl implements IAuthRepository {
           (dynamic json) => AuthModel.fromMap(json as Map<String, dynamic>),
         );
 
-        return right(appResponse);
+        return Success(appResponse);
       }
 
       if (response.statusCode == 401) {
-        return left(
+        return Failure(
           UnauthorizedException(
             message: response.data['message'],
           ),
         );
       }
 
-      return left(
+      return Failure(
         ServerException(
           message: 'Error',
           error: response.data['message'],
         ),
       );
     } catch (e) {
-      return left(
+      return Failure(
         ServerException(
           message: 'Error',
           error: e.toString(),
@@ -107,17 +107,17 @@ class AuthRepositoryImpl implements IAuthRepository {
           (dynamic json) => UserModel.fromMap(json as Map<String, dynamic>),
         );
 
-        return right(appResponse);
+        return Success(appResponse);
       }
 
-      return left(
+      return Failure(
         ServerException(
           message: 'Error',
           error: response.data['message'],
         ),
       );
     } catch (e) {
-      return left(
+      return Failure(
         ServerException(
           message: 'Error',
           error: e.toString(),
