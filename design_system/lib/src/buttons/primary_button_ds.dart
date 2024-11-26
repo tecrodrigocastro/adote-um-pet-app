@@ -16,8 +16,8 @@ class PrimaryButtonDs extends StatelessWidget {
     required this.onPressed,
     this.backgroundColor = AppColors.primaryColor,
     this.foregroundColor = Colors.white,
-    this.height = 38,
-    this.width = 222,
+    this.height = 48,
+    this.width = 220,
   });
 
   @override

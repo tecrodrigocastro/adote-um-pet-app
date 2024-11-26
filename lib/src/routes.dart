@@ -5,6 +5,7 @@ import 'app/features/auth/presentation/pages/login_page.dart';
 import 'app/features/auth/presentation/pages/register_page.dart';
 import 'app/features/auth/presentation/pages/welcome_page.dart';
 import 'app/features/donate/presentation/pages/donate_info_page.dart';
+import 'app/features/home/presentation/pages/filters_page.dart';
 import 'core/features/choose/presentation/choose_page.dart';
 import 'core/features/onboarding/presentation/pages/onboarding_page.dart';
 
@@ -16,7 +17,11 @@ final router = GoRouter(
       builder: (context, state) => const OnboardingPage(),
     ),
     GoRoute(
-      path: "/auth",
+      path: '/filters',
+      builder: (context, state) => const FiltersPage(),
+    ),
+    GoRoute(
+      path: '/auth',
       builder: (context, state) => const AuthBasePage(),
       routes: [
         GoRoute(
