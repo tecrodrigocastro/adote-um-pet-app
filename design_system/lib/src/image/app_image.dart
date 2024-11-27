@@ -30,4 +30,20 @@ class AppImages {
     'assets/images/coelho-button.png',
     package: packageName,
   );
+  static const cat = AssetImage(
+    'assets/images/cat.png',
+    package: packageName,
+  );
+  static const dog = AssetImage(
+    'assets/images/dog.png',
+    package: packageName,
+  );
+  static const adotarButtonBg = AssetImage(
+    'assets/images/adotar-button-bg.png',
+    package: packageName,
+  );
+  static const doarButtonBg = AssetImage(
+    'assets/images/doar-button-bg.png',
+    package: packageName,
+  );
 }
