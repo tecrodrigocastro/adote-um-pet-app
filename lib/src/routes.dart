@@ -38,7 +38,10 @@ final router = GoRouter(
         ),
       ],
     ),
-    GoRoute(path: '/choose', builder: (context, state) => const ChoosePage()),
+    GoRoute(
+      path: '/choose',
+      builder: (context, state) => const ChoosePage(),
+    ),
     GoRoute(
       path: '/donate-info',
       builder: (context, state) => const DonateInfoPage(),
