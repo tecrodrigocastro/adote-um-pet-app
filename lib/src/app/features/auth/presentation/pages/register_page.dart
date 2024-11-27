@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../routes.dart';
+import '../../domain/dtos/register_params.dart';
+import '../../domain/validators/register_params_validator.dart';
 import '../bloc/auth_bloc.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -18,16 +20,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
   MaskedTextController numberController =
       MaskedTextController(mask: '(00) 00000-0000');
   MaskedTextController cepController = MaskedTextController(mask: '00000-000');
-  final _addressController = TextEditingController();
-  final _numberHouseController = TextEditingController();
-  final _complementController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+
+  final _registerParams = RegisterParams.empty();
+  final _validator = RegisterParamsValidator();
 
   final formKey = GlobalKey<FormState>();
 
@@ -64,29 +62,38 @@ class _RegisterPageState extends State<RegisterPage> {
                 const Gap(29),
                 TextInputDs(
                   label: 'nome',
-                  controller: _nameController,
                   width: size.width,
+                  onChanged: _registerParams.setName,
+                  validator: _validator.byField(_registerParams, 'name'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 TextInputDs(
                   label: 'e-mail',
-                  controller: _emailController,
                   textInputType: TextInputType.emailAddress,
                   width: size.width,
+                  onChanged: _registerParams.setEmail,
+                  validator: _validator.byField(_registerParams, 'email'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 TextInputDs(
                   width: size.width,
                   label: 'senha',
-                  controller: _passwordController,
                   isPassword: true,
+                  onChanged: _registerParams.setPassword,
+                  validator: _validator.byField(_registerParams, 'password'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 TextInputDs(
                   width: size.width,
                   label: 'confirmar senha',
-                  controller: _confirmPasswordController,
                   isPassword: true,
+                  onChanged: _registerParams.setConfirmPassword,
+                  validator:
+                      _validator.byField(_registerParams, 'confirmPassword'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 TextInputDs(
@@ -94,6 +101,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: numberController,
                   textInputType: TextInputType.number,
                   width: size.width,
+                  onChanged: _registerParams.setPhone,
+                  validator: _validator.byField(_registerParams, 'phone'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 TextInputDs(
@@ -101,30 +111,40 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: cepController,
                   textInputType: TextInputType.number,
                   width: size.width,
+                  onChanged: _registerParams.setZipCode,
+                  validator: _validator.byField(_registerParams, 'zipCode'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 TextInputDs(
                   label: 'Endereço',
-                  controller: _addressController,
                   textInputType: TextInputType.number,
                   width: size.width,
+                  onChanged: _registerParams.setAddress,
+                  validator: _validator.byField(_registerParams, 'address'),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
                 Row(
                   children: [
                     TextInputDs(
                       label: 'Número',
-                      controller: _numberHouseController,
                       textInputType: TextInputType.number,
                       width: size.width * 0.3,
+                      onChanged: (value) => _registerParams.setNumberHouse,
+                      validator: _validator.byField(_registerParams, 'number'),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
                     const Gap(10),
                     Flexible(
                       child: TextInputDs(
                         label: 'Complemento',
-                        controller: _complementController,
                         textInputType: TextInputType.number,
                         width: size.width * 0.59,
+                        onChanged: _registerParams.setComplement,
+                        validator:
+                            _validator.byField(_registerParams, 'complement'),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                   ],
@@ -167,17 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             authBloc.add(
-                              SignUpAuthEvent(
-                                name: _nameController.text.trim(),
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text.trim(),
-                                phone: numberController.text.trim(),
-                                zipCode: cepController.text.trim(),
-                                address: _addressController.text.trim(),
-                                numberHouse: int.parse(
-                                    _numberHouseController.text.trim()),
-                                complement: _complementController.text.trim(),
-                              ),
+                              SignUpAuthEvent(registerParams: _registerParams),
                             );
                           }
                         },

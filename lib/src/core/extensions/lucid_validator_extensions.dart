@@ -15,3 +15,14 @@ extension LucidValidatorExtensions<T extends Object> on LucidValidator<T> {
     );
   }
 }
+
+extension CustomValidPasswordValidator on SimpleValidationBuilder<String> {
+  SimpleValidationBuilder<String> customValidPassword() {
+    return notEmpty()
+        .minLength(8)
+        .mustHaveLowercase()
+        .mustHaveUppercase()
+        .mustHaveNumber()
+        .mustHaveSpecialCharacter();
+  }
+}

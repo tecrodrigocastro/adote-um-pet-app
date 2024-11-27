@@ -8,29 +8,14 @@ abstract class AuthEvent extends Equatable {
 }
 
 class SignUpAuthEvent extends AuthEvent {
-  final String name;
-  final String email;
-  final String password;
-  final String phone;
-  final String zipCode;
-  final String address;
-  final int numberHouse;
-  final String complement;
+  final RegisterParams registerParams;
 
   const SignUpAuthEvent({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.phone,
-    required this.zipCode,
-    required this.address,
-    required this.numberHouse,
-    required this.complement,
+    required this.registerParams,
   });
 
   @override
-  List<Object> get props =>
-      [name, email, password, phone, zipCode, address, numberHouse, complement];
+  List<Object> get props => [registerParams];
 }
 
 class LoginAuthEvent extends AuthEvent {
