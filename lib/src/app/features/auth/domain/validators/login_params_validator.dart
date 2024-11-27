@@ -1,5 +1,6 @@
 import 'package:lucid_validation/lucid_validation.dart';
 
+import '../../../../../core/extensions/lucid_validator_extensions.dart';
 import '../dtos/login_params.dart';
 
 class LoginParamsValidator extends LucidValidator<LoginParams> {
@@ -9,11 +10,6 @@ class LoginParamsValidator extends LucidValidator<LoginParams> {
         .validEmail();
 
     ruleFor((user) => user.password, key: 'password', label: 'senha') //
-        .notEmpty()
-        .minLength(8)
-        .mustHaveLowercase()
-        .mustHaveUppercase()
-        .mustHaveNumber()
-        .mustHaveSpecialCharacter();
+        .customValidPassword();
   }
 }
