@@ -53,6 +53,16 @@ class FiltersPage extends StatelessWidget {
             const ChoosePetGenderRow(
               label: 'Qual o sexo?',
             ),
+            const Gap(24),
+            const ChoosePetDonationTypeRow(
+              label: 'Qual o tipo da doação?',
+            ),
+            const Gap(24),
+            const ChoosePetSizeRow(
+              label: 'E o tamanho?',
+            ),
+            const Gap(24),
+            AgeSlider(),
           ],
         ),
       ),
