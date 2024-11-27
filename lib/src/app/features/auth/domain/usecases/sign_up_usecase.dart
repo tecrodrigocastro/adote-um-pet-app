@@ -1,10 +1,12 @@
 import '../../../../../core/client_http/app_response.dart';
 import '../../../../../core/typedefs/types.dart';
 import '../../../../../core/usecase/usecase_interface.dart';
+import '../dtos/register_params.dart';
 import '../entities/user_entity.dart';
 import '../repositories/auth_repository_interface.dart';
 
-class SignUpUsecase implements UseCase<AppResponse<UserEntity>, SignUpParams> {
+class SignUpUsecase
+    implements UseCase<AppResponse<UserEntity>, RegisterParams> {
   final IAuthRepository _authRepository;
 
   SignUpUsecase({
@@ -12,7 +14,7 @@ class SignUpUsecase implements UseCase<AppResponse<UserEntity>, SignUpParams> {
   }) : _authRepository = authRepository;
 
   @override
-  Future<Output<AppResponse<UserEntity>>> call(SignUpParams params) async {
+  Future<Output<AppResponse<UserEntity>>> call(RegisterParams params) async {
     return await _authRepository.signUp(
       name: params.name,
       email: params.email,
@@ -24,26 +26,4 @@ class SignUpUsecase implements UseCase<AppResponse<UserEntity>, SignUpParams> {
       complement: params.complement,
     );
   }
-}
-
-class SignUpParams {
-  final String name;
-  final String email;
-  final String password;
-  final String phone;
-  final String zipCode;
-  final String address;
-  final int numberHouse;
-  final String complement;
-
-  SignUpParams({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.phone,
-    required this.zipCode,
-    required this.address,
-    required this.numberHouse,
-    required this.complement,
-  });
 }
