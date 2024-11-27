@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import '../../../../routes.dart';
 
@@ -8,57 +11,22 @@ class ChoosePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.98),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          InkWell(
-            onTap: () {},
-            child: Container(
-              height: size.height * 0.5,
-              width: size.width,
-              alignment: AlignmentDirectional.bottomStart,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AppImages.dogChoose,
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.secondaryColor,
-                    BlendMode.darken,
-                  ),
-                ),
-              ),
-              child: Text(
-                'adotar',
-                style: theme.textTheme.displayLarge,
-              ),
-            ),
+          AdotarButtonDS(
+            onTap: () {
+              log('Adotar');
+            },
           ),
-          InkWell(
+          const Gap(56),
+          DoarButtonDS(
             onTap: () {
               router.go('/donate-info');
             },
-            child: Container(
-              height: size.height * 0.5,
-              width: size.width,
-              alignment: AlignmentDirectional.bottomStart,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AppImages.catChoose,
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.secondaryColor,
-                    BlendMode.darken,
-                  ),
-                ),
-              ),
-              child: Text(
-                'doar',
-                style: theme.textTheme.displayLarge,
-              ),
-            ),
-          )
+          ),
         ],
       ),
     );
