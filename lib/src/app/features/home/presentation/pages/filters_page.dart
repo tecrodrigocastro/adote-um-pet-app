@@ -22,13 +22,12 @@ class FiltersPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
           children: [
             RichText(
               text: TextSpan(
                 children: [
-                  // const TextSpan(text: 'Bem-vindo(a), '),
                   TextSpan(
                     text: 'Bem-vindo(a),',
                     style: theme.textTheme.headlineSmall,
@@ -42,8 +41,7 @@ class FiltersPage extends StatelessWidget {
             ),
             Text(
               'Encontre o seu amigo peludo.',
-              style: theme.textTheme.labelSmall!
-                  .copyWith(fontSize: 16), //!Sugerir alteração no tema
+              style: theme.textTheme.labelSmall!.copyWith(fontSize: 16),
             ),
             const Gap(24),
             const ChoosePetTypeRow(
@@ -62,7 +60,13 @@ class FiltersPage extends StatelessWidget {
               label: 'E o tamanho?',
             ),
             const Gap(24),
-            AgeSlider(),
+            const AgeSlider(),
+            const Gap(200),
+            PrimaryButtonDs(
+              width: double.maxFinite,
+              title: 'Adote o seu pet',
+              onPressed: () {},
+            ),
           ],
         ),
       ),
