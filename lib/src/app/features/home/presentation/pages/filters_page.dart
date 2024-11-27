@@ -61,7 +61,7 @@ class FiltersPage extends StatelessWidget {
             ),
             const Gap(24),
             const AgeSlider(),
-            const Gap(200),
+            const Gap(48),
             PrimaryButtonDs(
               width: double.maxFinite,
               title: 'Adote o seu pet',
