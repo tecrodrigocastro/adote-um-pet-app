@@ -11,4 +11,5 @@ class AppColors {
   // Butons
   static const Color adotarButtonColor = Color(0xFF34C1CC);
   static const Color doarButtonColor = Color(0xFFFF5A79);
+  static const Color textGreyColor = Color(0xFF767676);
 }
