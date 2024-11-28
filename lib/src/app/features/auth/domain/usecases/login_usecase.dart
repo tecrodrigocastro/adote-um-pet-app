@@ -14,6 +14,6 @@ class LoginUsecase implements UseCase<AppResponse<AuthEntity>, LoginParams> {
 
   @override
   Future<Output<AppResponse<AuthEntity>>> call(LoginParams params) async {
-    return _authRepository.login(params.email, params.password);
+    return _authRepository.login(params);
   }
 }

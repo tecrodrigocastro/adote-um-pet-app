@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/request/register_model.dart';
+
 class RegisterParams extends ChangeNotifier {
   String name;
   String email;
@@ -78,5 +80,19 @@ class RegisterParams extends ChangeNotifier {
   setComplement(String value) {
     complement = value;
     notifyListeners();
+  }
+
+  toModel() {
+    return RegisterModel(
+      name: name,
+      email: email,
+      password: password,
+      phone: phone,
+      address: address,
+      zipCode: zipCode,
+      numberHouse: numberHouse,
+      complement: complement,
+      photoUrl: '',
+    );
   }
 }

@@ -15,15 +15,6 @@ class SignUpUsecase
 
   @override
   Future<Output<AppResponse<UserEntity>>> call(RegisterParams params) async {
-    return await _authRepository.signUp(
-      name: params.name,
-      email: params.email,
-      password: params.password,
-      phone: params.phone,
-      zipCode: params.zipCode,
-      address: params.address,
-      numberHouse: params.numberHouse,
-      complement: params.complement,
-    );
+    return await _authRepository.signUp(params);
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../data/models/request/login_model.dart';
+
 class LoginParams extends ChangeNotifier {
   String email;
   String password;
@@ -19,5 +21,12 @@ class LoginParams extends ChangeNotifier {
   setPassword(String value) {
     password = value;
     notifyListeners();
+  }
+
+  toModel() {
+    return LoginModel(
+      password: password,
+      email: email,
+    );
   }
 }

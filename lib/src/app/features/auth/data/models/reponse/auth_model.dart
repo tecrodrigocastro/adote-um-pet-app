@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import '../../domain/entities/auth_entity.dart';
+import '../../../domain/entities/auth_entity.dart';
 import 'user_model.dart';
 
 class AuthModel extends AuthEntity {
