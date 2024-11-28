@@ -19,6 +19,7 @@ class TextInputGrayDs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final theme = Theme.of(context);
 
     return SizedBox(
       height: height,
@@ -29,6 +30,13 @@ class TextInputGrayDs extends StatelessWidget {
           filled: true,
           fillColor: AppColors.inputGrayColor,
           hintText: label,
+          hintStyle: theme.textTheme.bodyLarge!.copyWith(
+            color: AppColors.grayHint,
+          ),
+          prefixIcon: const Icon(
+            Icons.search,
+            color: AppColors.grayHint,
+          ),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
