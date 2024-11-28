@@ -9,18 +9,25 @@ import '../../app/features/auth/presentation/bloc/auth_bloc.dart';
 import '../cache/shared_preferences/shared_preferences_impl.dart';
 import '../client_http/client_http.dart';
 import '../client_http/dio/rest_client_dio_impl.dart';
+import '../client_http/logger/client_interceptor_logger_impl.dart';
 import '../logger/logger_app_logger_impl.dart';
 import '../services/session_service.dart';
 
 final injector = GetIt.instance;
 
-void setupDependencyInjector() {
-  injector.registerFactory<IRestClient>(
-    () => RestClientDioImpl(
+void setupDependencyInjector({bool loggerAPI = false}) {
+  injector.registerFactory<IRestClient>(() {
+    final instance = RestClientDioImpl(
       dio: DioFactory.dio(),
       logger: LoggerAppLoggerImpl(),
-    ),
-  );
+    );
+
+    if (loggerAPI) {
+      instance.addInterceptors(ClientInterceptorLoggerImpl());
+    }
+
+    return instance;
+  });
 
   //SESSION Service
   injector.registerFactory<SessionService>(
