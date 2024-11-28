@@ -1,12 +1,11 @@
 import '../../../../../core/client_http/client_http.dart';
-import '../../../../../core/client_http/dio/rest_client_dio_impl.dart';
 import '../../../../../core/client_http/rest_client_multipart.dart';
 
 class AuthRemoteDatasource implements IRestClient {
-  final RestClientDioImpl _restClientDioImpl;
+  final IRestClient _restClientDioImpl;
 
   AuthRemoteDatasource({
-    required RestClientDioImpl restClientDioImpl,
+    required IRestClient restClientDioImpl,
   }) : _restClientDioImpl = restClientDioImpl;
 
   @override
