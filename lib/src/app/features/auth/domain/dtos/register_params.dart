@@ -72,8 +72,8 @@ class RegisterParams extends ChangeNotifier {
     notifyListeners();
   }
 
-  setNumberHouse(int value) {
-    numberHouse = value;
+  setNumberHouse(String value) {
+    numberHouse = int.parse(value);
     notifyListeners();
   }
 

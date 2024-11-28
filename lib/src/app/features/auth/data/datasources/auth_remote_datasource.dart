@@ -1,14 +1,13 @@
 import '../../../../../core/client_http/client_http.dart';
-import '../../../../../core/client_http/dio/rest_client_dio_impl.dart';
 import '../models/request/login_model.dart';
 import '../models/request/register_model.dart';
 
 class AuthRemoteDatasource {
-  final RestClientDioImpl _restClient;
+  final IRestClient _restClient;
 
   AuthRemoteDatasource({
-    required RestClientDioImpl restClientDioImpl,
-  }) : _restClient = restClientDioImpl;
+    required IRestClient restClient,
+  }) : _restClient = restClient;
 
   Future<RestClientResponse> register(RegisterModel model) => //
       _restClient.post(RestClientRequest(

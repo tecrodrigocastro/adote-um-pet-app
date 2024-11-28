@@ -131,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       label: 'Número',
                       textInputType: TextInputType.number,
                       width: size.width * 0.3,
-                      onChanged: (value) => _registerParams.setNumberHouse,
+                      onChanged: _registerParams.setNumberHouse,
                       validator: _validator.byField(_registerParams, 'number'),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),

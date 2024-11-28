@@ -72,7 +72,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   Future<Output<AppResponse<UserEntity>>> signUp(RegisterParams params) async {
     try {
       final response = await _authRemoteDatasource.register(RegisterModel(
-        photoUrl: '',
+        photoUrl: 'url',
         email: params.email,
         phone: params.phone,
         name: params.name,

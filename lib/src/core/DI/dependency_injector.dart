@@ -32,7 +32,7 @@ void setupDependencyInjector() {
   // AUTH FEATURE
   injector.registerFactory<AuthRemoteDatasource>(
     () => AuthRemoteDatasource(
-      restClientDioImpl: injector<IRestClient>(),
+      restClient: injector<IRestClient>(),
     ),
   );
   injector.registerFactory<IAuthRepository>(
