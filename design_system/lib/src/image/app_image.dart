@@ -46,4 +46,14 @@ class AppImages {
     'assets/images/doar-button-bg.png',
     package: packageName,
   );
+
+  static const imageOnboarding1 = AssetImage(
+    'assets/images/onboarding-1.png',
+    package: packageName,
+  );
+
+  static const imageOnboarding2 = AssetImage(
+    'assets/images/onboarding-bird.png',
+    package: packageName,
+  );
 }
