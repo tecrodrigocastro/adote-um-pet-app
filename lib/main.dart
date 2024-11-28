@@ -14,7 +14,7 @@ void main() async {
 
       /// Ao ativar essa flag, você vai ter um log das chamadas e respostas da API
       /// no console do seu editor de codigo, por padrão é desabilitado.
-      loggerAPI: true,
+      // loggerAPI: true,
       );
   runApp(const AppWidget());
 }
