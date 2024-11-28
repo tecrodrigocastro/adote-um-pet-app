@@ -8,13 +8,14 @@ import '../../app/features/auth/domain/usecases/sign_up_usecase.dart';
 import '../../app/features/auth/presentation/bloc/auth_bloc.dart';
 import '../../app/features/auth/presentation/controller/session_controller.dart';
 import '../cache/shared_preferences/shared_preferences_impl.dart';
+import '../client_http/client_http.dart';
 import '../client_http/dio/rest_client_dio_impl.dart';
 import '../logger/logger_app_logger_impl.dart';
 
 final injector = GetIt.instance;
 
 void setupDependencyInjector() {
-  injector.registerFactory<RestClientDioImpl>(
+  injector.registerFactory<IRestClient>(
     () => RestClientDioImpl(
       dio: DioFactory.dio(),
       logger: LoggerAppLoggerImpl(),
@@ -31,7 +32,7 @@ void setupDependencyInjector() {
   // AUTH FEATURE
   injector.registerFactory<AuthRemoteDatasource>(
     () => AuthRemoteDatasource(
-      restClientDioImpl: injector<RestClientDioImpl>(),
+      restClientDioImpl: injector<IRestClient>(),
     ),
   );
   injector.registerFactory<IAuthRepository>(
