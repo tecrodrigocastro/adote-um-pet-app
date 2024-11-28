@@ -10,7 +10,7 @@ import 'core/features/choose/presentation/choose_page.dart';
 import 'core/features/onboarding/presentation/pages/onboarding_page.dart';
 
 final router = GoRouter(
-  initialLocation: '/auth',
+  initialLocation: '/onboarding',
   routes: [
     GoRoute(
       path: '/onboarding',
