@@ -1,10 +1,10 @@
-import '../../../../../core/cache/cache_params.dart';
-import '../../../../../core/cache/shared_preferences/shared_preferences_impl.dart';
+import '../cache/cache.dart';
+import '../cache/shared_preferences/shared_preferences_impl.dart';
 
-class SessionController {
+class SessionService {
   final SharedPreferencesImpl _sharedPreferences;
 
-  SessionController({
+  SessionService({
     required SharedPreferencesImpl sharedPreferences,
   }) : _sharedPreferences = sharedPreferences;
 
