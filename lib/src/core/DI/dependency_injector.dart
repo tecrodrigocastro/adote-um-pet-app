@@ -5,6 +5,7 @@ import '../../app/features/auth/data/repositories/auth_repository_impl.dart';
 import '../../app/features/auth/domain/repositories/auth_repository_interface.dart';
 import '../../app/features/auth/domain/usecases/login_usecase.dart';
 import '../../app/features/auth/domain/usecases/sign_up_usecase.dart';
+import '../../app/features/auth/infrastructure/interceptor/auth_interceptor.dart';
 import '../../app/features/auth/presentation/bloc/auth_bloc.dart';
 import '../cache/shared_preferences/shared_preferences_impl.dart';
 import '../client_http/client_http.dart';
@@ -20,6 +21,10 @@ void setupDependencyInjector({bool loggerAPI = false}) {
     final instance = RestClientDioImpl(
       dio: DioFactory.dio(),
       logger: LoggerAppLoggerImpl(),
+    );
+
+    instance.addInterceptors(
+      AuthInterceptor(sessionService: injector<SessionService>()),
     );
 
     if (loggerAPI) {
