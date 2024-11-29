@@ -56,4 +56,9 @@ class AppImages {
     'assets/images/onboarding-bird.png',
     package: packageName,
   );
+
+  static const homeBannerDog = AssetImage(
+    'assets/images/home-banner-dog.jpg',
+    package: packageName,
+  );
 }
