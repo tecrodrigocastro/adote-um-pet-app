@@ -52,6 +52,38 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            BannerDs(
+              backGroundImage: const DecorationImage(
+                image: AppImages.homeBannerDog,
+                fit: BoxFit.cover,
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 22, left: 18),
+                child: Text(
+                  'Tudo para \no seu pet!',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 22.4,
+                  ),
+                ),
+              ),
+              subtitle: InkWell(
+                onTap: () {},
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
+                  child: Text(
+                    'Clique aqui',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 11.5,
+                          decoration: TextDecoration.underline,
+                        ),
+                  ),
+                ),
+              ),
+            ),
+            const Gap(18),
             TextInputDs(
               label: 'Procure o seu bixinho',
               labelStyle: theme.textTheme.bodySmall?.copyWith(
