@@ -12,7 +12,6 @@ import '../../../../../core/utils/show_snack_bar.dart';
 import '../../domain/dtos/login_params.dart';
 import '../../domain/validators/login_params_validator.dart';
 import '../bloc/auth_bloc.dart';
-import '../controller/session_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
     // final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
     final authBloc = GetIt.I.get<AuthBloc>();
-    final sessionController = GetIt.I.get<SessionController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -74,8 +72,6 @@ class _LoginPageState extends State<LoginPage> {
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
                     if (state is LoginAuthSuccess) {
-                      log('Token: ${state.data.data!.accessToken}');
-                      sessionController.saveToken(state.data.data!.accessToken);
                       formKey.currentState!.reset();
                       showMessageSnackBar(
                         context,
