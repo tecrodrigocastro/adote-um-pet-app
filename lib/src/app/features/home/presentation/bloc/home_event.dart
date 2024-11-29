@@ -6,3 +6,14 @@ abstract class HomeEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetPetsEvent extends HomeEvent {
+  final GetPetsParams getPetsParams;
+
+  const GetPetsEvent({
+    required this.getPetsParams,
+  });
+
+  @override
+  List<Object> get props => [getPetsParams];
+}

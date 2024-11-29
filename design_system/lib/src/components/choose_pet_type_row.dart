@@ -6,9 +6,11 @@ class ChoosePetTypeRow extends StatefulWidget {
   const ChoosePetTypeRow({
     super.key,
     required this.label,
+    required this.onChanged,
   });
 
   final String label;
+  final ValueChanged<String> onChanged;
 
   @override
   State<ChoosePetTypeRow> createState() => _ChoosePetTypeRowState();
@@ -28,6 +30,8 @@ class _ChoosePetTypeRowState extends State<ChoosePetTypeRow> {
 
       buttonStates[selected] = true;
     });
+
+    widget.onChanged(selected);
   }
 
   @override
