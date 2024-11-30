@@ -12,7 +12,7 @@ class AuthInitial extends AuthState {}
 class SignUpAuthLoading extends AuthState {}
 
 class SignUpAuthSuccess extends AuthState {
-  final AppResponse<UserEntity> data;
+  final AppResponse<AuthEntity> data;
 
   const SignUpAuthSuccess(
     this.data,
