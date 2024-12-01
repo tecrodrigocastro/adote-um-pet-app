@@ -61,4 +61,9 @@ class AppImages {
     'assets/images/home-banner-dog.jpg',
     package: packageName,
   );
+
+  static const chatIcon = AssetImage(
+    'assets/icons/chat.png',
+    package: packageName,
+  );
 }
