@@ -8,7 +8,6 @@ import '../../../../../core/extensions/lucid_validator_extensions.dart';
 import '../../domain/dtos/login_params.dart';
 import '../../domain/dtos/register_params.dart';
 import '../../domain/entities/auth_entity.dart';
-import '../../domain/entities/user_entity.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/sign_up_usecase.dart';
 import '../../domain/validators/login_params_validator.dart';
@@ -32,36 +31,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final validator = RegisterParamsValidator();
 
       final newState = await validator
-          .validateResult(event.registerParams)
 
           /// valida o registerParams
-          .toAsyncResult()
+          .validateResult(event.registerParams)
 
           /// converte em um async Result: Future<Result<...>>
+          .toAsyncResult()
+
+          /// Executa o usecase de Sign Up
           .flatMap(_signUpUsecase.call)
 
-          /// executa o usecase
+          /// transforma o retorno do Result em [LoginParams]
+          .pure(
+            LoginParams(
+              email: event.registerParams.email,
+              password: event.registerParams.password,
+            ),
+          )
+
+          /// Executa o usecase de Login
+          .flatMap(_loginUsecase.call)
+
+          /// converte para o estado apropriado
           .fold(SignUpAuthSuccess.new, SignUpAuthFailure.new);
 
       emit(newState);
-
-      // final result = await _signUpUsecase.call(
-      //   RegisterParams(
-      //     name: event.registerParams.name,
-      //     email: event.registerParams.email,
-      //     password: event.registerParams.password,
-      //     phone: event.registerParams.phone,
-      //     zipCode: event.registerParams.zipCode,
-      //     address: event.registerParams.address,
-      //     numberHouse: event.registerParams.numberHouse,
-      //     complement: event.registerParams.complement,
-      //   ),
-      // );
-
-      // result.fold(
-      //   (success) => emit(SignUpAuthSuccess(data: success)),
-      //   (error) => emit(SignUpAuthFailure(message: error.toString())),
-      // );
     });
 
     on<LoginAuthEvent>((event, emit) async {
@@ -69,18 +63,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final validator = LoginParamsValidator();
 
       final newState = await validator
-          .validateResult(event.loginParams)
 
           /// valida o loginParams
-          .toAsyncResult()
+          .validateResult(event.loginParams)
 
           /// converte em um async Result: Future<Result<...>>
-          .flatMap(_loginUsecase.call)
+          .toAsyncResult()
 
           /// executa o usecase
-          .fold(LoginAuthSuccess.new, LoginAuthFailure.new);
+          .flatMap(_loginUsecase.call)
 
-      /// converte para o estado apropriado
+          /// converte para o estado apropriado
+          .fold(LoginAuthSuccess.new, LoginAuthFailure.new);
 
       emit(newState);
     });
