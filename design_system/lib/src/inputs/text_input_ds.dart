@@ -13,6 +13,8 @@ class TextInputDs extends StatefulWidget {
   final TextInputType textInputType;
   final ValueChanged<String>? onChanged;
   final AutovalidateMode? autovalidateMode;
+  final Widget? prefixIcon;
+  final TextStyle? labelStyle;
 
   const TextInputDs({
     super.key,
@@ -26,6 +28,8 @@ class TextInputDs extends StatefulWidget {
     this.onChanged,
     this.autovalidateMode,
     this.textInputType = TextInputType.text,
+    this.prefixIcon,
+    this.labelStyle,
   });
 
   @override
@@ -71,13 +75,14 @@ class _TextInputDsState extends State<TextInputDs> {
                   )
                 : null,
             hintText: widget.label,
-            hintStyle: theme.textTheme.bodyLarge,
+            hintStyle: widget.labelStyle ?? theme.textTheme.bodyLarge,
             filled: widget.isFilled,
             fillColor: AppColors.whiteColor,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(5),
             ),
+            prefixIcon: widget.prefixIcon,
           ),
         ),
       ),
