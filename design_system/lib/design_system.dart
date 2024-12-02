@@ -8,4 +8,4 @@ export './src/image/image.dart';
 export './src/inputs/inputs.dart';
 export './src/sliders/sliders.dart';
 export './src/theme/theme.dart';
-export './src/banner /banner_ds.dart';
+export 'src/banner/banner_ds.dart';
