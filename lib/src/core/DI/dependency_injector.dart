@@ -7,7 +7,6 @@ import '../../app/features/auth/domain/usecases/login_usecase.dart';
 import '../../app/features/auth/domain/usecases/sign_up_usecase.dart';
 import '../../app/features/auth/infrastructure/interceptor/auth_interceptor.dart';
 import '../../app/features/auth/presentation/bloc/auth_bloc.dart';
-import '../../app/features/auth/presentation/controller/session_controller.dart';
 import '../../app/features/home/data/datasources/pet_remote_datasource.dart';
 import '../../app/features/home/data/repositories/pet_repository_impl.dart';
 import '../../app/features/home/domain/repositories/pet_repository_interface.dart';
