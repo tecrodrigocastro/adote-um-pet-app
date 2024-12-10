@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   listener() {
     authViewModel.loginCommand.result?.fold(
       (appResponse) {
+        authViewModel.loginCommand.clearResult();
         formKey.currentState!.reset();
 
         showMessageSnackBar(
@@ -42,13 +43,17 @@ class _LoginPageState extends State<LoginPage> {
           iconColor: AppColors.whiteColor,
         );
       },
-      (exception) => showMessageSnackBar(
-        context,
-        exception.message,
-        icon: Icons.error,
-        iconColor: AppColors.whiteColor,
-        color: AppColors.primaryColor,
-      ),
+      (exception) {
+        authViewModel.loginCommand.clearResult();
+
+        showMessageSnackBar(
+          context,
+          exception.message,
+          icon: Icons.error,
+          iconColor: AppColors.whiteColor,
+          color: AppColors.primaryColor,
+        );
+      },
     );
   }
 

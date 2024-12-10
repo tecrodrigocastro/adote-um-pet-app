@@ -39,6 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
   listener() {
     authViewmodel.signUpCommand.result?.fold(
       (appResponse) {
+        authViewmodel.signUpCommand.clearResult();
         formKey.currentState!.reset();
         showMessageSnackBar(
           context,
@@ -50,6 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
         router.go('/auth/welcome');
       },
       (exception) {
+        authViewmodel.signUpCommand.clearResult();
         showMessageSnackBar(
           context,
           exception.message,

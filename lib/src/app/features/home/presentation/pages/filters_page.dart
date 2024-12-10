@@ -27,6 +27,7 @@ class _FiltersPageState extends State<FiltersPage> {
 
   listener() {
     homeViewModel.getPetCommand.result?.onFailure((exception) {
+      homeViewModel.getPetCommand.clearResult();
       showMessageSnackBar(
         context,
         exception.message,

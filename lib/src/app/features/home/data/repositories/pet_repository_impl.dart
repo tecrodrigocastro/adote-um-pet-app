@@ -1,8 +1,8 @@
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../../core/client_http/app_response.dart';
+import '../../../../../core/client_http/client_http.dart';
 import '../../../../../core/errors/errors.dart';
-import '../../../../../core/errors/unauthorized_exception.dart';
 import '../../../../../core/typedefs/types.dart';
 import '../../domain/entities/pet_entity.dart';
 import '../../domain/repositories/pet_repository_interface.dart';
@@ -24,32 +24,31 @@ class PetRepositoryImpl implements IPetRepository {
   }) async {
     try {
       final result = await datasource.getPets();
-      if (result.statusCode == 200) {
-        final appResponse = AppResponse<List<PetEntity>>.fromJson(
-          result.data,
-          (json) {
-            return (json as List).map((json) {
-              return PetModel.fromMap(
-                json as Map<String, dynamic>,
-              );
-            }).toList();
-          },
-        );
-        return Success(appResponse);
-      }
-
-      if (result.statusCode == 401) {
-        return Failure(
-          UnauthorizedException(
-            message: result.data['message'],
-          ),
-        );
-      }
-
+      final appResponse = AppResponse<List<PetEntity>>.fromJson(
+        result.data,
+        (json) {
+          return (json as List).map((json) {
+            return PetModel.fromMap(
+              json as Map<String, dynamic>,
+            );
+          }).toList();
+        },
+      );
+      return Success(appResponse);
+    } on RestClientException catch (e) {
       return Failure(
-          ServerException(message: 'Error', error: result.data['message']));
+        ServerException(
+          message: e.data['message'],
+          error: e.toString(),
+        ),
+      );
     } catch (e) {
-      return Failure(ServerException(message: 'Error', error: e.toString()));
+      return Failure(
+        ServerException(
+          message: 'Unexpected error',
+          error: e.toString(),
+        ),
+      );
     }
   }
 }
