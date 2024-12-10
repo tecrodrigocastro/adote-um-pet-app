@@ -1,9 +1,50 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get_it/get_it.dart';
 
-class HomePage extends StatelessWidget {
+import '../../../../../core/utils/show_snack_bar.dart';
+import '../../../../../routes.dart';
+import '../viewmodels/home_viewmodel.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final homeViewModel = GetIt.I.get<HomeViewmodel>();
+
+  @override
+  void initState() {
+    super.initState();
+    homeViewModel.logoutCommand.addListener(listener);
+  }
+
+  listener() {
+    homeViewModel.logoutCommand.result?.fold(
+      (unit) {
+        router.go('/auth/login');
+      },
+      (exception) {
+        showMessageSnackBar(
+          context,
+          exception.message,
+          icon: Icons.error,
+          iconColor: AppColors.whiteColor,
+          color: AppColors.primaryColor,
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    homeViewModel.logoutCommand.removeListener(listener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +55,7 @@ class HomePage extends StatelessWidget {
         userName: 'Beth Almeida',
         userLocation: 'Sao Paulo - SP',
         userImage: image.image,
+        onLogoutTap: () => homeViewModel.logoutCommand.execute(),
       ),
       appBar: AppBar(
         title: Row(

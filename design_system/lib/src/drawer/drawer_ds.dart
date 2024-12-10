@@ -87,7 +87,7 @@ class CustomDrawerDS extends StatelessWidget {
           ),
           DrawerItemDS(
             title: 'Sair',
-            onTap: onAccountTap ?? () {},
+            onTap: onLogoutTap ?? () {},
             showLeading: false,
           ),
         ],
