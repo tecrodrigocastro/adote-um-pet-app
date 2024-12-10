@@ -29,8 +29,7 @@ class HomeViewmodel extends ChangeNotifier {
   late final GetPetUsecase _getPetUsecase;
   late final LogoutUsecase _logoutUsecase;
 
-  late final List<PetEntity> _pets;
-
+  List<PetEntity> _pets = [];
   List<PetEntity> get pets => UnmodifiableListView(_pets);
 
   Output<AppResponse<List<PetEntity>>> _getPet(GetPetsParams params) async {
