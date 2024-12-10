@@ -6,13 +6,12 @@ import '../../app/features/auth/domain/repositories/auth_repository_interface.da
 import '../../app/features/auth/domain/usecases/login_usecase.dart';
 import '../../app/features/auth/domain/usecases/sign_up_usecase.dart';
 import '../../app/features/auth/infrastructure/interceptor/auth_interceptor.dart';
-import '../../app/features/auth/presentation/bloc/auth_bloc.dart';
-import '../../app/features/auth/presentation/controller/session_controller.dart';
+import '../../app/features/auth/presentation/viewmodels/auth_viewmodel.dart';
 import '../../app/features/home/data/datasources/pet_remote_datasource.dart';
 import '../../app/features/home/data/repositories/pet_repository_impl.dart';
 import '../../app/features/home/domain/repositories/pet_repository_interface.dart';
 import '../../app/features/home/domain/usecases/get_pet_usecase.dart';
-import '../../app/features/home/presentation/bloc/home_bloc.dart';
+import '../../app/features/home/presentation/viewmodels/home_viewmodel.dart';
 import '../cache/shared_preferences/shared_preferences_impl.dart';
 import '../client_http/client_http.dart';
 import '../client_http/dio/rest_client_dio_impl.dart';
@@ -67,7 +66,7 @@ void setupDependencyInjector({bool loggerAPI = false}) {
     () => PetRepositoryImpl(datasource: injector<PetRemoteDatasource>()),
   );
   injector.registerLazySingleton(
-    () => AuthBloc(
+    () => AuthViewmodel(
       signUpUsecase: SignUpUsecase(
         authRepository: injector<IAuthRepository>(),
       ),
@@ -78,7 +77,7 @@ void setupDependencyInjector({bool loggerAPI = false}) {
     ),
   );
   injector.registerLazySingleton(
-    () => HomeBloc(
+    () => HomeViewmodel(
       getPetUsecase: GetPetUsecase(
         petRepository: injector<IPetRepository>(),
       ),

@@ -25,7 +25,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   }) : _authRemoteDatasource = authRemoteDatasource;
 
   @override
-  Future<Output<AppResponse<AuthEntity>>> login(
+  Output<AppResponse<AuthEntity>> login(
     LoginParams params,
   ) async {
     try {
@@ -69,7 +69,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Output<AppResponse<UserEntity>>> signUp(RegisterParams params) async {
+  Output<AppResponse<UserEntity>> signUp(RegisterParams params) async {
     try {
       final response = await _authRemoteDatasource.register(RegisterModel(
         photoUrl: 'url',

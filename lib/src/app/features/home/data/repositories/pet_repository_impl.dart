@@ -17,7 +17,7 @@ class PetRepositoryImpl implements IPetRepository {
   });
 
   @override
-  Future<Output<AppResponse<List<PetEntity>>>> getPets({
+  Output<AppResponse<List<PetEntity>>> getPets({
     String? type,
     String? gender,
     String? size,

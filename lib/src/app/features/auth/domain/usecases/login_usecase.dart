@@ -19,7 +19,7 @@ class LoginUsecase implements UseCase<AppResponse<AuthEntity>, LoginParams> {
         _sessionService = sessionService;
 
   @override
-  Future<Output<AppResponse<AuthEntity>>> call(LoginParams params) async {
+  Output<AppResponse<AuthEntity>> call(LoginParams params) async {
     final result = await _authRepository.login(params);
 
     final appResponse = result.getOrNull();

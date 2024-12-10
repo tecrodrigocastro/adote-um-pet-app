@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../domain/dtos/login_params.dart';
 import '../../domain/validators/login_params_validator.dart';
-import '../bloc/auth_bloc.dart';
+import '../viewmodels/auth_viewmodel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,14 +20,47 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _loginParams = LoginParams.empty();
   final _validator = LoginParamsValidator();
-
   final formKey = GlobalKey<FormState>();
+  final authViewModel = GetIt.I.get<AuthViewmodel>();
+
+  @override
+  void initState() {
+    super.initState();
+    authViewModel.login.addListener(listener);
+  }
+
+  listener() {
+    if (authViewModel.login.completed) {
+      formKey.currentState!.reset();
+      authViewModel.login.result?.fold(
+        (appResponse) => showMessageSnackBar(
+          context,
+          appResponse.message,
+          icon: Icons.check,
+          color: AppColors.secondaryColor,
+          iconColor: AppColors.whiteColor,
+        ),
+        (exception) => showMessageSnackBar(
+          context,
+          exception.message,
+          icon: Icons.error,
+          iconColor: AppColors.whiteColor,
+          color: AppColors.primaryColor,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    authViewModel.login.removeListener(listener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     // final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
-    final authBloc = GetIt.I.get<AuthBloc>();
 
     return Scaffold(
       appBar: AppBar(
@@ -67,39 +99,17 @@ class _LoginPageState extends State<LoginPage> {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
-                BlocConsumer<AuthBloc, AuthState>(
-                  listener: (context, state) {
-                    if (state is LoginAuthSuccess) {
-                      formKey.currentState!.reset();
-                      showMessageSnackBar(
-                        context,
-                        state.data.message,
-                        icon: Icons.check,
-                        color: AppColors.secondaryColor,
-                        iconColor: AppColors.whiteColor,
-                      );
-                    }
-                    if (state is LoginAuthFailure) {
-                      showMessageSnackBar(
-                        context,
-                        state.message,
-                        icon: Icons.error,
-                        iconColor: AppColors.whiteColor,
-                        color: AppColors.primaryColor,
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is LoginAuthLoading) {
+                ListenableBuilder(
+                  listenable: authViewModel.login,
+                  builder: (context, child) {
+                    if (authViewModel.login.running) {
                       return const Center(child: CircularProgressIndicator());
                     }
                     return PrimaryButtonDs(
                       title: 'Login',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          authBloc.add(
-                            LoginAuthEvent(loginParams: _loginParams),
-                          );
+                          authViewModel.login.execute(_loginParams);
                         }
                       },
                     );

@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
@@ -10,7 +9,7 @@ import '../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../routes.dart';
 import '../../domain/dtos/register_params.dart';
 import '../../domain/validators/register_params_validator.dart';
-import '../bloc/auth_bloc.dart';
+import '../viewmodels/auth_viewmodel.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -29,11 +28,53 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final formKey = GlobalKey<FormState>();
 
+  final authViewmodel = GetIt.I.get<AuthViewmodel>();
+
+  @override
+  void initState() {
+    super.initState();
+    authViewmodel.signUp.addListener(listener);
+  }
+
+  listener() {
+    if (authViewmodel.signUp.completed) {
+      final appResponse = authViewmodel.signUp.result?.getOrNull();
+      if (appResponse != null) {
+        showMessageSnackBar(
+          context,
+          appResponse.message,
+          icon: Icons.check,
+          iconColor: AppColors.whiteColor,
+          color: AppColors.secondaryColor,
+        );
+        formKey.currentState!.reset();
+
+        router.go('/auth/welcome');
+      }
+    }
+
+    final exception = authViewmodel.signUp.result?.exceptionOrNull();
+    if (exception != null) {
+      showMessageSnackBar(
+        context,
+        exception.message,
+        icon: Icons.error,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.primaryColor,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    authViewmodel.signUp.removeListener(listener);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
-    final authBloc = GetIt.I.get<AuthBloc>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -152,43 +193,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 const Gap(40),
                 Align(
                   alignment: Alignment.center,
-                  child: BlocConsumer<AuthBloc, AuthState>(
-                    listener: (context, state) {
-                      if (state is SignUpAuthSuccess) {
-                        showMessageSnackBar(
-                          context,
-                          state.data.message,
-                          icon: Icons.check,
-                          iconColor: AppColors.whiteColor,
-                          color: AppColors.secondaryColor,
-                        );
-                        formKey.currentState!.reset();
-
-                        router.go('/auth/welcome');
-                      }
-                      if (state is SignUpAuthFailure) {
-                        showMessageSnackBar(
-                          context,
-                          state.message,
-                          icon: Icons.error,
-                          iconColor: AppColors.whiteColor,
-                          color: AppColors.primaryColor,
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is SignUpAuthLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+                  child: ListenableBuilder(
+                    listenable: authViewmodel.signUp,
+                    builder: (context, _) {
                       return PrimaryButtonDs(
                         title: 'Cadastrar',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            authBloc.add(
-                              SignUpAuthEvent(registerParams: _registerParams),
-                            );
+                            authViewmodel.signUp.execute(_registerParams);
                           }
                         },
                       );
