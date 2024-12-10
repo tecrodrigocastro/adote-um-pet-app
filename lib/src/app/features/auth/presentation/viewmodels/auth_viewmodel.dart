@@ -28,13 +28,11 @@ class AuthViewmodel {
 
   Output<AppResponse<AuthEntity>> _signUpAuth(
       RegisterParams registerParams) async {
-    final result = await _signUpUsecase(registerParams)
+    return _signUpUsecase(registerParams)
         .pure(convertToLoginParams(registerParams))
 
         /// Executa o usecase de Login
         .flatMap(_loginUsecase.call);
-
-    return result;
   }
 
   LoginParams convertToLoginParams(RegisterParams registerParams) =>
