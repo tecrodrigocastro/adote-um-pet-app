@@ -39,7 +39,7 @@ class _FiltersPageState extends State<FiltersPage> {
 
   @override
   void dispose() {
-    homeViewModel.getPetAction.removeListener(listener);
+    homeViewModel.getPetCommand.removeListener(listener);
     super.dispose();
   }
 
