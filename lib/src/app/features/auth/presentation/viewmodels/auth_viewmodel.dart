@@ -16,12 +16,12 @@ class AuthViewmodel {
   })  : _signUpUsecase = signUpUsecase,
         _loginUsecase = loginUsecase,
         super() {
-    signUpAction = Command1(_signUpAuth);
-    loginAction = Command1(_loginUsecase.call);
+    signUpCommand = Command1(_signUpAuth);
+    loginCommand = Command1(_loginUsecase.call);
   }
 
-  late final Command1<AppResponse<AuthEntity>, RegisterParams> signUpAction;
-  late final Command1<AppResponse<AuthEntity>, LoginParams> loginAction;
+  late final Command1<AppResponse<AuthEntity>, RegisterParams> signUpCommand;
+  late final Command1<AppResponse<AuthEntity>, LoginParams> loginCommand;
 
   late final SignUpUsecase _signUpUsecase;
   late final LoginUsecase _loginUsecase;

@@ -33,11 +33,11 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    authViewmodel.signUpAction.addListener(listener);
+    authViewmodel.signUpCommand.addListener(listener);
   }
 
   listener() {
-    authViewmodel.signUpAction.result?.fold(
+    authViewmodel.signUpCommand.result?.fold(
       (appResponse) {
         formKey.currentState!.reset();
         showMessageSnackBar(
@@ -63,7 +63,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
-    authViewmodel.signUpAction.removeListener(listener);
+    authViewmodel.signUpCommand.removeListener(listener);
     super.dispose();
   }
 
@@ -190,13 +190,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 Align(
                   alignment: Alignment.center,
                   child: ListenableBuilder(
-                    listenable: authViewmodel.signUpAction,
+                    listenable: authViewmodel.signUpCommand,
                     builder: (context, _) {
                       return PrimaryButtonDs(
                         title: 'Cadastrar',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            authViewmodel.signUpAction.execute(_registerParams);
+                            authViewmodel.signUpCommand.execute(_registerParams);
                           }
                         },
                       );

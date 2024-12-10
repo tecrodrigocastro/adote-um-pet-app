@@ -26,11 +26,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    authViewModel.loginAction.addListener(listener);
+    authViewModel.loginCommand.addListener(listener);
   }
 
   listener() {
-    authViewModel.loginAction.result?.fold(
+    authViewModel.loginCommand.result?.fold(
       (appResponse) {
         formKey.currentState!.reset();
 
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    authViewModel.loginAction.removeListener(listener);
+    authViewModel.loginCommand.removeListener(listener);
     super.dispose();
   }
 
@@ -101,16 +101,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const Gap(25),
                 ListenableBuilder(
-                  listenable: authViewModel.loginAction,
+                  listenable: authViewModel.loginCommand,
                   builder: (context, child) {
-                    if (authViewModel.loginAction.running) {
+                    if (authViewModel.loginCommand.running) {
                       return const Center(child: CircularProgressIndicator());
                     }
                     return PrimaryButtonDs(
                       title: 'Login',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          authViewModel.loginAction.execute(_loginParams);
+                          authViewModel.loginCommand.execute(_loginParams);
                         }
                       },
                     );

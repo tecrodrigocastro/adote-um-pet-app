@@ -22,11 +22,11 @@ class _FiltersPageState extends State<FiltersPage> {
   @override
   void initState() {
     super.initState();
-    homeViewModel.getPetAction.addListener(listener);
+    homeViewModel.getPetCommand.addListener(listener);
   }
 
   listener() {
-    homeViewModel.getPetAction.result?.onFailure((exception) {
+    homeViewModel.getPetCommand.result?.onFailure((exception) {
       showMessageSnackBar(
         context,
         exception.message,
@@ -117,9 +117,9 @@ class _FiltersPageState extends State<FiltersPage> {
                         );
                       }),
                   ListenableBuilder(
-                    listenable: homeViewModel.getPetAction,
+                    listenable: homeViewModel.getPetCommand,
                     builder: (context, _) {
-                      if (homeViewModel.getPetAction.running) {
+                      if (homeViewModel.getPetCommand.running) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
@@ -128,7 +128,7 @@ class _FiltersPageState extends State<FiltersPage> {
                           width: double.maxFinite,
                           title: 'Adote o seu pet',
                           onPressed: () {
-                            homeViewModel.getPetAction.execute(petsParams);
+                            homeViewModel.getPetCommand.execute(petsParams);
                           });
                     },
                   ),
