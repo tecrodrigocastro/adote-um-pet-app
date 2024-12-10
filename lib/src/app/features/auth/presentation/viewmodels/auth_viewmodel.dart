@@ -26,14 +26,10 @@ class AuthViewmodel {
   late final SignUpUsecase _signUpUsecase;
   late final LoginUsecase _loginUsecase;
 
-  Output<AppResponse<AuthEntity>> _signUpAuth(
-      RegisterParams registerParams) async {
-    return _signUpUsecase(registerParams)
-        .pure(convertToLoginParams(registerParams))
-
-        /// Executa o usecase de Login
-        .flatMap(_loginUsecase.call);
-  }
+  Output<AppResponse<AuthEntity>> _signUpAuth(RegisterParams registerParams) =>
+      _signUpUsecase(registerParams) // Execute o signUpUsecase
+          .pure(convertToLoginParams(registerParams))
+          .flatMap(_loginUsecase.call); // Execute o loginUsecase
 
   LoginParams convertToLoginParams(RegisterParams registerParams) =>
       LoginParams(
