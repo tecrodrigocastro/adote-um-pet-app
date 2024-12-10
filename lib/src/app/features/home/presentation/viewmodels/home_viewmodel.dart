@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -29,7 +31,7 @@ class HomeViewmodel extends ChangeNotifier {
 
   late final List<PetEntity> _pets;
 
-  List<PetEntity> get pets => List.unmodifiable(_pets);
+  List<PetEntity> get pets => UnmodifiableListView(_pets);
 
   Output<AppResponse<List<PetEntity>>> _getPet(GetPetsParams params) async {
     return _getPetUsecase(params).onSuccess((appResponse) {
