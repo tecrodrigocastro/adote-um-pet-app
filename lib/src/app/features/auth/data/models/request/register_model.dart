@@ -19,7 +19,7 @@ class RegisterModel {
   final String phone;
   final String address;
   final String zipCode;
-  final int numberHouse;
+  final String numberHouse;
   final String complement;
   final String photoUrl;
 
@@ -45,7 +45,7 @@ class RegisterModel {
       phone: map['phone'] as String,
       address: map['address'] as String,
       zipCode: map['zip_code'] as String,
-      numberHouse: map['number_house'] as int,
+      numberHouse: map['number_house'],
       complement: map['complement'] as String,
       photoUrl: map['photo_url'] as String,
     );
