@@ -4,6 +4,7 @@ import '../../app/features/auth/data/datasources/auth_remote_datasource.dart';
 import '../../app/features/auth/data/repositories/auth_repository_impl.dart';
 import '../../app/features/auth/domain/repositories/auth_repository_interface.dart';
 import '../../app/features/auth/domain/usecases/login_usecase.dart';
+import '../../app/features/auth/domain/usecases/logout_usecase.dart';
 import '../../app/features/auth/domain/usecases/sign_up_usecase.dart';
 import '../../app/features/auth/infrastructure/interceptor/auth_interceptor.dart';
 import '../../app/features/auth/presentation/viewmodels/auth_viewmodel.dart';
@@ -59,7 +60,7 @@ void setupDependencyInjector({bool loggerAPI = false}) {
   );
   injector.registerFactory<PetRemoteDatasource>(
     () => PetRemoteDatasource(
-      restClient: injector<RestClientDioImpl>(),
+      restClient: injector<IRestClient>(),
     ),
   );
   injector.registerFactory<IPetRepository>(
@@ -80,6 +81,9 @@ void setupDependencyInjector({bool loggerAPI = false}) {
     () => HomeViewmodel(
       getPetUsecase: GetPetUsecase(
         petRepository: injector<IPetRepository>(),
+      ),
+      logoutUsecase: LogoutUsecase(
+        sessionService: injector<SessionService>(),
       ),
     ),
   );
