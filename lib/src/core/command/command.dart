@@ -44,7 +44,7 @@ abstract class Command<T extends Object> extends ChangeNotifier {
   bool get error => _result is Failure;
 
   /// Whether the action completed successfully.
-  bool get completed => _result is Success;
+  bool get success => _result is Success;
 
   /// The result of the most recent action.
   ///

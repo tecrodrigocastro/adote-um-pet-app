@@ -13,10 +13,10 @@ class HomeViewmodel extends ChangeNotifier {
     required GetPetUsecase getPetUsecase,
   })  : _getPetUsecase = getPetUsecase,
         super() {
-    getPet = Command1(_getPet);
+    getPetAction = Command1(_getPet);
   }
 
-  late final Command1<AppResponse<List<PetEntity>>, GetPetsParams> getPet;
+  late final Command1<AppResponse<List<PetEntity>>, GetPetsParams> getPetAction;
 
   late final GetPetUsecase _getPetUsecase;
 
@@ -33,3 +33,4 @@ class HomeViewmodel extends ChangeNotifier {
     });
   }
 }
+

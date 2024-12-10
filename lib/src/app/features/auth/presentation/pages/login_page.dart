@@ -26,13 +26,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    authViewModel.login.addListener(listener);
+    authViewModel.loginAction.addListener(listener);
   }
 
   listener() {
-    if (authViewModel.login.completed) {
+    if (authViewModel.loginAction.success) {
       formKey.currentState!.reset();
-      authViewModel.login.result?.fold(
+      authViewModel.loginAction.result?.fold(
         (appResponse) => showMessageSnackBar(
           context,
           appResponse.message,
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    authViewModel.login.removeListener(listener);
+    authViewModel.loginAction.removeListener(listener);
     super.dispose();
   }
 
@@ -100,16 +100,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const Gap(25),
                 ListenableBuilder(
-                  listenable: authViewModel.login,
+                  listenable: authViewModel.loginAction,
                   builder: (context, child) {
-                    if (authViewModel.login.running) {
+                    if (authViewModel.loginAction.running) {
                       return const Center(child: CircularProgressIndicator());
                     }
                     return PrimaryButtonDs(
                       title: 'Login',
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          authViewModel.login.execute(_loginParams);
+                          authViewModel.loginAction.execute(_loginParams);
                         }
                       },
                     );

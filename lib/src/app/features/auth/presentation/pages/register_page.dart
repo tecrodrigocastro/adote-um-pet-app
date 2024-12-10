@@ -33,27 +33,25 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    authViewmodel.signUp.addListener(listener);
+    authViewmodel.signUpAction.addListener(listener);
   }
 
   listener() {
-    if (authViewmodel.signUp.completed) {
-      final appResponse = authViewmodel.signUp.result?.getOrNull();
-      if (appResponse != null) {
-        showMessageSnackBar(
-          context,
-          appResponse.message,
-          icon: Icons.check,
-          iconColor: AppColors.whiteColor,
-          color: AppColors.secondaryColor,
-        );
-        formKey.currentState!.reset();
+    final appResponse = authViewmodel.signUpAction.result?.getOrNull();
+    if (appResponse != null) {
+      showMessageSnackBar(
+        context,
+        appResponse.message,
+        icon: Icons.check,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.secondaryColor,
+      );
+      formKey.currentState!.reset();
 
-        router.go('/auth/welcome');
-      }
+      router.go('/auth/welcome');
     }
 
-    final exception = authViewmodel.signUp.result?.exceptionOrNull();
+    final exception = authViewmodel.signUpAction.result?.exceptionOrNull();
     if (exception != null) {
       showMessageSnackBar(
         context,
@@ -67,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
-    authViewmodel.signUp.removeListener(listener);
+    authViewmodel.signUpAction.removeListener(listener);
     super.dispose();
   }
 
@@ -194,13 +192,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 Align(
                   alignment: Alignment.center,
                   child: ListenableBuilder(
-                    listenable: authViewmodel.signUp,
+                    listenable: authViewmodel.signUpAction,
                     builder: (context, _) {
                       return PrimaryButtonDs(
                         title: 'Cadastrar',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            authViewmodel.signUp.execute(_registerParams);
+                            authViewmodel.signUpAction.execute(_registerParams);
                           }
                         },
                       );

@@ -22,27 +22,25 @@ class _FiltersPageState extends State<FiltersPage> {
   @override
   void initState() {
     super.initState();
-    homeViewModel.getPet.addListener(listener);
+    homeViewModel.getPetAction.addListener(listener);
   }
 
   listener() {
-    if (homeViewModel.getPet.completed) {
-      final exception = homeViewModel.getPet.result?.getOrNull();
-      if (exception != null) {
-        showMessageSnackBar(
-          context,
-          exception.message,
-          icon: Icons.error,
-          iconColor: AppColors.whiteColor,
-          color: AppColors.primaryColor,
-        );
-      }
+    final exception = homeViewModel.getPetAction.result?.exceptionOrNull();
+    if (exception != null) {
+      showMessageSnackBar(
+        context,
+        exception.message,
+        icon: Icons.error,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.primaryColor,
+      );
     }
   }
 
   @override
   void dispose() {
-    homeViewModel.getPet.removeListener(listener);
+    homeViewModel.getPetAction.removeListener(listener);
     super.dispose();
   }
 
@@ -120,20 +118,21 @@ class _FiltersPageState extends State<FiltersPage> {
                         );
                       }),
                   ListenableBuilder(
-                      listenable: homeViewModel.getPet,
-                      builder: (context, _) {
-                        if (homeViewModel.getPet.running) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        return PrimaryButtonDs(
-                            width: double.maxFinite,
-                            title: 'Adote o seu pet',
-                            onPressed: () {
-                              homeViewModel.getPet.execute(petsParams);
-                            });
-                      }),
+                    listenable: homeViewModel.getPetAction,
+                    builder: (context, _) {
+                      if (homeViewModel.getPetAction.running) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return PrimaryButtonDs(
+                          width: double.maxFinite,
+                          title: 'Adote o seu pet',
+                          onPressed: () {
+                            homeViewModel.getPetAction.execute(petsParams);
+                          });
+                    },
+                  ),
                 ],
               ),
             ),
