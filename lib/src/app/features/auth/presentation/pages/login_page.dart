@@ -30,25 +30,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   listener() {
-    if (authViewModel.loginAction.success) {
-      formKey.currentState!.reset();
-      authViewModel.loginAction.result?.fold(
-        (appResponse) => showMessageSnackBar(
+    authViewModel.loginAction.result?.fold(
+      (appResponse) {
+        formKey.currentState!.reset();
+
+        showMessageSnackBar(
           context,
           appResponse.message,
           icon: Icons.check,
           color: AppColors.secondaryColor,
           iconColor: AppColors.whiteColor,
-        ),
-        (exception) => showMessageSnackBar(
-          context,
-          exception.message,
-          icon: Icons.error,
-          iconColor: AppColors.whiteColor,
-          color: AppColors.primaryColor,
-        ),
-      );
-    }
+        );
+      },
+      (exception) => showMessageSnackBar(
+        context,
+        exception.message,
+        icon: Icons.error,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.primaryColor,
+      ),
+    );
   }
 
   @override

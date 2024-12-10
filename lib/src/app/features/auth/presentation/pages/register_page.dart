@@ -37,30 +37,28 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   listener() {
-    final appResponse = authViewmodel.signUpAction.result?.getOrNull();
-    if (appResponse != null) {
-      showMessageSnackBar(
-        context,
-        appResponse.message,
-        icon: Icons.check,
-        iconColor: AppColors.whiteColor,
-        color: AppColors.secondaryColor,
-      );
-      formKey.currentState!.reset();
-
-      router.go('/auth/welcome');
-    }
-
-    final exception = authViewmodel.signUpAction.result?.exceptionOrNull();
-    if (exception != null) {
-      showMessageSnackBar(
-        context,
-        exception.message,
-        icon: Icons.error,
-        iconColor: AppColors.whiteColor,
-        color: AppColors.primaryColor,
-      );
-    }
+    authViewmodel.signUpAction.result?.fold(
+      (appResponse) {
+        formKey.currentState!.reset();
+        showMessageSnackBar(
+          context,
+          appResponse.message,
+          icon: Icons.check,
+          iconColor: AppColors.whiteColor,
+          color: AppColors.secondaryColor,
+        );
+        router.go('/auth/welcome');
+      },
+      (exception) {
+        showMessageSnackBar(
+          context,
+          exception.message,
+          icon: Icons.error,
+          iconColor: AppColors.whiteColor,
+          color: AppColors.primaryColor,
+        );
+      },
+    );
   }
 
   @override

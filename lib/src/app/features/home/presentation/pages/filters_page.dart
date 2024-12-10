@@ -26,8 +26,7 @@ class _FiltersPageState extends State<FiltersPage> {
   }
 
   listener() {
-    final exception = homeViewModel.getPetAction.result?.exceptionOrNull();
-    if (exception != null) {
+    homeViewModel.getPetAction.result?.onFailure((exception) {
       showMessageSnackBar(
         context,
         exception.message,
@@ -35,7 +34,7 @@ class _FiltersPageState extends State<FiltersPage> {
         iconColor: AppColors.whiteColor,
         color: AppColors.primaryColor,
       );
-    }
+    });
   }
 
   @override
