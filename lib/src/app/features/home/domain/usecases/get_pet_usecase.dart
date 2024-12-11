@@ -14,7 +14,7 @@ class GetPetUsecase
   }) : _petRepository = petRepository;
 
   @override
-  Future<Output<AppResponse<List<PetEntity>>>> call(GetPetsParams params) {
+  Output<AppResponse<List<PetEntity>>> call(GetPetsParams params) {
     return _petRepository.getPets(
       size: params.size,
       type: params.type,

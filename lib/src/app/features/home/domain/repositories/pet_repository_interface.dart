@@ -3,7 +3,7 @@ import '../../../../../core/typedefs/types.dart';
 import '../entities/pet_entity.dart';
 
 abstract interface class IPetRepository {
-  Future<Output<AppResponse<List<PetEntity>>>> getPets({
+  Output<AppResponse<List<PetEntity>>> getPets({
     String? type,
     String? gender,
     String? size,
