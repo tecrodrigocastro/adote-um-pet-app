@@ -4,7 +4,9 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:result_command/result_command.dart';
 
+import '../../../../../core/errors/base_exception.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../routes.dart';
 import '../../domain/dtos/register_params.dart';
@@ -37,30 +39,30 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   listener() {
-    authViewmodel.signUpCommand.result?.fold(
-      (appResponse) {
-        authViewmodel.signUpCommand.clearResult();
-        formKey.currentState!.reset();
-        showMessageSnackBar(
-          context,
-          appResponse.message,
-          icon: Icons.check,
-          iconColor: AppColors.whiteColor,
-          color: AppColors.secondaryColor,
-        );
-        router.go('/auth/welcome');
-      },
-      (exception) {
-        authViewmodel.signUpCommand.clearResult();
-        showMessageSnackBar(
-          context,
-          exception.message,
-          icon: Icons.error,
-          iconColor: AppColors.whiteColor,
-          color: AppColors.primaryColor,
-        );
-      },
-    );
+    if (authViewmodel.signUpCommand.value case SuccessCommand(:final value)) {
+      authViewmodel.signUpCommand.clearResult();
+      formKey.currentState!.reset();
+      showMessageSnackBar(
+        context,
+        value.message,
+        icon: Icons.check,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.secondaryColor,
+      );
+      router.go('/auth/welcome');
+    }
+
+    if (authViewmodel.signUpCommand.value
+        case FailureCommand(:final BaseException error)) {
+      authViewmodel.signUpCommand.clearResult();
+      showMessageSnackBar(
+        context,
+        error.message,
+        icon: Icons.error,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.primaryColor,
+      );
+    }
   }
 
   @override
@@ -198,7 +200,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         title: 'Cadastrar',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            authViewmodel.signUpCommand.execute(_registerParams);
+                            authViewmodel.signUpCommand
+                                .execute(_registerParams);
                           }
                         },
                       );

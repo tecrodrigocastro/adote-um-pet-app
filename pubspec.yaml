@@ -24,7 +24,8 @@ dependencies:
   get_it: ^8.0.2
   logger: ^2.5.0
   lucid_validation: ^1.1.0
-  result_dart: ^1.1.1
+  result_dart: ^2.0.0-alpha.2
+  result_command: ^1.0.0-alpha.8
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,7 @@
+import 'package:result_command/result_command.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../../core/client_http/app_response.dart';
-import '../../../../../core/command/command.dart';
 import '../../../../../core/typedefs/types.dart';
 import '../../domain/dtos/login_params.dart';
 import '../../domain/dtos/register_params.dart';
@@ -10,12 +10,7 @@ import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/sign_up_usecase.dart';
 
 class AuthViewmodel {
-  AuthViewmodel({
-    required SignUpUsecase signUpUsecase,
-    required LoginUsecase loginUsecase,
-  })  : _signUpUsecase = signUpUsecase,
-        _loginUsecase = loginUsecase,
-        super() {
+  AuthViewmodel(this._signUpUsecase, this._loginUsecase) {
     signUpCommand = Command1(_signUpAuth);
     loginCommand = Command1(_loginUsecase.call);
   }

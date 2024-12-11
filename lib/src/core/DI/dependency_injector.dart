@@ -68,10 +68,10 @@ void setupDependencyInjector({bool loggerAPI = false}) {
   );
   injector.registerLazySingleton(
     () => AuthViewmodel(
-      signUpUsecase: SignUpUsecase(
+      SignUpUsecase(
         authRepository: injector<IAuthRepository>(),
       ),
-      loginUsecase: LoginUsecase(
+      LoginUsecase(
         authRepository: injector<IAuthRepository>(),
         sessionService: injector<SessionService>(),
       ),
@@ -79,10 +79,10 @@ void setupDependencyInjector({bool loggerAPI = false}) {
   );
   injector.registerLazySingleton(
     () => HomeViewmodel(
-      getPetUsecase: GetPetUsecase(
+      GetPetUsecase(
         petRepository: injector<IPetRepository>(),
       ),
-      logoutUsecase: LogoutUsecase(
+      LogoutUsecase(
         sessionService: injector<SessionService>(),
       ),
     ),

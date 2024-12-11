@@ -2,7 +2,9 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
+import 'package:result_command/result_command.dart';
 
+import '../../../../../core/errors/base_exception.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../routes.dart';
 import '../viewmodels/home_viewmodel.dart';
@@ -24,20 +26,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   listener() {
-    homeViewModel.logoutCommand.result?.fold(
-      (unit) {
-        router.go('/auth/login');
-      },
-      (exception) {
-        showMessageSnackBar(
-          context,
-          exception.message,
-          icon: Icons.error,
-          iconColor: AppColors.whiteColor,
-          color: AppColors.primaryColor,
-        );
-      },
-    );
+    if (homeViewModel.logoutCommand.value case SuccessCommand()) {
+      router.go('/auth/login');
+    }
+
+    if (homeViewModel.logoutCommand.value
+        case FailureCommand(:final BaseException error)) {
+      showMessageSnackBar(
+        context,
+        error.message,
+        icon: Icons.error,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.primaryColor,
+      );
+    }
   }
 
   @override

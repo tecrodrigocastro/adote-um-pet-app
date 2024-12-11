@@ -4,7 +4,7 @@ import 'package:result_dart/result_dart.dart';
 import '../errors/errors.dart';
 
 extension LucidValidatorExtensions<T extends Object> on LucidValidator<T> {
-  Result<T, BaseException> validateResult(T object) {
+  Result<T> validateResult(T object) {
     final result = validate(object);
     if (result.isValid) {
       return Success(object);
