@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:result_command/result_command.dart';
 
+import '../../../../../core/errors/base_exception.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../domain/dtos/get_pets_params.dart';
 import '../viewmodels/home_viewmodel.dart';
@@ -26,16 +28,18 @@ class _FiltersPageState extends State<FiltersPage> {
   }
 
   listener() {
-    homeViewModel.getPetCommand.result?.onFailure((exception) {
+    if (homeViewModel.logoutCommand.value
+    case FailureCommand(:final BaseException error)) {
       homeViewModel.getPetCommand.clearResult();
       showMessageSnackBar(
         context,
-        exception.message,
+        error.message,
         icon: Icons.error,
         iconColor: AppColors.whiteColor,
         color: AppColors.primaryColor,
       );
-    });
+    }
+
   }
 
   @override
@@ -120,7 +124,7 @@ class _FiltersPageState extends State<FiltersPage> {
                   ListenableBuilder(
                     listenable: homeViewModel.getPetCommand,
                     builder: (context, _) {
-                      if (homeViewModel.getPetCommand.running) {
+                      if (homeViewModel.getPetCommand.value is RuningCommand) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );

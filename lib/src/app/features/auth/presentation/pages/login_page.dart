@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:result_command/result_command.dart';
 
+import '../../../../../core/errors/base_exception.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../routes.dart';
 import '../../domain/dtos/login_params.dart';
@@ -31,33 +33,34 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   listener() {
-    authViewModel.loginCommand.result?.fold(
-      (appResponse) {
-        authViewModel.loginCommand.clearResult();
-        formKey.currentState!.reset();
+    if (authViewModel.loginCommand.value case SuccessCommand(:final value)) {
+      authViewModel.loginCommand.clearResult();
+      formKey.currentState!.reset();
 
-        showMessageSnackBar(
-          context,
-          appResponse.message,
-          icon: Icons.check,
-          color: AppColors.secondaryColor,
-          iconColor: AppColors.whiteColor,
-        );
+      showMessageSnackBar(
+        context,
+        value.message,
+        icon: Icons.check,
+        color: AppColors.secondaryColor,
+        iconColor: AppColors.whiteColor,
+      );
 
-        router.go('/home');
-      },
-      (exception) {
-        authViewModel.loginCommand.clearResult();
+      router.go('/home');
+    }
 
-        showMessageSnackBar(
-          context,
-          exception.message,
-          icon: Icons.error,
-          iconColor: AppColors.whiteColor,
-          color: AppColors.primaryColor,
-        );
-      },
-    );
+    if (authViewModel.loginCommand.value
+    case FailureCommand(:final BaseException error)) {
+      authViewModel.loginCommand.clearResult();
+
+      showMessageSnackBar(
+        context,
+        error.message,
+        icon: Icons.error,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.primaryColor,
+      );
+
+    }
   }
 
   @override
@@ -111,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                 ListenableBuilder(
                   listenable: authViewModel.loginCommand,
                   builder: (context, child) {
-                    if (authViewModel.loginCommand.running) {
+                    if (authViewModel.loginCommand.value is RuningCommand) {
                       return const Center(child: CircularProgressIndicator());
                     }
                     return PrimaryButtonDs(
