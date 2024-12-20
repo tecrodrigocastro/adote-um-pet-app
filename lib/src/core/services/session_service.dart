@@ -25,4 +25,8 @@ class SessionService {
 
     return response as String;
   }
+
+  Future<bool> removeToken() async {
+    return await _sharedPreferences.removeData('token');
+  }
 }
