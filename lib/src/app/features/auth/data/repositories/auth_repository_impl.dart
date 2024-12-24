@@ -5,7 +5,6 @@ import 'package:result_dart/result_dart.dart';
 import '../../../../../core/client_http/app_response.dart';
 import '../../../../../core/client_http/client_http.dart';
 import '../../../../../core/errors/errors.dart';
-import '../../../../../core/errors/unauthorized_exception.dart';
 import '../../../../../core/typedefs/types.dart';
 import '../../domain/dtos/login_params.dart';
 import '../../domain/dtos/register_params.dart';

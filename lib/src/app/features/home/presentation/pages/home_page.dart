@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../routes.dart';
+import '../../domain/dtos/get_pets_params.dart';
 import '../viewmodels/home_viewmodel.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     homeViewModel.logoutCommand.addListener(listener);
+    homeViewModel.getPetCommand.execute(GetPetsParams());
   }
 
   listener() {
@@ -52,8 +54,8 @@ class _HomePageState extends State<HomePage> {
     Image image = const Image(image: AppImages.logo);
     return Scaffold(
       drawer: CustomDrawerDS(
-        userName: 'Beth Almeida',
-        userLocation: 'Sao Paulo - SP',
+        userName: homeViewModel.loggeduser?.name ?? '',
+        userLocation: homeViewModel.loggeduser?.address ?? '',
         userImage: image.image,
         onLogoutTap: () => homeViewModel.logoutCommand.execute(),
       ),
@@ -65,13 +67,13 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'Beth Almeida',
+                  homeViewModel.loggeduser?.name ?? '',
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  'São Paulo - SP',
+                  homeViewModel.loggeduser?.address ?? '',
                   style: theme.textTheme.labelSmall?.copyWith(
                     fontSize: 12,
                   ),
