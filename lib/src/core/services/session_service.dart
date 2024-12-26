@@ -1,3 +1,5 @@
+import 'package:result_dart/result_dart.dart';
+
 import '../../app/features/auth/data/models/reponse/user_model.dart';
 import '../../app/features/auth/domain/entities/user_entity.dart';
 import '../cache/cache.dart';
@@ -40,14 +42,14 @@ class SessionService {
     return response;
   }
 
-  Future<UserEntity?> getUser() async {
+  AsyncResult<UserEntity, Exception> getUser() async {
     final response = await _sharedPreferences.getData('user');
 
     if (response == null) {
-      return null;
+      return Result.failure(Exception('User not found'));
     }
 
-    return UserModel.fromJson(response);
+    return Result.success(UserModel.fromJson(response));
   }
 
   Future<bool> removeUser() async {
@@ -55,7 +57,6 @@ class SessionService {
   }
 
   Future<bool> isUserLoggedIn() async {
-    UserEntity? user = await getUser();
-    return user != null;
+    return await getUser().isSuccess();
   }
 }

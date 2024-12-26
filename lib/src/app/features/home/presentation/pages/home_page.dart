@@ -54,8 +54,8 @@ class _HomePageState extends State<HomePage> {
     Image image = const Image(image: AppImages.logo);
     return Scaffold(
       drawer: CustomDrawerDS(
-        userName: homeViewModel.loggeduser?.name ?? '',
-        userLocation: homeViewModel.loggeduser?.address ?? '',
+        userName: homeViewModel.loggeduser.name,
+        userLocation: homeViewModel.loggeduser.address,
         userImage: image.image,
         onLogoutTap: () => homeViewModel.logoutCommand.execute(),
       ),
@@ -67,13 +67,13 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  homeViewModel.loggeduser?.name ?? '',
+                  homeViewModel.loggeduser.name,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  homeViewModel.loggeduser?.address ?? '',
+                  homeViewModel.loggeduser.address,
                   style: theme.textTheme.labelSmall?.copyWith(
                     fontSize: 12,
                   ),

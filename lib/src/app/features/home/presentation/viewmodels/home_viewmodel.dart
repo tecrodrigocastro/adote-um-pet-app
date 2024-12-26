@@ -27,11 +27,11 @@ class HomeViewmodel extends ChangeNotifier {
   }
 
   final SessionService _sessionService = GetIt.I.get<SessionService>();
-  UserEntity? _loggedUser;
-  UserEntity? get loggeduser => _loggedUser;
+  late UserEntity _loggedUser;
+  UserEntity get loggeduser => _loggedUser;
 
   Future<void> init() async {
-    _loggedUser = await _sessionService.getUser();
+    await _sessionService.getUser().map((user) => _loggedUser = user);
     notifyListeners();
   }
 
