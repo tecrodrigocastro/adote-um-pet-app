@@ -1,11 +1,14 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../../core/client_http/app_response.dart';
 import '../../../../../core/command/command.dart';
+import '../../../../../core/services/session_service.dart';
 import '../../../../../core/typedefs/types.dart';
+import '../../../auth/domain/entities/user_entity.dart';
 import '../../../auth/domain/usecases/logout_usecase.dart';
 import '../../domain/dtos/get_pets_params.dart';
 import '../../domain/entities/pet_entity.dart';
@@ -20,6 +23,16 @@ class HomeViewmodel extends ChangeNotifier {
         super() {
     getPetCommand = Command1(_getPet);
     logoutCommand = Command0(_logoutUsecase.call);
+    init();
+  }
+
+  final SessionService _sessionService = GetIt.I.get<SessionService>();
+  late UserEntity _loggedUser;
+  UserEntity get loggeduser => _loggedUser;
+
+  Future<void> init() async {
+    await _sessionService.getUser().map((user) => _loggedUser = user);
+    notifyListeners();
   }
 
   late final Command1<AppResponse<List<PetEntity>>, GetPetsParams>

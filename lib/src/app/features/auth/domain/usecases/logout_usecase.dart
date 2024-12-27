@@ -15,11 +15,16 @@ class LogoutUsecase implements UseCase<Unit, Object?> {
 
   @override
   Output<Unit> call([_]) async {
-    final removed = await _sessionService.removeToken();
-    if (removed) {
-      log('Remove Token');
+    final removed = await Future.wait([
+      _sessionService.removeToken(),
+      _sessionService.removeUser(),
+    ]);
+
+    if (removed.every((element) => element)) {
+      log('Remove Token and User');
       return const Success(unit);
     }
-    return const Failure(DefaultException(message: 'Not remove token'));
+    return const Failure(
+        DefaultException(message: 'Not remove token and user'));
   }
 }

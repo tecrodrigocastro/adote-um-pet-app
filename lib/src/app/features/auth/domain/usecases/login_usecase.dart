@@ -42,6 +42,7 @@ class LoginUsecase implements UseCase<AppResponse<AuthEntity>, LoginParams> {
     if (result.isSuccess() && appResponse != null) {
       log('Token: ${appResponse.data!.accessToken}');
       _sessionService.saveToken(appResponse.data!.accessToken);
+      _sessionService.saveUser(appResponse.data!.user);
     }
 
     return result;
