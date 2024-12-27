@@ -10,7 +10,7 @@ class RegisterParams extends ChangeNotifier {
   String phone;
   String zipCode;
   String address;
-  int numberHouse;
+  String numberHouse;
   String complement;
 
   RegisterParams({
@@ -33,7 +33,7 @@ class RegisterParams extends ChangeNotifier {
         phone: '',
         zipCode: '',
         address: '',
-        numberHouse: 0,
+        numberHouse: '',
         complement: '',
       );
 
@@ -73,7 +73,7 @@ class RegisterParams extends ChangeNotifier {
   }
 
   setNumberHouse(String value) {
-    numberHouse = int.parse(value);
+    numberHouse = value;
     notifyListeners();
   }
 
