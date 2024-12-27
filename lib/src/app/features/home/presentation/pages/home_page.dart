@@ -1,9 +1,52 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get_it/get_it.dart';
 
-class HomePage extends StatelessWidget {
+import '../../../../../core/utils/show_snack_bar.dart';
+import '../../../../../routes.dart';
+import '../../domain/dtos/get_pets_params.dart';
+import '../viewmodels/home_viewmodel.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final homeViewModel = GetIt.I.get<HomeViewmodel>();
+
+  @override
+  void initState() {
+    super.initState();
+    homeViewModel.logoutCommand.addListener(listener);
+    homeViewModel.getPetCommand.execute(GetPetsParams());
+  }
+
+  listener() {
+    homeViewModel.logoutCommand.result?.fold(
+      (unit) {
+        router.go('/auth/login');
+      },
+      (exception) {
+        showMessageSnackBar(
+          context,
+          exception.message,
+          icon: Icons.error,
+          iconColor: AppColors.whiteColor,
+          color: AppColors.primaryColor,
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    homeViewModel.logoutCommand.removeListener(listener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +54,10 @@ class HomePage extends StatelessWidget {
     Image image = const Image(image: AppImages.logo);
     return Scaffold(
       drawer: CustomDrawerDS(
-        userName: 'Beth Almeida',
-        userLocation: 'Sao Paulo - SP',
+        userName: homeViewModel.loggeduser.name,
+        userLocation: homeViewModel.loggeduser.address,
         userImage: image.image,
+        onLogoutTap: () => homeViewModel.logoutCommand.execute(),
       ),
       appBar: AppBar(
         title: Row(
@@ -23,13 +67,13 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'Beth Almeida',
+                  homeViewModel.loggeduser.name,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  'São Paulo - SP',
+                  homeViewModel.loggeduser.address,
                   style: theme.textTheme.labelSmall?.copyWith(
                     fontSize: 12,
                   ),

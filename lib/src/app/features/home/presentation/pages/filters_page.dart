@@ -1,13 +1,12 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/utils/show_snack_bar.dart';
 import '../../domain/dtos/get_pets_params.dart';
-import '../bloc/home_bloc.dart';
+import '../viewmodels/home_viewmodel.dart';
 
 class FiltersPage extends StatefulWidget {
   const FiltersPage({super.key});
@@ -17,9 +16,33 @@ class FiltersPage extends StatefulWidget {
 }
 
 class _FiltersPageState extends State<FiltersPage> {
-  final homeBloc =
-      GetIt.I.get<HomeBloc>(); //! Controller que funciona por eventos
+  final homeViewModel = GetIt.I.get<HomeViewmodel>();
   final petsParams = GetPetsParams.empty();
+
+  @override
+  void initState() {
+    super.initState();
+    homeViewModel.getPetCommand.addListener(listener);
+  }
+
+  listener() {
+    homeViewModel.getPetCommand.result?.onFailure((exception) {
+      homeViewModel.getPetCommand.clearResult();
+      showMessageSnackBar(
+        context,
+        exception.message,
+        icon: Icons.error,
+        iconColor: AppColors.whiteColor,
+        color: AppColors.primaryColor,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    homeViewModel.getPetCommand.removeListener(listener);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,31 +107,30 @@ class _FiltersPageState extends State<FiltersPage> {
                   const Gap(24),
                   const AgeSlider(),
                   const Gap(48),
-                  BlocConsumer<HomeBloc, HomeState>(
-                    listener: (context, state) {
-                      //! Reação
-                      if (state is GetPetsSuccess) {
-                        print('${state.data.data.toString()}');
-                      }
-                      if (state is GetPetsFailure) {
-                        showMessageSnackBar(
-                          context,
-                          state.message,
-                          icon: Icons.error,
-                          iconColor: AppColors.whiteColor,
-                          color: AppColors.primaryColor,
+                  ListenableBuilder(
+                      listenable: homeViewModel,
+                      builder: (context, _) {
+                        return ListView.builder(
+                          itemCount: homeViewModel.pets.length,
+                          itemBuilder: (context, index) {
+                            return const SizedBox();
+                          },
+                        );
+                      }),
+                  ListenableBuilder(
+                    listenable: homeViewModel.getPetCommand,
+                    builder: (context, _) {
+                      if (homeViewModel.getPetCommand.running) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
                         );
                       }
-                    },
-                    builder: (context, state) {
                       return PrimaryButtonDs(
-                        width: double.maxFinite,
-                        title: 'Adote o seu pet',
-                        onPressed: () {
-                          homeBloc.add(GetPetsEvent(
-                              getPetsParams: petsParams)); //! Adição de evento
-                        },
-                      );
+                          width: double.maxFinite,
+                          title: 'Adote o seu pet',
+                          onPressed: () {
+                            homeViewModel.getPetCommand.execute(petsParams);
+                          });
                     },
                   ),
                 ],

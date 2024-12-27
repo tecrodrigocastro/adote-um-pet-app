@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../../core/client_http/app_response.dart';
+import '../../../../../core/client_http/client_http.dart';
 import '../../../../../core/errors/errors.dart';
-import '../../../../../core/errors/unauthorized_exception.dart';
 import '../../../../../core/typedefs/types.dart';
 import '../../domain/dtos/login_params.dart';
 import '../../domain/dtos/register_params.dart';
@@ -25,7 +25,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   }) : _authRemoteDatasource = authRemoteDatasource;
 
   @override
-  Future<Output<AppResponse<AuthEntity>>> login(
+  Output<AppResponse<AuthEntity>> login(
     LoginParams params,
   ) async {
     try {
@@ -35,33 +35,23 @@ class AuthRepositoryImpl implements IAuthRepository {
 
       log('Response: ${response.data}');
 
-      if (response.statusCode == 200) {
-        final appResponse = AppResponse<AuthEntity>.fromJson(
-          response.data,
-          (dynamic json) => AuthModel.fromMap(json as Map<String, dynamic>),
-        );
+      final appResponse = AppResponse<AuthEntity>.fromJson(
+        response.data,
+        (dynamic json) => AuthModel.fromMap(json as Map<String, dynamic>),
+      );
 
-        return Success(appResponse);
-      }
-
-      if (response.statusCode == 401) {
-        return Failure(
-          UnauthorizedException(
-            message: response.data['message'],
-          ),
-        );
-      }
-
+      return Success(appResponse);
+    } on RestClientException catch (e) {
       return Failure(
         ServerException(
-          message: 'Error',
-          error: response.data['message'],
+          message: e.data['message'],
+          error: e.toString(),
         ),
       );
     } catch (e) {
       return Failure(
         ServerException(
-          message: 'Error',
+          message: 'Unexpected error',
           error: e.toString(),
         ),
       );
@@ -69,7 +59,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   }
 
   @override
-  Future<Output<AppResponse<UserEntity>>> signUp(RegisterParams params) async {
+  Output<AppResponse<UserEntity>> signUp(RegisterParams params) async {
     try {
       final response = await _authRemoteDatasource.register(RegisterModel(
         photoUrl: 'url',
@@ -83,25 +73,23 @@ class AuthRepositoryImpl implements IAuthRepository {
         password: params.password,
       ));
 
-      if (response.statusCode == 201) {
-        final appResponse = AppResponse<UserEntity>.fromJson(
-          response.data,
-          (dynamic json) => UserModel.fromMap(json as Map<String, dynamic>),
-        );
+      final appResponse = AppResponse<UserEntity>.fromJson(
+        response.data,
+        (dynamic json) => UserModel.fromMap(json as Map<String, dynamic>),
+      );
 
-        return Success(appResponse);
-      }
-
+      return Success(appResponse);
+    } on RestClientException catch (e) {
       return Failure(
         ServerException(
-          message: 'Error',
-          error: response.data['message'],
+          message: e.data['message'],
+          error: e.toString(),
         ),
       );
     } catch (e) {
       return Failure(
         ServerException(
-          message: 'Error',
+          message: 'Unexpected error',
           error: e.toString(),
         ),
       );
