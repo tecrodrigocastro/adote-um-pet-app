@@ -25,6 +25,7 @@ dependencies:
   logger: ^2.5.0
   lucid_validation: ^1.1.0
   result_dart: ^1.1.1
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
