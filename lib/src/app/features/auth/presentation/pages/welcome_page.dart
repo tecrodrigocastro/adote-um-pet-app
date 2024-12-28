@@ -3,13 +3,8 @@ import 'dart:io';
 
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../../../core/features/users/presentation/bloc/user_bloc.dart';
-import '../../../../../core/utils/show_snack_bar.dart';
-import '../../../../../routes.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -69,7 +64,6 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
-    final userBloc = context.read<UserBloc>();
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -114,46 +108,12 @@ class _WelcomePageState extends State<WelcomePage> {
                 style: theme.textTheme.displaySmall,
               ),
               Gap(size.height * 0.3),
-              BlocConsumer<UserBloc, UserState>(
-                listener: (context, state) {
-                  if (state is UpdatePhotoSuccess) {
-                    showMessageSnackBar(
-                      context,
-                      'Foto atualizada com sucesso!',
-                      icon: Icons.check,
-                      iconColor: AppColors.secondaryColor,
-                    );
-                    router.go('/choose');
+              PrimaryButtonDs(
+                title: 'Começar',
+                onPressed: () async {
+                  if (_imageFile != null) {
+                    log(_imageFile!.lengthSync().toString());
                   }
-
-                  if (state is UpdatePhotoError) {
-                    showMessageSnackBar(
-                      context,
-                      state.error.message,
-                      icon: Icons.error,
-                      iconColor: AppColors.primaryColor,
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  if (state is UpdatePhotoLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
-                    );
-                  }
-                  return PrimaryButtonDs(
-                    title: 'Começar',
-                    onPressed: () async {
-                      if (_imageFile != null) {
-                        log(_imageFile!.lengthSync().toString());
-                        userBloc.add(
-                          UpdatePhotoUserEvent(image: _imageFile!),
-                        );
-                      }
-                    },
-                  );
                 },
               ),
             ],
