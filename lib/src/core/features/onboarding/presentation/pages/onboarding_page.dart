@@ -2,7 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../routes.dart';
+import '../../../../routes/routes.dart';
 import '../widgets/item_page_view_onboarding.dart';
 
 class OnboardingPage extends StatefulWidget {

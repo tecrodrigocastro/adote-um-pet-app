@@ -1,8 +1,9 @@
+import '../../../../../core/routes/app_routes.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../routes.dart';
+import '../../../../../core/routes/routes.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -49,7 +50,7 @@ class WelcomePage extends StatelessWidget {
               PrimaryButtonDs(
                 title: 'Começar',
                 onPressed: () {
-                  router.go('/choose');
+                  router.go(AppRoutes.choosePage);
                 },
               ),
             ],

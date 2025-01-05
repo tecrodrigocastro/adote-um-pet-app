@@ -1,30 +1,31 @@
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import 'app/features/auth/presentation/pages/auth_base_page.dart';
-import 'app/features/auth/presentation/pages/login_page.dart';
-import 'app/features/auth/presentation/pages/register_page.dart';
-import 'app/features/auth/presentation/pages/welcome_page.dart';
-import 'app/features/donate/presentation/pages/donate_info_page.dart';
-import 'app/features/home/presentation/pages/filters_page.dart';
-import 'app/features/home/presentation/pages/home_page.dart';
-import 'core/features/choose/presentation/choose_page.dart';
-import 'core/features/onboarding/presentation/pages/onboarding_page.dart';
-import 'core/services/session_service.dart';
+import '../../app/features/auth/presentation/pages/auth_base_page.dart';
+import '../../app/features/auth/presentation/pages/login_page.dart';
+import '../../app/features/auth/presentation/pages/register_page.dart';
+import '../../app/features/auth/presentation/pages/welcome_page.dart';
+import '../../app/features/donate/presentation/pages/donate_info_page.dart';
+import '../../app/features/home/presentation/pages/filters_page.dart';
+import '../../app/features/home/presentation/pages/home_page.dart';
+import '../features/choose/presentation/choose_page.dart';
+import '../features/onboarding/presentation/pages/onboarding_page.dart';
+import '../services/session_service.dart';
+import 'app_routes.dart';
 
 final router = GoRouter(
-  initialLocation: '/onboarding',
+  initialLocation: AppRoutes.onBoardPage,
   routes: [
     GoRoute(
-      path: '/onboarding',
+      path: AppRoutes.onBoardPage,
       builder: (context, state) => const OnboardingPage(),
     ),
     GoRoute(
-      path: '/filters',
+      path: AppRoutes.filtersPage,
       builder: (context, state) => const FiltersPage(),
     ),
     GoRoute(
-      path: '/home',
+      path: AppRoutes.homePage,
       builder: (context, state) => const HomePage(),
     ),
     GoRoute(
@@ -46,17 +47,17 @@ final router = GoRouter(
       ],
     ),
     GoRoute(
-      path: '/choose',
+      path: AppRoutes.choosePage,
       builder: (context, state) => const ChoosePage(),
     ),
     GoRoute(
-      path: '/donate-info',
+      path: AppRoutes.donateInfoPage,
       builder: (context, state) => const DonateInfoPage(),
     ),
   ],
   redirect: (context, state) async {
     bool isUserLoggedIn = await GetIt.I.get<SessionService>().isUserLoggedIn();
-    if (isUserLoggedIn) return '/home';
+    if (isUserLoggedIn) return AppRoutes.homePage;
     return null;
   },
 );

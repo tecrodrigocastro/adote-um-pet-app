@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../../../core/routes/app_routes.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
-import '../../../../../routes.dart';
+import '../../../../../core/routes/routes.dart';
 import '../../domain/dtos/get_pets_params.dart';
 import '../viewmodels/home_viewmodel.dart';
 
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   listener() {
     homeViewModel.logoutCommand.result?.fold(
       (unit) {
-        router.go('/auth/login');
+        router.go(AppRoutes.loginPage);
       },
       (exception) {
         showMessageSnackBar(
