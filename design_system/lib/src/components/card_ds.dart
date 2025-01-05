@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CardComponentDS extends StatelessWidget {
-  final ImageProvider backGroundImage;
+  final CachedNetworkImage backGroundImage;
   const CardComponentDS({super.key, required this.backGroundImage});
 
   @override
@@ -10,8 +11,6 @@ class CardComponentDS extends StatelessWidget {
     return Container(
       height: height * 0.5,
       decoration: BoxDecoration(
-        image: DecorationImage(image: backGroundImage, fit: BoxFit.cover),
-        color: Colors.red,
         borderRadius: BorderRadius.circular(33),
         boxShadow: const [
           BoxShadow(
@@ -21,6 +20,7 @@ class CardComponentDS extends StatelessWidget {
           ),
         ],
       ),
+      child: backGroundImage,
     );
   }
 }
