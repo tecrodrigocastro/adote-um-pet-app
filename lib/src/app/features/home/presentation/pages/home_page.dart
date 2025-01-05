@@ -52,105 +52,117 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     Image image = const Image(image: AppImages.logo);
-    return Scaffold(
-      drawer: CustomDrawerDS(
-        userName: homeViewModel.loggeduser.name,
-        userLocation: homeViewModel.loggeduser.address,
-        userImage: image.image,
-        onLogoutTap: () => homeViewModel.logoutCommand.execute(),
-      ),
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  homeViewModel.loggeduser.name,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-                Text(
-                  homeViewModel.loggeduser.address,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    fontSize: 12,
-                  ),
-                ),
-              ],
+    return ListenableBuilder(
+        listenable: homeViewModel,
+        builder: (context, _) {
+          return Scaffold(
+            drawer: CustomDrawerDS(
+              userName: homeViewModel.loggeduser.name,
+              userLocation: homeViewModel.loggeduser.address,
+              userImage: image.image,
+              onLogoutTap: () => homeViewModel.logoutCommand.execute(),
             ),
-            const Gap(23),
-            Badge.count(
-              backgroundColor: AppColors.primaryColor,
-              count: 5,
-              child: const CircleAvatar(
-                child: FlutterLogo(),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            BannerDs(
-              backGroundImage: const DecorationImage(
-                image: AppImages.homeBannerDog,
-                fit: BoxFit.cover,
-              ),
-              title: Padding(
-                padding: const EdgeInsets.only(top: 22, left: 18),
-                child: Text(
-                  'Tudo para \no seu pet!',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 22.4,
-                  ),
-                ),
-              ),
-              subtitle: InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
-                  child: Text(
-                    'Clique aqui',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 11.5,
-                          decoration: TextDecoration.underline,
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        homeViewModel.loggeduser.name,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontSize: 16,
                         ),
+                      ),
+                      Text(
+                        homeViewModel.loggeduser.address,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  const Gap(23),
+                  Badge.count(
+                    backgroundColor: AppColors.primaryColor,
+                    count: 5,
+                    child: const CircleAvatar(
+                      child: FlutterLogo(),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const Gap(18),
-            TextInputDs(
-              label: 'Procure o seu bixinho',
-              labelStyle: theme.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w200,
-                fontSize: 13,
-              ),
-              prefixIcon: const Icon(
-                Icons.search,
-                color: AppColors.secondaryColor,
+            body: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  BannerDs(
+                    backGroundImage: const DecorationImage(
+                      image: AppImages.homeBannerDog,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 22, left: 18),
+                      child: Text(
+                        'Tudo para \no seu pet!',
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 22.4,
+                        ),
+                      ),
+                    ),
+                    subtitle: InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 22, vertical: 0),
+                        child: Text(
+                          'Clique aqui',
+                          style:
+                              Theme.of(context).textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11.5,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Gap(18),
+                  TextInputDs(
+                    label: 'Procure o seu bixinho',
+                    labelStyle: theme.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w200,
+                      fontSize: 13,
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: AppColors.secondaryColor,
+                    ),
+                  ),
+                  const Gap(18),
+                  homeViewModel.getPetCommand.running
+                      ? const CardShimmer()
+                      : HomeSliderDS(
+                          title: homeViewModel.currentPet.name +
+                              homeViewModel.currentPet.birthDate,
+                          isLoading: homeViewModel.getPetCommand.running,
+                          backGroundImage: AppImages.networkImage(
+                            imageUrl: homeViewModel.currentPet.photos.first,
+                          ),
+                          onPrevious: homeViewModel.onTapPrevious,
+                          onNext: homeViewModel.onTapNext,
+                          showNextButton: homeViewModel.showNextButton,
+                          showPreviousButton: homeViewModel.showPreviousButton,
+                          isFavorite: true,
+                        ),
+                ],
               ),
             ),
-            const Gap(18),
-            HomeSliderDS(
-              backGroundImage: AppImages.homeBannerDog,
-              onPrevious: () {},
-              onNext: () {},
-              showNextButton: true,
-              showPreviousButton: false,
-              isFavorite: true,
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
