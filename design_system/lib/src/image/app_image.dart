@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import '../../design_system.dart';
 
 class AppImages {
   static const String packageName = 'design_system';
@@ -61,6 +64,26 @@ class AppImages {
     'assets/images/home-banner-dog.jpg',
     package: packageName,
   );
+
+  static CachedNetworkImage networkImage(
+      {required String imageUrl,
+      Widget placeholder = const CircularProgressIndicator()}) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      placeholder: (context, url) => const CardShimmer(),
+      imageBuilder: (context, imageProvider) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(33),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   static const chatIcon = AssetImage(
     'assets/icons/chat.png',
