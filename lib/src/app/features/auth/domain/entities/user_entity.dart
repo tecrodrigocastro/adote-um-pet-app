@@ -5,7 +5,7 @@ class UserEntity {
   final String phone;
   final String zipCode;
   final String address;
-  final int numberHouse;
+  final String numberHouse;
   final String complement;
   final String? photoUrl;
 
@@ -20,4 +20,15 @@ class UserEntity {
     required this.complement,
     this.photoUrl,
   });
+
+  factory UserEntity.empty() => UserEntity(
+        id: 0,
+        name: '',
+        email: '',
+        phone: '',
+        zipCode: '',
+        address: '',
+        numberHouse: '',
+        complement: '',
+      );
 }
