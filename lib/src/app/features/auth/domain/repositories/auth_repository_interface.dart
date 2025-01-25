@@ -1,22 +1,11 @@
 import '../../../../../core/client_http/app_response.dart';
 import '../../../../../core/typedefs/types.dart';
+import '../dtos/login_params.dart';
+import '../dtos/register_params.dart';
 import '../entities/auth_entity.dart';
 import '../entities/user_entity.dart';
 
-/// Criar uma interface para o repositório de autenticação
-/// para que possamos implementar diferentes repositórios
-/// de autenticação, como o FirebaseAuthRepository e o
-/// MockAuthRepository.
 abstract interface class IAuthRepository {
-  Future<Output<AppResponse<AuthEntity>>> login(String email, String password);
-  Future<Output<AppResponse<UserEntity>>> signUp({
-    required String name,
-    required String email,
-    required String password,
-    required String phone,
-    required String zipCode,
-    required String address,
-    required int numberHouse,
-    required String complement,
-  });
+  Output<AppResponse<AuthEntity>> login(LoginParams params);
+  Output<AppResponse<UserEntity>> signUp(RegisterParams params);
 }

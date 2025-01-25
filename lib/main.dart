@@ -10,6 +10,11 @@ void main() async {
   await dotenv.load(fileName: '.env');
   final culture = Culture('pt', 'BR');
   LucidValidation.global.culture = culture;
-  setupDependencyInjector();
+  setupDependencyInjector(
+
+      /// Ao ativar essa flag, você vai ter um log das chamadas e respostas da API
+      /// no console do seu editor de codigo, por padrão é desabilitado.
+      // loggerAPI: true,
+      );
   runApp(const AppWidget());
 }

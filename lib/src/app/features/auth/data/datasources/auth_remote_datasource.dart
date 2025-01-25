@@ -1,51 +1,29 @@
 import '../../../../../core/client_http/client_http.dart';
-import '../../../../../core/client_http/dio/rest_client_dio_impl.dart';
-import '../../../../../core/client_http/rest_client_multipart.dart';
+import '../models/request/login_model.dart';
+import '../models/request/register_model.dart';
 
-class AuthRemoteDatasource implements IRestClient {
-  final RestClientDioImpl _restClientDioImpl;
+class AuthRemoteDatasource {
+  final IRestClient _restClient;
 
   AuthRemoteDatasource({
-    required RestClientDioImpl restClientDioImpl,
-  }) : _restClientDioImpl = restClientDioImpl;
+    required IRestClient restClient,
+  }) : _restClient = restClient;
 
-  @override
-  void addInterceptors(IClientInterceptor interceptor) {
-    _restClientDioImpl.addInterceptors(interceptor);
-  }
+  Future<RestClientResponse> register(RegisterModel model) => //
+      _restClient.post(RestClientRequest(
+        path: '/auth/register',
+        data: model.toMap(),
+      ));
 
-  @override
-  Future<RestClientResponse> delete(RestClientRequest request) async {
-    return _restClientDioImpl.delete(request);
-  }
+  Future<RestClientResponse> login(LoginModel model) => //
+      _restClient.post(RestClientRequest(
+        path: '/auth/login',
+        data: model.toMap(),
+      ));
 
-  @override
-  Future<RestClientResponse> get(RestClientRequest request) async {
-    return _restClientDioImpl.get(request);
-  }
+  Future<RestClientResponse> logout() => //
+      _restClient.post(RestClientRequest(path: '/auth/logout'));
 
-  @override
-  Future<RestClientResponse> patch(RestClientRequest request) async {
-    return _restClientDioImpl.patch(request);
-  }
-
-  @override
-  Future<RestClientResponse> post(RestClientRequest request) async {
-    return _restClientDioImpl.post(request);
-  }
-
-  @override
-  Future<RestClientResponse> put(RestClientRequest request) async {
-    return _restClientDioImpl.put(request);
-  }
-
-  @override
-  void removeInterceptors(IClientInterceptor interceptor) {
-    _restClientDioImpl.removeInterceptors(interceptor);
-  }
-
-  @override
-  Future<RestClientResponse> upload(RestClientMultipart multipart) async {
-    return _restClientDioImpl.upload(multipart);
-  }
+  Future<RestClientResponse> refresh() => //
+      _restClient.post(RestClientRequest(path: '/auth/refresh'));
 }

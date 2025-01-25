@@ -30,4 +30,40 @@ class AppImages {
     'assets/images/coelho-button.png',
     package: packageName,
   );
+  static const cat = AssetImage(
+    'assets/images/cat.png',
+    package: packageName,
+  );
+  static const dog = AssetImage(
+    'assets/images/dog.png',
+    package: packageName,
+  );
+  static const adotarButtonBg = AssetImage(
+    'assets/images/adotar-button-bg.png',
+    package: packageName,
+  );
+  static const doarButtonBg = AssetImage(
+    'assets/images/doar-button-bg.png',
+    package: packageName,
+  );
+
+  static const imageOnboarding1 = AssetImage(
+    'assets/images/onboarding-1.png',
+    package: packageName,
+  );
+
+  static const imageOnboarding2 = AssetImage(
+    'assets/images/onboarding-bird.png',
+    package: packageName,
+  );
+
+  static const homeBannerDog = AssetImage(
+    'assets/images/home-banner-dog.jpg',
+    package: packageName,
+  );
+
+  static const chatIcon = AssetImage(
+    'assets/icons/chat.png',
+    package: packageName,
+  );
 }
