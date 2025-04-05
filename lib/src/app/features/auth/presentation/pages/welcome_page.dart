@@ -1,12 +1,67 @@
-import '../../../../../core/routes/app_routes.dart';
+
+import 'dart:developer';
+import 'dart:io';
+
+
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../../../../../core/routes/routes.dart';
+class WelcomePage extends StatefulWidget {
 
-class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  File? _imageFile;
+  Future<void> _pickImage(ImageSource source) async {
+    final ImagePicker picker = ImagePicker();
+    try {
+      final XFile? pickedFile = await picker.pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+      }
+    } catch (e) {
+      // Handle any errors here
+      print('Erro ao selecionar imagem: $e');
+    }
+  }
+
+  void _showImageSourceActionSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Galeria'),
+                onTap: () {
+                  _pickImage(ImageSource.gallery);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Câmera'),
+                onTap: () {
+                  _pickImage(ImageSource.camera);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +75,29 @@ class WelcomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: size.width * 0.6,
-                height: size.width * 0.4,
-                child: const CircleAvatar(
-                  backgroundColor: AppColors.primaryColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.camera_alt,
-                        size: 40,
-                        color: AppColors.whiteColor,
-                      ),
-                    ],
+              GestureDetector(
+                onTap: () {
+                  _showImageSourceActionSheet(context);
+                },
+                child: SizedBox(
+                  width: size.width * 0.55,
+                  height: size.width * 0.55,
+                  child: CircleAvatar(
+                    backgroundColor: const Color(0xffEFEFF1),
+                    backgroundImage:
+                        _imageFile != null ? FileImage(_imageFile!) : null,
+                    child: _imageFile == null
+                        ? const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: AppIcons.uploadIcon,
+                                width: 55,
+                                height: 55,
+                              ),
+                            ],
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -51,6 +115,7 @@ class WelcomePage extends StatelessWidget {
                 title: 'Começar',
                 onPressed: () {
                   router.go(AppRoutes.choosePage);
+
                 },
               ),
             ],
