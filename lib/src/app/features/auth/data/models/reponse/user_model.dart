@@ -50,7 +50,7 @@ class UserModel extends UserEntity {
       name: map['name'],
       address: map['address'],
       complement: map['complement'],
-      numberHouse: map['number_house'],
+      numberHouse: map['number_house'].toString(),
       zipCode: map['zip_code'],
     );
   }

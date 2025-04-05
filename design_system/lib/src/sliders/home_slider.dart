@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../design_system.dart';
@@ -9,16 +10,20 @@ class HomeSliderDS extends StatelessWidget {
   final bool showPreviousButton;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
-  final ImageProvider backGroundImage;
+  final CachedNetworkImage backGroundImage;
+  final bool isLoading;
+  final String title;
 
   const HomeSliderDS({
     super.key,
     this.isFavorite = true,
     this.showNextButton = false,
     this.showPreviousButton = false,
+    this.isLoading = true,
     required this.onNext,
     required this.onPrevious,
     required this.backGroundImage,
+    required this.title,
   });
 
   @override
@@ -28,10 +33,12 @@ class HomeSliderDS extends StatelessWidget {
         CardComponentDS(
           backGroundImage: backGroundImage,
         ),
-        const Positioned(
+        Positioned(
           bottom: 30,
           left: 27,
-          child: PetInfoRow(),
+          child: PetInfoRow(
+            title: title,
+          ),
         ),
         Positioned(
           left: 0,

@@ -5,8 +5,9 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/routes/app_routes.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
-import '../../../../../routes.dart';
+import '../../../../../core/routes/routes.dart';
 import '../../domain/dtos/login_params.dart';
 import '../../domain/validators/login_params_validator.dart';
 import '../viewmodels/auth_viewmodel.dart';
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
           iconColor: AppColors.whiteColor,
         );
 
-        router.go('/home');
+        router.go(AppRoutes.homePage);
       },
       (exception) {
         authViewModel.loginCommand.clearResult();
