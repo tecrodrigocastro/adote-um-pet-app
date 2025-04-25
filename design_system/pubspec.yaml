@@ -3,14 +3,18 @@ description: "A new Flutter package project."
 version: 0.0.1
 # homepage:
 
+
 environment:
-  sdk: ^3.5.1
+  sdk: ^3.6.0
   flutter: ">=1.17.0"
+
+resolution: workspace
 
 dependencies:
   flutter:
     sdk: flutter
   gap: ^3.0.1
+  cached_network_image: ^3.4.1
   google_fonts: ^6.2.1
 
 

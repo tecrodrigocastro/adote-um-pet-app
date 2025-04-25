@@ -1,15 +1,14 @@
-
-import 'dart:developer';
 import 'dart:io';
-
 
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
-class WelcomePage extends StatefulWidget {
+import '../../../../../core/routes/app_routes.dart';
+import '../../../../../core/routes/routes.dart';
 
+class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
 
   @override
@@ -115,7 +114,6 @@ class _WelcomePageState extends State<WelcomePage> {
                 title: 'Começar',
                 onPressed: () {
                   router.go(AppRoutes.choosePage);
-
                 },
               ),
             ],
