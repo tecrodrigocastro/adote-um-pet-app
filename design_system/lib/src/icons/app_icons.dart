@@ -14,4 +14,13 @@ class AppIcons {
       AssetImage('assets/icons/petinha-drawer.png', package: packageName);
   static const uploadIcon =
       AssetImage('assets/icons/upload_icon.png', package: packageName);
+  static const dogIcon =
+      AssetImage('assets/icons/dog-icon.png', package: packageName);
+
+  static const catIcon =
+      AssetImage('assets/icons/cat-icon.png', package: packageName);
+  static const birdIcon =
+      AssetImage('assets/icons/bird-icon.png', package: packageName);
+  static const rabbitIcon =
+      AssetImage('assets/icons/rabbit-icon.png', package: packageName);
 }
