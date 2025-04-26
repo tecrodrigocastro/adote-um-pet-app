@@ -10,7 +10,9 @@ import '../../domain/dtos/get_pets_params.dart';
 import '../viewmodels/home_viewmodel.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.petType = 'dog'});
+
+  final String petType;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -18,6 +20,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final homeViewModel = GetIt.I.get<HomeViewmodel>();
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -163,7 +172,83 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+            bottomNavigationBar: CustomBottomNavBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
+            ),
           );
         });
+  }
+}
+
+class CustomBottomNavBar extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onItemTapped;
+
+  const CustomBottomNavBar({
+    super.key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          buildNavItem(AppIcons.dogIcon, "Dogs", 0),
+          buildNavItem(AppIcons.catIcon, "Cats", 1),
+          buildNavItem(AppIcons.rabbitIcon, "Rabbits", 2),
+          buildNavItem(AppIcons.birdIcon, "Birds", 3),
+        ],
+      ),
+    );
+  }
+
+  Widget buildNavItem(ImageProvider icon, String label, int index) {
+    final isSelected = index == selectedIndex;
+
+    return GestureDetector(
+      onTap: () => onItemTapped(index),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.cyan : Colors.transparent,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Row(
+          children: [
+            Image(
+              image: icon,
+              width: 24,
+              color: isSelected ? Colors.white : Colors.black54,
+            ),
+            if (isSelected)
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  label,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }

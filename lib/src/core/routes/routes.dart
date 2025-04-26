@@ -25,8 +25,13 @@ final router = GoRouter(
       builder: (context, state) => const FiltersPage(),
     ),
     GoRoute(
-      path: AppRoutes.homePage,
-      builder: (context, state) => const HomePage(),
+      path: '/home',
+      builder: (context, state) {
+        final petType = state.extra as String?;
+        return HomePage(
+          petType: petType ?? "dog",
+        );
+      },
     ),
     GoRoute(
       path: '/auth',
