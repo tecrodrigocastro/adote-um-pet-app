@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/Users/edilson14/development/flutter3.29/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/edilson14/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+      "-C",
+      "/Users/edilson14/Documents/flutterando/adote-um-pet/adote-um-pet-app/android/app/.cxx/Debug/5g2e1i5o/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/edilson14/Library/Android/sdk/cmake/3.18.1/bin/ninja",
+    "-C",
+    "/Users/edilson14/Documents/flutterando/adote-um-pet/adote-um-pet-app/android/app/.cxx/Debug/5g2e1i5o/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/edilson14/Library/Android/sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/edilson14/Library/Android/sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

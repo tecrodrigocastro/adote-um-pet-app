@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../routes.dart';
+import '../../../../../core/routes/app_routes.dart';
+import '../../../../../core/routes/routes.dart';
 
 class AuthBasePage extends StatelessWidget {
   const AuthBasePage({super.key});
@@ -26,7 +27,7 @@ class AuthBasePage extends StatelessWidget {
             PrimaryButtonDs(
               title: 'Login',
               onPressed: () {
-                router.go('/auth/login');
+                router.go(AppRoutes.loginPage);
               },
             ),
             const Gap(20),

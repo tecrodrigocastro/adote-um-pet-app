@@ -2,7 +2,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../../routes.dart';
+import '../../../../../core/routes/app_routes.dart';
+import '../../../../../core/routes/routes.dart';
 
 part 'widgets/choose_pet_type_row.dart';
 
@@ -27,7 +28,7 @@ class _DonateInfoPageState extends State<DonateInfoPage> {
         userName: 'Mariana Oliveira',
         userLocation: 'Sao Paulo - SP',
         userImage: AppImages.catChoose,
-        onAdoptTap: () => router.go('/donate-info'),
+        onAdoptTap: () => router.go(AppRoutes.donateInfoPage),
         onAccountTap: () {},
         onDonateTap: () {},
         onPetinhaTap: () {},

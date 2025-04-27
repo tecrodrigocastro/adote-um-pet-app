@@ -1,10 +1,12 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../../../core/routes/app_routes.dart';
+import '../../../../../core/routes/routes.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -110,10 +112,8 @@ class _WelcomePageState extends State<WelcomePage> {
               Gap(size.height * 0.3),
               PrimaryButtonDs(
                 title: 'Começar',
-                onPressed: () async {
-                  if (_imageFile != null) {
-                    log(_imageFile!.lengthSync().toString());
-                  }
+                onPressed: () {
+                  router.go(AppRoutes.choosePage);
                 },
               ),
             ],

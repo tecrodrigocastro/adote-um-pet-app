@@ -1,0 +1,2 @@
+/Users/edilson14/Documents/flutterando/adote-um-pet/adote-um-pet-app/android/app/.cxx/Debug/5g2e1i5o/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/edilson14/Documents/flutterando/adote-um-pet/adote-um-pet-app/android/app/.cxx/Debug/5g2e1i5o/armeabi-v7a/CMakeFiles/edit_cache.dir

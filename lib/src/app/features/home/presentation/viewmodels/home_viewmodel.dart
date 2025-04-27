@@ -27,7 +27,7 @@ class HomeViewmodel extends ChangeNotifier {
   }
 
   final SessionService _sessionService = GetIt.I.get<SessionService>();
-  late UserEntity _loggedUser;
+  UserEntity _loggedUser = UserEntity.empty();
   UserEntity get loggeduser => _loggedUser;
 
   Future<void> init() async {
@@ -42,8 +42,13 @@ class HomeViewmodel extends ChangeNotifier {
   late final GetPetUsecase _getPetUsecase;
   late final LogoutUsecase _logoutUsecase;
 
+  int _currentPetIndex = 0;
+  PetEntity get currentPet => _pets[_currentPetIndex];
   List<PetEntity> _pets = [];
   List<PetEntity> get pets => UnmodifiableListView(_pets);
+
+  bool get showNextButton => _currentPetIndex < pets.length;
+  bool get showPreviousButton => _currentPetIndex != 0;
 
   Output<AppResponse<List<PetEntity>>> _getPet(GetPetsParams params) async {
     return _getPetUsecase(params).onSuccess((appResponse) {
@@ -51,6 +56,16 @@ class HomeViewmodel extends ChangeNotifier {
         _pets = appResponse.data!;
         notifyListeners();
       }
-    });
+    }).onFailure((error) {});
+  }
+
+  void onTapNext() {
+    _currentPetIndex++;
+    notifyListeners();
+  }
+
+  void onTapPrevious() {
+    _currentPetIndex--;
+    notifyListeners();
   }
 }

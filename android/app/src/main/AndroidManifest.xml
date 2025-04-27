@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="adote_um_pet"
+        android:label="Adote Um Pet"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

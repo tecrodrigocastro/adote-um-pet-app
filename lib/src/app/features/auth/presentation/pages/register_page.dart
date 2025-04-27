@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/utils/show_snack_bar.dart';
-import '../../../../../routes.dart';
+import '../../../../../core/routes/routes.dart';
 import '../../domain/dtos/register_params.dart';
 import '../../domain/validators/register_params_validator.dart';
 import '../viewmodels/auth_viewmodel.dart';
@@ -198,7 +198,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         title: 'Cadastrar',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            authViewmodel.signUpCommand.execute(_registerParams);
+                            authViewmodel.signUpCommand
+                                .execute(_registerParams);
                           }
                         },
                       );
