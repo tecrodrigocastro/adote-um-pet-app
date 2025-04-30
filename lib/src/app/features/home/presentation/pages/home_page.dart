@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../core/routes/app_routes.dart';
@@ -75,6 +74,7 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.end,
+              spacing: 23,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -93,7 +93,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                const Gap(23),
                 Badge.count(
                   backgroundColor: AppColors.primaryColor,
                   count: 5,
@@ -107,6 +106,7 @@ class _HomePageState extends State<HomePage> {
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
+              spacing: 18,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 BannerDs(
@@ -140,7 +140,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const Gap(18),
                 TextInputDs(
                   label: 'Procure o seu bixinho',
                   labelStyle: theme.textTheme.bodySmall?.copyWith(
@@ -152,7 +151,6 @@ class _HomePageState extends State<HomePage> {
                     color: AppColors.secondaryColor,
                   ),
                 ),
-                const Gap(18),
                 homeViewModel.getPetCommand.running
                     ? const CardShimmer()
                     : HomeSliderDS(

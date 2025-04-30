@@ -21,7 +21,7 @@ class _MessagePageState extends State<MessagePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.secondaryColor,
-        toolbarHeight: kToolbarHeight + 30,
+        toolbarHeight: kToolbarHeight,
         title: Text(
           'Mensagens',
           style: theme.headlineMedium!.copyWith(
@@ -65,13 +65,13 @@ class _MessagePageState extends State<MessagePage> {
                         right: 24,
                       ),
                       child: Column(
+                        spacing: 10,
                         children: [
                           ProfilePhoto(
                             isOnline: true,
                             image:
                                 'https://content.imageresizer.com/images/memes/Blue-Smurf-cat-meme-7y117f.jpg',
                           ),
-                          Gap(10),
                           SizedBox(
                             width: 65,
                             child: Text(

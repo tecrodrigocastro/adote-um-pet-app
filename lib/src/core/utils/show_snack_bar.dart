@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 void showMessageSnackBar(
   BuildContext context,
@@ -14,12 +13,12 @@ void showMessageSnackBar(
   final snackbar = SnackBar(
     backgroundColor: color,
     content: Row(
+      spacing: 8,
       children: [
         Icon(
           icon,
           color: iconColor,
         ),
-        const Gap(8),
         Text(
           message,
           style: theme.textTheme.bodySmall!.copyWith(
