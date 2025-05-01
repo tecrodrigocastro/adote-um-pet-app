@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 import '../../../routes/app_routes.dart';
 import '../../../routes/routes.dart';
@@ -16,13 +15,13 @@ class ChoosePage extends StatelessWidget {
       backgroundColor: Colors.white.withOpacity(0.98),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 56,
         children: [
           AdotarButtonDS(
             onTap: () {
               log('Adotar');
             },
           ),
-          const Gap(56),
           DoarButtonDS(
             onTap: () {
               router.go(AppRoutes.donateInfoPage);

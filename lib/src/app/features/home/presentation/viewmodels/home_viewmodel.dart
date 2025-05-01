@@ -68,4 +68,8 @@ class HomeViewmodel extends ChangeNotifier {
     _currentPetIndex--;
     notifyListeners();
   }
+
+  void onTapChat() {
+    // Implement chat functionality here
+  }
 }

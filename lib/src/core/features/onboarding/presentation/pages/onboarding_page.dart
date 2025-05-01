@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 import '../../../../routes/routes.dart';
 import '../widgets/item_page_view_onboarding.dart';
@@ -36,6 +35,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         height: size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20,
           children: [
             SizedBox(
               height: size.height * 0.7,
@@ -55,9 +55,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 },
               ),
             ),
-            const Gap(20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 10,
               children: [
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -71,7 +71,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     //shape: BoxShape.circle,
                   ),
                 ),
-                const Gap(10),
                 AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
@@ -83,7 +82,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     //shape: BoxShape.circle,
                   ),
                 ),
-                const Gap(10),
                 TextButton(
                   onPressed: () {
                     if (_currentPage == 1) {

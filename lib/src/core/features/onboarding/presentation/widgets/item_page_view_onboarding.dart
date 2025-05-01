@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 class ItemPageViewOnboarding extends StatefulWidget {
   const ItemPageViewOnboarding(
@@ -27,7 +26,9 @@ class _ItemPageViewOnboardingState extends State<ItemPageViewOnboarding> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image(image: widget.image),
-        const Gap(70),
+        const SizedBox(
+          width: 70,
+        ),
         Text(
           widget.title,
           style: theme.textTheme.displaySmall!.copyWith(
@@ -35,7 +36,9 @@ class _ItemPageViewOnboardingState extends State<ItemPageViewOnboarding> {
           ),
           textAlign: TextAlign.center,
         ),
-        const Gap(10),
+        const SizedBox(
+          width: 10,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(

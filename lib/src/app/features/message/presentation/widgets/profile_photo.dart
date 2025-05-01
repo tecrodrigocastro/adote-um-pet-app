@@ -5,7 +5,7 @@ class ProfilePhoto extends StatelessWidget {
   //
   const ProfilePhoto({
     super.key,
-    required this.isOnline,
+    this.isOnline = false,
     required this.image,
   });
 

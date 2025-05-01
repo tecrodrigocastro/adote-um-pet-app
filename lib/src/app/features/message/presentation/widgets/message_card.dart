@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 import 'profile_photo.dart';
 
 class MessageCard extends StatelessWidget {
-  //
   const MessageCard({
     super.key,
     required this.name,
     required this.message,
     required this.image,
+    required this.onTap,
   });
 
   final String name;
   final String message;
   final String image;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: SizedBox(
         height: 86,
         width: double.maxFinite,
         child: Row(
+          spacing: 10,
           children: [
             const Padding(
               padding: EdgeInsets.only(left: 15, top: 12),
@@ -33,13 +34,16 @@ class MessageCard extends StatelessWidget {
                     'https://content.imageresizer.com/images/memes/Blue-Smurf-cat-meme-7y117f.jpg',
               ),
             ),
-            const Gap(10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Gap(20),
+                const SizedBox(
+                  width: 20,
+                ),
                 Text(name),
-                const Gap(8),
+                const SizedBox(
+                  width: 8,
+                ),
                 SizedBox(
                   width: 300,
                   child: Text(

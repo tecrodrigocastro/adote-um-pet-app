@@ -14,6 +14,7 @@ class TextInputDs extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final AutovalidateMode? autovalidateMode;
   final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final TextStyle? labelStyle;
 
   const TextInputDs({
@@ -30,6 +31,7 @@ class TextInputDs extends StatefulWidget {
     this.textInputType = TextInputType.text,
     this.prefixIcon,
     this.labelStyle,
+    this.suffixIcon,
   });
 
   @override
@@ -73,7 +75,7 @@ class _TextInputDsState extends State<TextInputDs> {
                       _isObscure ? Icons.visibility : Icons.visibility_off,
                     ),
                   )
-                : null,
+                : widget.suffixIcon,
             hintText: widget.label,
             hintStyle: widget.labelStyle ?? theme.textTheme.bodyLarge,
             filled: widget.isFilled,

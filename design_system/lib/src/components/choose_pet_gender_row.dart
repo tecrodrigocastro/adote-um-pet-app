@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../design_system.dart';
-import 'package:gap/gap.dart';
 
 class ChoosePetGenderRow extends StatefulWidget {
   const ChoosePetGenderRow({
@@ -39,16 +38,17 @@ class _ChoosePetGenderRowState extends State<ChoosePetGenderRow> {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8,
       children: [
         Text(
           widget.label,
           style: theme.textTheme.titleSmall,
         ),
-        const Gap(8),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
           child: Row(
+            spacing: 10,
             children: [
               SelectableButtonDs(
                 width: 100,
@@ -57,7 +57,6 @@ class _ChoosePetGenderRowState extends State<ChoosePetGenderRow> {
                 onPressed: () => toggleSelection('macho'),
                 title: 'Macho',
               ),
-              const Gap(10),
               SelectableButtonDs(
                 width: 100,
                 height: 30,
@@ -65,7 +64,6 @@ class _ChoosePetGenderRowState extends State<ChoosePetGenderRow> {
                 onPressed: () => toggleSelection('femea'),
                 title: 'Fêmea',
               ),
-              const Gap(10),
               SelectableButtonDs(
                 width: 100,
                 height: 30,
