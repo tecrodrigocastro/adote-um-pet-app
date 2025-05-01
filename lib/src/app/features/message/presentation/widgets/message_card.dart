@@ -3,22 +3,23 @@ import 'package:flutter/material.dart';
 import 'profile_photo.dart';
 
 class MessageCard extends StatelessWidget {
-  //
   const MessageCard({
     super.key,
     required this.name,
     required this.message,
     required this.image,
+    required this.onTap,
   });
 
   final String name;
   final String message;
   final String image;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: SizedBox(
         height: 86,
         width: double.maxFinite,

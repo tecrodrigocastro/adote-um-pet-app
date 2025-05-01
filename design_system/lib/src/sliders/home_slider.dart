@@ -10,6 +10,7 @@ class HomeSliderDS extends StatelessWidget {
   final bool showPreviousButton;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
+  final VoidCallback onchatTap;
   final CachedNetworkImage backGroundImage;
   final bool isLoading;
   final String title;
@@ -24,6 +25,7 @@ class HomeSliderDS extends StatelessWidget {
     required this.onPrevious,
     required this.backGroundImage,
     required this.title,
+    required this.onchatTap,
   });
 
   @override
@@ -91,10 +93,13 @@ class HomeSliderDS extends StatelessWidget {
             ),
           ),
         ),
-        const Positioned(
+        Positioned(
           bottom: 20,
           right: 20,
-          child: ChatButtonDs(),
+          child: GestureDetector(
+            onTap: onchatTap,
+            child: const ChatButtonDs(),
+          ),
         ),
       ],
     );

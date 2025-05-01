@@ -1,9 +1,11 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../../core/routes/app_routes.dart';
+import '../../../../../core/routes/routes.dart';
 import '../widgets/message_card.dart';
-import '../widgets/profile_photo.dart';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({super.key});
@@ -20,6 +22,11 @@ class _MessagePageState extends State<MessagePage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          color: Colors.white,
+          onPressed: router.pop,
+        ),
+        centerTitle: false,
         backgroundColor: AppColors.secondaryColor,
         toolbarHeight: kToolbarHeight,
         title: Text(
@@ -36,7 +43,7 @@ class _MessagePageState extends State<MessagePage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Gap(30),
+              const Gap(24),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: TextInputGrayDs(
@@ -44,58 +51,8 @@ class _MessagePageState extends State<MessagePage> {
                   label: 'Pesquisar',
                 ),
               ),
-              const Gap(30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Text(
-                  'Usuários online',
-                  style: theme.bodyLarge,
-                ),
-              ),
-              const Gap(15),
-              SizedBox(
-                height: 120,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  padding: const EdgeInsets.only(left: 24),
-                  itemBuilder: (_, index) {
-                    return const Padding(
-                      padding: EdgeInsets.only(
-                        right: 24,
-                      ),
-                      child: Column(
-                        spacing: 10,
-                        children: [
-                          ProfilePhoto(
-                            isOnline: true,
-                            image:
-                                'https://content.imageresizer.com/images/memes/Blue-Smurf-cat-meme-7y117f.jpg',
-                          ),
-                          SizedBox(
-                            width: 65,
-                            child: Text(
-                              'Logo ali',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const Gap(8),
             ],
           ),
-          Container(
-            height: 28,
-            width: double.maxFinite,
-            color: AppColors.beige,
-          ),
-          const Gap(30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
@@ -108,7 +65,8 @@ class _MessagePageState extends State<MessagePage> {
             child: ListView.builder(
               itemCount: 10,
               itemBuilder: (context, index) {
-                return const MessageCard(
+                return MessageCard(
+                  onTap: () => context.push(AppRoutes.singleMessagePage),
                   message: 'aaaaaaaaaaaaaaaaa',
                   name: 'Logo ali',
                   image:

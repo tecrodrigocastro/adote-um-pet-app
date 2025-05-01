@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../core/routes/app_routes.dart';
-import '../../../../../core/utils/show_snack_bar.dart';
 import '../../../../../core/routes/routes.dart';
+import '../../../../../core/utils/show_snack_bar.dart';
 import '../../domain/dtos/get_pets_params.dart';
 import '../viewmodels/home_viewmodel.dart';
 
@@ -154,11 +154,12 @@ class _HomePageState extends State<HomePage> {
                 homeViewModel.getPetCommand.running
                     ? const CardShimmer()
                     : HomeSliderDS(
+                        onchatTap: () => router.push(AppRoutes.allMessagePage),
                         title: homeViewModel.currentPet.name +
                             homeViewModel.currentPet.birthDate,
                         isLoading: homeViewModel.getPetCommand.running,
                         backGroundImage: AppImages.networkImage(
-                          imageUrl: homeViewModel.currentPet.photos.first,
+                          imageUrl: 'https://picsum.photos/640/480',
                         ),
                         onPrevious: homeViewModel.onTapPrevious,
                         onNext: homeViewModel.onTapNext,
