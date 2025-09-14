@@ -6,8 +6,8 @@ import '../dtos/login_params.dart';
 class LoginParamsValidator extends LucidValidator<LoginParams> {
   LoginParamsValidator() {
     ruleFor((user) => user.email, key: 'email', label: 'e-mail')
-        .notEmpty()
-        .validEmail();
+        .notEmpty(message: 'O e-mail não pode estar vazio') //
+        .validEmail(message: 'O e-mail informado é inválido');
 
     ruleFor((user) => user.password, key: 'password', label: 'senha') //
         .customValidPassword();
