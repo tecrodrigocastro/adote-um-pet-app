@@ -6,9 +6,10 @@ class EndPoints {
   static const String prefix = '/api';
 
   // Auth
-  static const String login = '$prefix/auth/login';
-  static const String register = '$prefix/auth/register';
+  static const String login = '/auth/login';
+  static const String register = '/auth/register';
+
   static String updatePhotoUser<T>(T userId) {
-    return '$prefix/users/update-photo/$userId';
+    return '/users/update-photo/$userId';
   }
 }
