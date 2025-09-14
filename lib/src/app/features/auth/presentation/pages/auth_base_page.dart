@@ -1,8 +1,8 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../../../../core/enums/user_type_enum.dart';
 import '../../../../../core/routes/app_routes.dart';
 import '../../../../../core/routes/routes.dart';
 
@@ -34,7 +34,46 @@ class AuthBasePage extends StatelessWidget {
             PrimaryButtonDs(
               title: 'Registrar',
               onPressed: () {
-                context.go('/auth/register');
+                showModalBottomSheet(
+                  backgroundColor: AppColors.whiteColor,
+                  context: context,
+                  builder: (context) => Container(
+                    padding: const EdgeInsets.all(20),
+                    width: size.width,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Escolha o tipo de conta',
+                          style: theme.textTheme.titleMedium,
+                        ),
+                        const Gap(20),
+                        PrimaryButtonDs(
+                          title: 'Pessoa Física',
+                          onPressed: () {
+                            router.go(AppRoutes.registerPage, extra: UserType.individual);
+                          },
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                        const Gap(10),
+                        PrimaryButtonDs(
+                          title: 'Organização',
+                          onPressed: () {
+                            router.go(AppRoutes.registerPage, extra: UserType.organization);
+                          },
+                          backgroundColor: AppColors.secondaryColor,
+                        ),
+                        const Gap(10),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancelar'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
               backgroundColor: AppColors.secondaryColor,
             ),

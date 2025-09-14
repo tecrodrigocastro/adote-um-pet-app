@@ -5,22 +5,24 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/utils/show_snack_bar.dart';
+import '../../../../../core/enums/user_type_enum.dart';
 import '../../../../../core/routes/routes.dart';
+import '../../../../../core/utils/show_snack_bar.dart';
 import '../../domain/dtos/register_params.dart';
 import '../../domain/validators/register_params_validator.dart';
 import '../viewmodels/auth_viewmodel.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({super.key, required this.typeUser});
+
+  final UserType typeUser;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  MaskedTextController numberController =
-      MaskedTextController(mask: '(00) 00000-0000');
+  MaskedTextController numberController = MaskedTextController(mask: '(00) 00000-0000');
   MaskedTextController cepController = MaskedTextController(mask: '00000-000');
 
   final _registerParams = RegisterParams.empty();
@@ -130,8 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   label: 'confirmar senha',
                   isPassword: true,
                   onChanged: _registerParams.setConfirmPassword,
-                  validator:
-                      _validator.byField(_registerParams, 'confirmPassword'),
+                  validator: _validator.byField(_registerParams, 'confirmPassword'),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
@@ -181,8 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         textInputType: TextInputType.number,
                         width: size.width * 0.59,
                         onChanged: _registerParams.setComplement,
-                        validator:
-                            _validator.byField(_registerParams, 'complement'),
+                        validator: _validator.byField(_registerParams, 'complement'),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
@@ -198,8 +198,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         title: 'Cadastrar',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            authViewmodel.signUpCommand
-                                .execute(_registerParams);
+                            authViewmodel.signUpCommand.execute(_registerParams);
                           }
                         },
                       );
