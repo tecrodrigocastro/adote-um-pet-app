@@ -1,17 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../../logger/app_logger.dart';
+import '../../utils/end_points.dart';
 import '../client_http.dart';
 import '../rest_client_multipart.dart';
 import 'client_interceptor_dio_impl.dart';
 import 'dio_adapter.dart';
 
 class DioFactory {
-  static final String baseUrl = dotenv.env['BASE_URL'] ?? '';
   static Dio dio() {
     final baseOptions = BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: EndPoints.baseUrlDev,
       connectTimeout: const Duration(milliseconds: 15000),
       receiveTimeout: const Duration(milliseconds: 15000),
       validateStatus: (status) {
