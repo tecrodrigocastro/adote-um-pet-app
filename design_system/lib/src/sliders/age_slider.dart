@@ -17,6 +17,7 @@ class _AgeSliderState extends State<AgeSlider> {
     final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
+      spacing: 10,
       children: [
         //! Label
         Align(
@@ -27,7 +28,6 @@ class _AgeSliderState extends State<AgeSlider> {
           ),
         ),
 
-        const SizedBox(height: 10),
         //! Slider
         Column(
           children: [
@@ -66,7 +66,6 @@ class _AgeSliderState extends State<AgeSlider> {
             ),
           ],
         ),
-        const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

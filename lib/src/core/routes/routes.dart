@@ -8,13 +8,15 @@ import '../../app/features/auth/presentation/pages/welcome_page.dart';
 import '../../app/features/donate/presentation/pages/donate_info_page.dart';
 import '../../app/features/home/presentation/pages/filters_page.dart';
 import '../../app/features/home/presentation/pages/home_page.dart';
+import '../../app/features/message/presentation/pages/message/conversation_page.dart';
+import '../../app/features/message/presentation/pages/messages_page.dart';
 import '../features/choose/presentation/choose_page.dart';
 import '../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../services/session_service.dart';
 import 'app_routes.dart';
 
 final router = GoRouter(
-  initialLocation: AppRoutes.onBoardPage,
+  initialLocation: AppRoutes.homePage,
   routes: [
     GoRoute(
       path: AppRoutes.onBoardPage,
@@ -27,6 +29,14 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutes.homePage,
       builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
+      path: AppRoutes.allMessagePage,
+      builder: (context, state) => const MessagePage(),
+    ),
+    GoRoute(
+      path: AppRoutes.singleMessagePage,
+      builder: (context, state) => const ConversationPage(),
     ),
     GoRoute(
       path: '/auth',
@@ -57,7 +67,9 @@ final router = GoRouter(
   ],
   redirect: (context, state) async {
     bool isUserLoggedIn = await GetIt.I.get<SessionService>().isUserLoggedIn();
-    if (isUserLoggedIn) return AppRoutes.homePage;
+    if (!isUserLoggedIn) {
+      return AppRoutes.loginPage;
+    }
     return null;
   },
 );
