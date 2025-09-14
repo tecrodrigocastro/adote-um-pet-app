@@ -31,9 +31,21 @@ Para todas as requisições autenticadas:
     "email": "joao@exemplo.com",
     "password": "password123",
     "phone": "(11) 99999-9999",
-    "photo_url": "https://via.placeholder.com/150"
+    "photo_url": "https://via.placeholder.com/150",
+    "address": {
+        "street": "Rua Principal, 456",
+        "neighborhood": "Centro",
+        "number_house": 456,
+        "complement": "Apt 101",
+        "zip_code": "01234-567",
+        "city": "São Paulo",
+        "state": "SP"
+    }
 }
 ```
+
+**Campos obrigatórios:** name, email, password
+**Campos opcionais:** phone, photo_url, address
 
 **Response (201):**
 ```json
@@ -50,6 +62,21 @@ Para todas as requisições autenticadas:
         "email_verified_at": null,
         "created_at": "2025-09-14T14:30:00.000000Z",
         "updated_at": "2025-09-14T14:30:00.000000Z",
+        "addresses": [
+            {
+                "id": 1,
+                "user_id": 1,
+                "street": "Rua Principal, 456",
+                "neighborhood": "Centro",
+                "number_house": 456,
+                "complement": "Apt 101",
+                "zip_code": "01234-567",
+                "city": "São Paulo",
+                "state": "SP",
+                "created_at": "2025-09-14T14:30:00.000000Z",
+                "updated_at": "2025-09-14T14:30:00.000000Z"
+            }
+        ],
         "access_token": "1|abcd1234efgh5678ijkl9012mnop3456"
     }
 }
@@ -57,13 +84,14 @@ Para todas as requisições autenticadas:
 
 ### 2. Registro de Organização (ONG)
 
-**POST** `/auth/register/organization`
+**POST** `/auth/register`
 
 **Payload:**
 ```json
 {
     "email": "contato@ongamigos.org",
     "password": "password123",
+    "user_type": "organization",
     "organization_name": "ONG Amigos dos Animais",
     "cnpj": "12345678000195",
     "responsible_name": "Maria Santos",
@@ -86,6 +114,9 @@ Para todas as requisições autenticadas:
     }
 }
 ```
+
+**Campos obrigatórios:** email, password, user_type, organization_name
+**Campos opcionais:** cnpj, responsible_name, phone, mission_statement, website, social_media, address
 
 **Response (201):**
 ```json
@@ -132,7 +163,7 @@ Para todas as requisições autenticadas:
 }
 ```
 
-### 3. Login
+### 3. Login (Unificado para Usuários e ONGs)
 
 **POST** `/auth/login`
 
@@ -144,7 +175,7 @@ Para todas as requisições autenticadas:
 }
 ```
 
-**Response (200):**
+**Response para Usuário Individual (200):**
 ```json
 {
     "success": true,
@@ -166,11 +197,49 @@ Para todas as requisições autenticadas:
 }
 ```
 
+**Response para Organização (200):**
+```json
+{
+    "success": true,
+    "message": "Login realizado com sucesso!",
+    "data": {
+        "user": {
+            "id": 2,
+            "name": "ONG Amigos dos Animais",
+            "email": "contato@ongamigos.org",
+            "user_type": "organization",
+            "organization_name": "ONG Amigos dos Animais",
+            "cnpj": "12345678000195",
+            "responsible_name": "Maria Santos",
+            "phone": "(11) 98888-8888",
+            "mission_statement": "Resgatamos e cuidamos de animais abandonados...",
+            "website": "https://ongamigos.org",
+            "social_media": {
+                "facebook": "https://facebook.com/ongamigos",
+                "instagram": "https://instagram.com/ongamigos",
+                "twitter": "https://twitter.com/ongamigos"
+            },
+            "verified": false,
+            "verified_at": null,
+            "photo_url": null,
+            "email_verified_at": null,
+            "created_at": "2025-09-14T14:35:00.000000Z",
+            "updated_at": "2025-09-14T14:35:00.000000Z"
+        },
+        "access_token": "3|abc1234def5678ghi9012jkl3456mno"
+    }
+}
+```
+
+**Nota:** O login é o mesmo endpoint para ambos os tipos de usuário. Os campos retornados variam conforme o `user_type`:
+- **Individual:**  photo_url (opcionais)
+- **Organization:** organization_name, cnpj, responsible_name, mission_statement, website, social_media, verified, verified_at (opcionais)
+
 ### 4. Dados do Usuário Autenticado
 
 **GET** `/auth/me` *(Auth Required)*
 
-**Response (200):**
+**Response para Usuário Individual (200):**
 ```json
 {
     "success": true,
@@ -189,6 +258,10 @@ Para todas as requisições autenticadas:
             {
                 "id": 1,
                 "street": "Rua Principal, 456",
+                "neighborhood": "Centro",
+                "number_house": 456,
+                "complement": "Apt 101",
+                "zip_code": "01234-567",
                 "city": "São Paulo",
                 "state": "SP"
             }
@@ -196,6 +269,51 @@ Para todas as requisições autenticadas:
     }
 }
 ```
+
+**Response para Organização (200):**
+```json
+{
+    "success": true,
+    "message": "Dados do usuário recuperados com sucesso!",
+    "data": {
+        "id": 2,
+        "name": "ONG Amigos dos Animais",
+        "email": "contato@ongamigos.org",
+        "user_type": "organization",
+        "organization_name": "ONG Amigos dos Animais",
+        "cnpj": "12345678000195",
+        "responsible_name": "Maria Santos",
+        "phone": "(11) 98888-8888",
+        "mission_statement": "Resgatamos e cuidamos de animais abandonados...",
+        "website": "https://ongamigos.org",
+        "social_media": {
+            "facebook": "https://facebook.com/ongamigos",
+            "instagram": "https://instagram.com/ongamigos",
+            "twitter": "https://twitter.com/ongamigos"
+        },
+        "verified": false,
+        "verified_at": null,
+        "photo_url": null,
+        "email_verified_at": null,
+        "created_at": "2025-09-14T14:35:00.000000Z",
+        "updated_at": "2025-09-14T14:35:00.000000Z",
+        "addresses": [
+            {
+                "id": 1,
+                "street": "Rua das Flores, 123",
+                "neighborhood": "Centro",
+                "number_house": 123,
+                "complement": "Sala 101",
+                "zip_code": "01234-567",
+                "city": "São Paulo",
+                "state": "SP"
+            }
+        ]
+    }
+}
+```
+
+**Nota:** Os campos retornados variam conforme o `user_type` do usuário autenticado.
 
 ### 5. Logout
 
