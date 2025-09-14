@@ -7,4 +7,6 @@ class AppRoutes {
   static const String donateInfoPage = '/donate-info';
   static const String choosePage = '/choose';
   static const String loginPage = '/auth/login';
+  static const String registerPage = '/auth/register';
+  static const String welcomePage = '/auth/welcome';
 }
