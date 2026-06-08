@@ -1,32 +1,16 @@
-import 'package:flutter/cupertino.dart';
+final class LoginParams {
+  final String email;
+  final String password;
 
-import '../../data/models/request/login_model.dart';
+  const LoginParams({required this.email, required this.password});
 
-class LoginParams extends ChangeNotifier {
-  String email;
-  String password;
-
-  LoginParams({required this.email, required this.password});
-
-  factory LoginParams.empty() => LoginParams(
+  factory LoginParams.empty() => const LoginParams(
         email: '',
         password: '',
       );
 
-  setEmail(String value) {
-    email = value;
-    notifyListeners();
-  }
-
-  setPassword(String value) {
-    password = value;
-    notifyListeners();
-  }
-
-  toModel() {
-    return LoginModel(
-      password: password,
-      email: email,
-    );
-  }
+  static LoginParams fromJson(Map<String, dynamic> json) => LoginParams(
+        email: json['email'],
+        password: json['password'],
+      );
 }

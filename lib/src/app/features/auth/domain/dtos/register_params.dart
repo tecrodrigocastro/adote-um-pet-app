@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-
 import '../../../../../core/enums/user_type_enum.dart';
 import '../../data/models/request/register_model.dart';
 
-class RegisterParams extends ChangeNotifier {
+class RegisterParams {
   String name;
   String email;
   String password;
@@ -64,122 +62,37 @@ class RegisterParams extends ChangeNotifier {
         userType: UserType.individual,
       );
 
-  setEmail(String value) {
-    email = value;
-    notifyListeners();
-  }
-
-  setPassword(String value) {
-    password = value;
-    notifyListeners();
-  }
-
-  setConfirmPassword(String value) {
-    confirmPassword = value;
-    notifyListeners();
-  }
-
-  setName(String value) {
-    name = value;
-    notifyListeners();
-  }
-
-  setUserType(UserType value) {
-    userType = value;
-    notifyListeners();
-  }
-
-  setPhone(String value) {
-    phone = value;
-    notifyListeners();
-  }
-
-  setPhotoUrl(String value) {
-    photoUrl = value;
-    notifyListeners();
-  }
-
-  // Address setters
-  setStreet(String value) {
-    street = value;
-    notifyListeners();
-  }
-
-  setNeighborhood(String value) {
-    neighborhood = value;
-    notifyListeners();
-  }
-
-  setNumberHouse(String value) {
-    numberHouse = value;
-    notifyListeners();
-  }
-
-  setComplement(String value) {
-    complement = value;
-    notifyListeners();
-  }
-
-  setZipCode(String value) {
-    zipCode = value;
-    notifyListeners();
-  }
-
-  setCity(String value) {
-    city = value;
-    notifyListeners();
-  }
-
-  setState(String value) {
-    state = value;
-    notifyListeners();
-  }
-
-  // Organization setters
-  setOrganizationName(String value) {
-    organizationName = value;
-    notifyListeners();
-  }
-
-  setCnpj(String value) {
-    cnpj = value;
-    notifyListeners();
-  }
-
-  setResponsibleName(String value) {
-    responsibleName = value;
-    notifyListeners();
-  }
-
-  setMissionStatement(String value) {
-    missionStatement = value;
-    notifyListeners();
-  }
-
-  setWebsite(String value) {
-    website = value;
-    notifyListeners();
-  }
-
-  setFacebook(String value) {
-    facebook = value;
-    notifyListeners();
-  }
-
-  setInstagram(String value) {
-    instagram = value;
-    notifyListeners();
-  }
-
-  setTwitter(String value) {
-    twitter = value;
-    notifyListeners();
-  }
-
   bool get isIndividual => userType == UserType.individual;
   bool get isOrganization => userType == UserType.organization;
 
-  toModel() {
+  static RegisterParams fromMap(Map<String, dynamic> map) {
+    return RegisterParams(
+      name: map['name'],
+      email: map['email'],
+      password: map['password'],
+      confirmPassword: map['confirmPassword'],
+      userType: map['userType'],
+      phone: map['phone'],
+      photoUrl: map['photoUrl'],
+      street: map['street'],
+      neighborhood: map['neighborhood'],
+      numberHouse: map['numberHouse'],
+      complement: map['complement'],
+      zipCode: map['zipCode'],
+      city: map['city'],
+      state: map['state'],
+      organizationName: map['organizationName'],
+      cnpj: map['cnpj'],
+      responsibleName: map['responsibleName'],
+      missionStatement: map['missionStatement'],
+      website: map['website'],
+      facebook: map['facebook'],
+      instagram: map['instagram'],
+      twitter: map['twitter'],
+    );
+  }
+
+  RegisterModel toModel() {
     return RegisterModel(
       name: name,
       email: email,

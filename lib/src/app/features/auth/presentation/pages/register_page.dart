@@ -1,16 +1,13 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
+import 'package:signal_form/signal_form.dart';
 
 import '../../../../../core/enums/user_type_enum.dart';
 import '../../../../../core/routes/routes.dart';
 import '../../../../../core/utils/show_snack_bar.dart';
-import '../../domain/dtos/register_params.dart';
-import '../../domain/validators/register_params_validator.dart';
-import '../viewmodels/auth_viewmodel.dart';
+import '../viewmodels/register_viewmodel.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key, required this.typeUser});
@@ -22,28 +19,22 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  MaskedTextController numberController = MaskedTextController(mask: '(00) 00000-0000');
-  MaskedTextController cepController = MaskedTextController(mask: '00000-000');
-  MaskedTextController cnpjController = MaskedTextController(mask: '00.000.000/0000-00');
+  final viewModel = GetIt.I.get<RegisterViewmodel>();
 
-  late final _registerParams = RegisterParams.empty()..setUserType(widget.typeUser);
-  final _validator = RegisterParamsValidator();
-
-  final formKey = GlobalKey<FormState>();
-
-  final authViewmodel = GetIt.I.get<AuthViewmodel>();
+  bool get _isOrg => widget.typeUser == UserType.organization;
 
   @override
   void initState() {
     super.initState();
-    authViewmodel.signUpCommand.addListener(listener);
+    viewModel.form.fields.userType.value = widget.typeUser;
+    viewModel.signUpCommand.addListener(_onSignUpResult);
   }
 
-  listener() {
-    authViewmodel.signUpCommand.result?.fold(
+  void _onSignUpResult() {
+    viewModel.signUpCommand.result?.fold(
       (appResponse) {
-        authViewmodel.signUpCommand.clearResult();
-        formKey.currentState!.reset();
+        viewModel.signUpCommand.clearResult();
+        viewModel.form.reset();
         showMessageSnackBar(
           context,
           appResponse.message,
@@ -54,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
         router.go('/auth/welcome');
       },
       (exception) {
-        authViewmodel.signUpCommand.clearResult();
+        viewModel.signUpCommand.clearResult();
         showMessageSnackBar(
           context,
           exception.message,
@@ -68,264 +59,419 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
-    authViewmodel.signUpCommand.removeListener(listener);
+    viewModel.form.dispose();
+    viewModel.signUpCommand.removeListener(_onSignUpResult);
     super.dispose();
+  }
+
+  Future<void> _showDiscardDialog(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Descartar alterações?'),
+        content: const Text(
+            'Você tem dados preenchidos. Deseja sair sem salvar?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Continuar'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Sair'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true && context.mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final theme = Theme.of(context);
-    return Scaffold(
+    final org = viewModel.form.fields.organization;
+    final addr = viewModel.form.fields.address;
+
+    return ListenableBuilder(
+      listenable: viewModel.form,
+      builder: (context, child) => PopScope(
+        canPop: !viewModel.form.isDirty,
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop) _showDiscardDialog(context);
+        },
+        child: child!,
+      ),
+      child: Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            context.pop();
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-          ),
+          onPressed: () => Navigator.maybePop(context),
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
       body: Container(
         padding: const EdgeInsets.all(17),
         width: size.width,
-        height: size.height,
         child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _registerParams.isIndividual ? 'Cadastro Pessoa Física' : 'Cadastro Organização',
-                  style: theme.textTheme.displaySmall,
-                ),
-                const Gap(29),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _isOrg ? 'Cadastro Organização' : 'Cadastro Pessoa Física',
+                style: theme.textTheme.displaySmall,
+              ),
+              const Gap(29),
 
-                // Campos básicos (comuns a ambos)
-                TextInputDs(
-                  label: _registerParams.isOrganization ? 'nome da organização' : 'nome',
-                  width: size.width,
-                  onChanged: _registerParams.isOrganization ? _registerParams.setOrganizationName : _registerParams.setName,
-                  validator: _validator.byField(_registerParams, 'name'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+              // --- Dados da conta ---
+              _FormField(
+                child: SignalTextField(
+                  field: viewModel.form.fields.name,
+                  textInputAction: TextInputAction.next,
+                  decoration: _FormField.decoration(context, 'nome'),
+                ),
+              ),
+              const Gap(25),
+
+              // --- Campos exclusivos de organização ---
+              if (_isOrg) ...[
+                _FormField(
+                  child: SignalTextField(
+                    field: org.organizationName,
+                    textInputAction: TextInputAction.next,
+                    decoration:
+                        _FormField.decoration(context, 'nome da organização'),
+                  ),
                 ),
                 const Gap(25),
-
-                // Campos específicos para organizações
-                if (_registerParams.isOrganization) ...[
-                  TextInputDs(
-                    label: 'CNPJ',
-                    controller: cnpjController,
-                    width: size.width,
-                    onChanged: _registerParams.setCnpj,
-                    validator: _validator.byField(_registerParams, 'cnpj'),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                _FormField(
+                  child: SignalTextField(
+                    field: org.cnpj,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    decoration: _FormField.decoration(context, 'CNPJ'),
                   ),
-                  const Gap(25),
-                  TextInputDs(
-                    label: 'nome do responsável',
-                    width: size.width,
-                    onChanged: _registerParams.setResponsibleName,
-                    validator: _validator.byField(_registerParams, 'responsibleName'),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                  const Gap(25),
-                ],
-
-                TextInputDs(
-                  label: 'e-mail',
-                  textInputType: TextInputType.emailAddress,
-                  width: size.width,
-                  onChanged: _registerParams.setEmail,
-                  validator: _validator.byField(_registerParams, 'email'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 const Gap(25),
-                TextInputDs(
-                  width: size.width,
-                  label: 'senha',
-                  isPassword: true,
-                  onChanged: _registerParams.setPassword,
-                  validator: _validator.byField(_registerParams, 'password'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                _FormField(
+                  child: SignalTextField(
+                    field: org.responsibleName,
+                    textInputAction: TextInputAction.next,
+                    decoration:
+                        _FormField.decoration(context, 'nome do responsável'),
+                  ),
                 ),
                 const Gap(25),
-                TextInputDs(
-                  width: size.width,
-                  label: 'confirmar senha',
-                  isPassword: true,
-                  onChanged: _registerParams.setConfirmPassword,
-                  validator: _validator.byField(_registerParams, 'confirmPassword'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-                const Gap(25),
-                TextInputDs(
-                  label: 'telefone (opcional)',
-                  controller: numberController,
-                  textInputType: TextInputType.number,
-                  width: size.width,
-                  onChanged: _registerParams.setPhone,
-                  validator: _validator.byField(_registerParams, 'phone'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-
-                // Campos específicos para organizações
-                if (_registerParams.isOrganization) ...[
-                  const Gap(25),
-                  TextInputDs(
-                    label: 'declaração de missão (opcional)',
-                    //maxLines: 3,
-                    width: size.width,
-                    onChanged: _registerParams.setMissionStatement,
-                    validator: _validator.byField(_registerParams, 'missionStatement'),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                  const Gap(25),
-                  TextInputDs(
-                    label: 'website (opcional)',
-                    width: size.width,
-                    onChanged: _registerParams.setWebsite,
-                    validator: _validator.byField(_registerParams, 'website'),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                  const Gap(25),
-                  Text(
-                    'Redes Sociais (opcional)',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const Gap(15),
-                  TextInputDs(
-                    label: 'Facebook',
-                    width: size.width,
-                    onChanged: _registerParams.setFacebook,
-                    validator: _validator.byField(_registerParams, 'facebook'),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                  const Gap(15),
-                  TextInputDs(
-                    label: 'Instagram',
-                    width: size.width,
-                    onChanged: _registerParams.setInstagram,
-                    validator: _validator.byField(_registerParams, 'instagram'),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                  const Gap(15),
-                  TextInputDs(
-                    label: 'Twitter',
-                    width: size.width,
-                    onChanged: _registerParams.setTwitter,
-                    validator: _validator.byField(_registerParams, 'twitter'),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                ],
-
-                const Gap(25),
-                Text(
-                  'Endereço (opcional)',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const Gap(15),
-                TextInputDs(
-                  label: 'CEP',
-                  controller: cepController,
-                  textInputType: TextInputType.number,
-                  width: size.width,
-                  onChanged: _registerParams.setZipCode,
-                  validator: _validator.byField(_registerParams, 'zipCode'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-                const Gap(15),
-                TextInputDs(
-                  label: 'Rua',
-                  width: size.width,
-                  onChanged: _registerParams.setStreet,
-                  validator: _validator.byField(_registerParams, 'street'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-                const Gap(15),
-                TextInputDs(
-                  label: 'Bairro',
-                  width: size.width,
-                  onChanged: _registerParams.setNeighborhood,
-                  validator: _validator.byField(_registerParams, 'neighborhood'),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-                const Gap(15),
-                Row(
-                  children: [
-                    TextInputDs(
-                      label: 'Número',
-                      textInputType: TextInputType.number,
-                      width: size.width * 0.3,
-                      onChanged: _registerParams.setNumberHouse,
-                      validator: _validator.byField(_registerParams, 'numberHouse'),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                    ),
-                    const Gap(10),
-                    Flexible(
-                      child: TextInputDs(
-                        label: 'Complemento',
-                        width: size.width * 0.59,
-                        onChanged: _registerParams.setComplement,
-                        validator: _validator.byField(_registerParams, 'complement'),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                      ),
-                    ),
-                  ],
-                ),
-                const Gap(15),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextInputDs(
-                        label: 'Cidade',
-                        width: size.width * 0.6,
-                        onChanged: _registerParams.setCity,
-                        validator: _validator.byField(_registerParams, 'city'),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                      ),
-                    ),
-                    const Gap(10),
-                    SizedBox(
-                      width: size.width * 0.25,
-                      child: TextInputDs(
-                        label: 'Estado',
-                        width: size.width * 0.25,
-                        onChanged: _registerParams.setState,
-                        validator: _validator.byField(_registerParams, 'state'),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                      ),
-                    ),
-                  ],
-                ),
-                const Gap(40),
-                Align(
-                  alignment: Alignment.center,
-                  child: ListenableBuilder(
-                    listenable: authViewmodel.signUpCommand,
-                    builder: (context, _) {
-                      return PrimaryButtonDs(
-                        title: 'Cadastrar',
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            authViewmodel.signUpCommand.execute(_registerParams);
-                          }
-                        },
-                      );
-                    },
-                  ),
-                )
               ],
-            ),
+
+              _FormField(
+                child: SignalTextField(
+                  field: viewModel.form.fields.email,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  decoration: _FormField.decoration(context, 'e-mail'),
+                ),
+              ),
+              const Gap(25),
+
+              ValueListenableBuilder<bool>(
+                valueListenable: viewModel.isPasswordVisible,
+                builder: (context, isVisible, _) => _FormField(
+                  child: SignalTextField(
+                    field: viewModel.form.fields.password,
+                    obscureText: !isVisible,
+                    textInputAction: TextInputAction.next,
+                    decoration: _FormField.decoration(
+                      context,
+                      'senha',
+                      suffixIcon: IconButton(
+                        onPressed: viewModel.togglePasswordVisibility,
+                        icon: Icon(isVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Gap(10),
+              _PasswordChecklist(field: viewModel.form.fields.password),
+              const Gap(15),
+
+              ValueListenableBuilder<bool>(
+                valueListenable: viewModel.isConfirmPasswordVisible,
+                builder: (context, isVisible, _) => _FormField(
+                  child: SignalTextField(
+                    field: viewModel.form.fields.confirmPassword,
+                    obscureText: !isVisible,
+                    textInputAction: TextInputAction.next,
+                    decoration: _FormField.decoration(
+                      context,
+                      'confirmar senha',
+                      suffixIcon: IconButton(
+                        onPressed: () => viewModel.isConfirmPasswordVisible
+                            .value = !isVisible,
+                        icon: Icon(isVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Gap(25),
+
+              _FormField(
+                child: SignalTextField(
+                  field: viewModel.form.fields.phone,
+                  keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.next,
+                  decoration: _FormField.decoration(context, 'telefone'),
+                ),
+              ),
+
+              // --- Campos opcionais de organização ---
+              if (_isOrg) ...[
+                const Gap(25),
+                _FormField(
+                  child: SignalTextField(
+                    field: org.missionStatement,
+                    textInputAction: TextInputAction.next,
+                    decoration:
+                        _FormField.decoration(context, 'declaração de missão'),
+                  ),
+                ),
+                const Gap(25),
+                _FormField(
+                  child: SignalTextField(
+                    field: org.website,
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.next,
+                    decoration:
+                        _FormField.decoration(context, 'website (opcional)'),
+                  ),
+                ),
+                const Gap(25),
+                Text(
+                  'Redes Sociais (opcional)',
+                  style: theme.textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w500),
+                ),
+                const Gap(15),
+                _FormField(
+                  child: SignalTextField(
+                    field: org.facebook,
+                    textInputAction: TextInputAction.next,
+                    decoration: _FormField.decoration(context, 'Facebook'),
+                  ),
+                ),
+                const Gap(15),
+                _FormField(
+                  child: SignalTextField(
+                    field: org.instagram,
+                    textInputAction: TextInputAction.next,
+                    decoration: _FormField.decoration(context, 'Instagram'),
+                  ),
+                ),
+                const Gap(15),
+                _FormField(
+                  child: SignalTextField(
+                    field: org.twitter,
+                    textInputAction: TextInputAction.next,
+                    decoration: _FormField.decoration(context, 'Twitter'),
+                  ),
+                ),
+              ],
+
+              // --- Endereço ---
+              const Gap(25),
+              Text(
+                'Endereço',
+                style: theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.w500),
+              ),
+              const Gap(15),
+              _FormField(
+                child: SignalTextField(
+                  field: addr.zipCode,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  decoration: _FormField.decoration(context, 'CEP'),
+                ),
+              ),
+              const Gap(15),
+              _FormField(
+                child: SignalTextField(
+                  field: addr.street,
+                  textInputAction: TextInputAction.next,
+                  decoration: _FormField.decoration(context, 'Rua'),
+                ),
+              ),
+              const Gap(15),
+              _FormField(
+                child: SignalTextField(
+                  field: addr.neighborhood,
+                  textInputAction: TextInputAction.next,
+                  decoration: _FormField.decoration(context, 'Bairro'),
+                ),
+              ),
+              const Gap(15),
+              Row(
+                children: [
+                  SizedBox(
+                    width: size.width * 0.3,
+                    child: _FormField(
+                      child: SignalTextField(
+                        field: addr.numberHouse,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        decoration: _FormField.decoration(context, 'Número'),
+                      ),
+                    ),
+                  ),
+                  const Gap(10),
+                  Flexible(
+                    child: _FormField(
+                      child: SignalTextField(
+                        field: addr.complement,
+                        textInputAction: TextInputAction.next,
+                        decoration: _FormField.decoration(
+                            context, 'Complemento (opcional)'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(15),
+              Row(
+                children: [
+                  Expanded(
+                    child: _FormField(
+                      child: SignalTextField(
+                        field: addr.city,
+                        textInputAction: TextInputAction.next,
+                        decoration: _FormField.decoration(context, 'Cidade'),
+                      ),
+                    ),
+                  ),
+                  const Gap(10),
+                  SizedBox(
+                    width: size.width * 0.25,
+                    child: _FormField(
+                      child: SignalTextField(
+                        field: addr.state,
+                        textInputAction: TextInputAction.done,
+                        decoration: _FormField.decoration(context, 'Estado'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(40),
+
+              Align(
+                alignment: Alignment.center,
+                child: ListenableBuilder(
+                  listenable: Listenable.merge([
+                    viewModel.signUpCommand,
+                    viewModel.form,
+                  ]),
+                  builder: (context, _) {
+                    if (viewModel.signUpCommand.running ||
+                        viewModel.form.isSubmitting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return PrimaryButtonDs(
+                      title: 'Cadastrar',
+                      onPressed: viewModel.onSubmit,
+                    );
+                  },
+                ),
+              ),
+              const Gap(24),
+            ],
           ),
         ),
       ),
+    ),
+  );
+  }
+}
+
+class _PasswordChecklist extends StatelessWidget {
+  final Field<String> field;
+
+  const _PasswordChecklist({required this.field});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: field,
+      builder: (context, _) {
+        final rules = field.exposedRules;
+        if (rules.isEmpty) return const SizedBox.shrink();
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 6,
+            children: rules.map((rule) {
+              return Row(
+                spacing: 8,
+                children: [
+                  Icon(
+                    rule.isValid ? Icons.check_circle : Icons.radio_button_unchecked,
+                    size: 16,
+                    color: rule.isValid ? AppColors.green : AppColors.grayHint,
+                  ),
+                  Text(
+                    rule.message,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: rule.isValid ? AppColors.green : AppColors.grayHint,
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _FormField extends StatelessWidget {
+  final Widget child;
+
+  const _FormField({required this.child});
+
+  static InputDecoration decoration(
+    BuildContext context,
+    String hint, {
+    Widget? suffixIcon,
+  }) {
+    final theme = Theme.of(context);
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: theme.textTheme.bodyLarge,
+      filled: true,
+      fillColor: AppColors.whiteColor,
+      suffixIcon: suffixIcon,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(5),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      borderRadius: BorderRadius.circular(5),
+      elevation: 3,
+      child: child,
     );
   }
 }

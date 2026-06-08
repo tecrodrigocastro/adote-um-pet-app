@@ -1,16 +1,12 @@
 import 'dart:developer';
 
-import 'package:result_dart/result_dart.dart';
-
 import '../../../../../core/client_http/app_response.dart';
-import '../../../../../core/extensions/lucid_validator_extensions.dart';
 import '../../../../../core/services/session_service.dart';
 import '../../../../../core/typedefs/types.dart';
 import '../../../../../core/usecase/usecase_interface.dart';
 import '../dtos/login_params.dart';
 import '../entities/auth_entity.dart';
 import '../repositories/auth_repository_interface.dart';
-import '../validators/login_params_validator.dart';
 
 class LoginUsecase implements UseCase<AppResponse<AuthEntity>, LoginParams> {
   final IAuthRepository _authRepository;
@@ -24,18 +20,7 @@ class LoginUsecase implements UseCase<AppResponse<AuthEntity>, LoginParams> {
 
   @override
   Output<AppResponse<AuthEntity>> call(LoginParams params) async {
-    final validator = LoginParamsValidator();
-
-    final result = await validator
-
-        /// valida o loginParams
-        .validateResult(params)
-
-        /// converte em um async Result: Future<Result<...>>
-        .toAsyncResult()
-
-        /// executa o respository
-        .flatMap(_authRepository.login);
+    final result = await _authRepository.login(params);
 
     final appResponse = result.getOrNull();
 

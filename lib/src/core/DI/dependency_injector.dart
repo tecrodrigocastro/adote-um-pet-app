@@ -8,6 +8,8 @@ import '../../app/features/auth/domain/usecases/logout_usecase.dart';
 import '../../app/features/auth/domain/usecases/sign_up_usecase.dart';
 import '../../app/features/auth/infrastructure/interceptor/auth_interceptor.dart';
 import '../../app/features/auth/presentation/viewmodels/auth_viewmodel.dart';
+import '../../app/features/auth/presentation/viewmodels/login_viewmodel.dart';
+import '../../app/features/auth/presentation/viewmodels/register_viewmodel.dart';
 import '../../app/features/home/data/datasources/pet_remote_datasource.dart';
 import '../../app/features/home/data/repositories/pet_repository_impl.dart';
 import '../../app/features/home/domain/repositories/pet_repository_interface.dart';
@@ -74,6 +76,21 @@ void setupDependencyInjector({bool loggerAPI = false}) {
       loginUsecase: LoginUsecase(
         authRepository: injector<IAuthRepository>(),
         sessionService: injector<SessionService>(),
+      ),
+    ),
+  );
+  injector.registerFactory(
+    () => LoginViewmodel(
+      loginUsecase: LoginUsecase(
+        authRepository: injector<IAuthRepository>(),
+        sessionService: injector<SessionService>(),
+      ),
+    ),
+  );
+  injector.registerFactory(
+    () => RegisterViewmodel(
+      signUpUsecase: SignUpUsecase(
+        authRepository: injector<IAuthRepository>(),
       ),
     ),
   );

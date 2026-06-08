@@ -66,11 +66,12 @@ class AuthRepositoryImpl implements IAuthRepository {
         email: params.email,
         phone: params.phone,
         name: params.name,
-        address: params.address,
+        street: params.street,
         complement: params.complement,
         numberHouse: params.numberHouse,
         zipCode: params.zipCode,
         password: params.password,
+        userType: params.userType,
       ));
 
       final appResponse = AppResponse<UserEntity>.fromJson(
